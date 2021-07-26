@@ -1,3 +1,5 @@
+import { SharedModule } from './../../shared/Modulos/shared.module';
+import { PoUiComponentsModule } from './../../shared/Modulos/po-ui-components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -13,6 +15,8 @@ import { MoradiaFormComponent } from './moradia-form/moradia-form.component';
   ],
   imports: [
     CommonModule,
+    PoUiComponentsModule,
+    SharedModule,
     MoradiaRoutingModule
   ],
   exports:[MoradiaFormComponent]
