@@ -1,3 +1,141 @@
 <po-page-default>
-  <p>moradia-form works!</p>
+  <div>
+    <po-divider p-label="Informações Gerais"></po-divider>
+
+    <div class="po-row">
+      <po-input class="po-lg-6" p-label="Assentamento" p-placeholder="" p-clean>
+      </po-input>
+      <po-input
+        class="po-lg-6"
+        p-label="Selagem"
+        p-placeholder=""
+        p-clean
+      ></po-input>
+    </div>
+
+    <div class="po-row">
+      <po-input
+        class="po-lg-6"
+        p-label="Endereço"
+        p-placeholder="Rua 21 de Março"
+        p-clean
+      >
+      </po-input>
+      <po-input
+        class="po-lg-1"
+        p-label="Número"
+        p-placeholder="99"
+        p-clean
+      ></po-input>
+
+      <po-input
+        class="po-lg-5"
+        p-label="Complemento"
+        p-placeholder="Bloco A"
+        p-clean
+      ></po-input>
+    </div>
+
+    <div class="po-row">
+      <po-input
+        class="po-lg-5"
+        p-label="Bairro"
+        p-placeholder="Centro"
+        p-clean
+      ></po-input>
+
+      <po-input
+        class="po-lg-5"
+        p-label="Ponto de referencia"
+        p-placeholder="Estação Ferroviária"
+        p-clean
+      ></po-input>
+
+      <po-input
+        class="po-lg-2"
+        p-label="CEP"
+        p-placeholder="13290-000"
+        p-mask="99999-999"
+        [p-minlength]="8"
+        p-clean
+      ></po-input>
+    </div>
+
+    <div class="po-row">
+      <po-datepicker
+        class="po-lg-3"
+        p-label="Chegada ao Município"
+        p-placeholder="dd/mm/aaaa"
+        p-clean
+      >
+      </po-datepicker>
+
+      <po-select
+        class="po-lg-3"
+        p-label="Tempo na Residência"
+        [p-options]="tempoResidenciaOpcoes"
+        p-placeholder="Selecione o tempo na residencia"
+      ></po-select>
+    </div>
+  </div>
+
+  <div>
+    <po-divider p-label="Situação do Assentamento"></po-divider>
+    <div class="po-row">
+      <po-select
+        class="po-lg-3"
+        p-label="Quantidade de Famílias"
+        [p-options]="familiasOpcoes"
+        p-placeholder="Selecione a Quantidade de Familias"
+      ></po-select>
+
+      <po-select
+        class="po-lg-3"
+        p-label="Tipo de Uso"
+        [p-options]="familiasOpcoes"
+        p-placeholder="Selecione o tipo de uso"
+      ></po-select>
+
+      <po-select
+        class="po-lg-3"
+        p-label="Forma de Posse"
+        [p-options]="familiasOpcoes"
+        p-placeholder="Selecione a forma de posse"
+      ></po-select>
+
+      <po-select
+        class="po-lg-3"
+        p-label="Quantidade de Cômodos"
+        [p-options]="familiasOpcoes"
+        p-placeholder="Selecione a Quantidade de Cômodos"
+      ></po-select>
+    </div>
+
+    <div class="po-row">
+      <po-select
+        class="po-lg-3"
+        p-label="Quantidade de Banheiros"
+        [p-options]="familiasOpcoes"
+        p-placeholder="Selecione a Quantidade de banheiros"
+      ></po-select>
+
+      <po-select
+        class="po-lg-3"
+        p-label="Rede de Energia Elétrica"
+        [p-options]="familiasOpcoes"
+      ></po-select>
+
+      <po-select
+        class="po-lg-3"
+        p-label="Abastecimento de Água"
+        [p-options]="familiasOpcoes"
+      ></po-select>
+
+      <po-select
+        class="po-lg-3"
+        p-label="Coleta de Esgoto"
+        [p-options]="familiasOpcoes"
+      ></po-select>
+    </div>
+  </div>
 </po-page-default>

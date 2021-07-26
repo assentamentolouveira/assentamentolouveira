@@ -1,4 +1,5 @@
 import { Component, Injector } from '@angular/core';
+import { PoRadioGroupOption, PoSelectOption } from '@po-ui/ng-components';
 
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { Titulares } from '../shared/titulares.model';
@@ -10,11 +11,25 @@ import { TitularesService } from './../shared/titulares.service';
   styles: [],
 })
 export class TitularesFormComponent extends BaseResourceFormComponent<Titulares> {
+  estadoCivilOpcoes: Array<PoSelectOption>;
+  generoOpcoes: Array<PoSelectOption>;
+  naturalidadeOpcoes: Array<PoSelectOption>;
+
+  readonly especialOpcoes: Array<PoRadioGroupOption> = [
+    { label: 'Sim', value: 'S' },
+    { label: 'Não', value: 'N' },
+  ];
+
   constructor(
     protected titularesService: TitularesService,
     protected injector: Injector
   ) {
     super(injector, new Titulares(), titularesService);
+  }
+
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.initialize();
   }
 
   protected buildResourceForm(): void {}
@@ -26,5 +41,36 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   protected editionPageTitle(): string {
     const titularesNome = this.resource.nome || '';
     return 'Editando Titular:' + titularesNome;
+  }
+
+  initialize(): void {
+    this.estadoCivilOpcoes = [
+      {
+        value: 'C',
+        label: 'Casado(a)',
+      },
+      {
+        value: 'D',
+        label: 'Divorciado(a)',
+      },
+      {
+        value: 'S',
+        label: 'Solteiro(a)',
+      },
+      {
+        value: 'V',
+        label: 'Viúvo(a)',
+      },
+    ];
+    this.generoOpcoes = [
+      {
+        value: 'F',
+        label: 'Feminino',
+      },
+      {
+        value: 'M',
+        label: 'Masculino',
+      },
+    ];
   }
 }
