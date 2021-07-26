@@ -1,0 +1,32 @@
+<po-modal #modal p-title="Termo de Aceite" [p-primary-action]="confirm">
+  <div class="po-row">
+    <div class="po-offset-xl-4">
+      <img
+        src="../../../assets/img/logo_louveira.png"
+        width="300"
+        height="100"
+      />
+    </div>
+  </div>
+  <form [formGroup]="FormularioTermosDeAceite">
+    <div class="po-row">
+      <po-textarea
+        [p-rows]="20"
+        class="po-lg-12"
+        [p-readonly]=true
+        name="criteriosDeAceite"
+        formControlName="criteriosDeAceite"
+      >
+      </po-textarea>
+    </div>
+    <div class="po-row">
+      <po-checkbox
+        class="po-lg-12"
+        name="checkCriterioDeAceite"
+        p-label="Declaro que li e concordo."
+        formControlName="checkCriterioDeAceite"
+      >
+      </po-checkbox>
+    </div>
+  </form>
+</po-modal>

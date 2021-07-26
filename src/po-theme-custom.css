@@ -1,0 +1,24 @@
+/* :root {
+  --color-primary: #0e4985;
+  --color-secondary: green;
+  --color-tertiary: #0000ff;
+  --color-white: #c1d8f0;
+} */
+:root {
+  /* CORES PRINCIPAIS */
+  --color-primary:rgba(2,62,138,100);
+
+  /* MENU */
+  --color-menu-background-color-menu: rgba(2,62,138,0.30);
+  --color-menu-background-color-sub-items: rgba(2,62,138,0.20);
+  --color-menu-color-menu-sub-item-text:rgba(2,62,138,0.90);
+  --color-menu-background-color-item-selected: rgba(2,62,138,0.40);
+  --color-menu-background-color-item-hover:rgba(2,62,138,0.40);
+  --color-menu-background-color-item-grouper-up-hover: rgba(2,62,138,0.40);
+
+
+  /* TOOLBAR */
+  --color-toolbar-background-color-toolbar: rgba(2,62,138,0.30);
+  --color-toolbar-color-title: var(--color-primary);
+
+}
