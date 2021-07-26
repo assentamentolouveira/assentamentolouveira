@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit {
       {
         label: 'Home',
         action: () => {
-          this.router.navigate(['']);
+          this.router.navigate(['/intranet']);
         },
         shortLabel: 'Home',
         icon: 'po-icon-home',
@@ -44,21 +44,14 @@ export class MenuComponent implements OnInit {
             label: 'Titulares',
             shortLabel: 'Titulares',
             action: () => {
-              this.router.navigate(['titulares']);
+              this.router.navigate(['/intranet/titulares']);
             },
           },
           {
             label: 'Dependentes',
             shortLabel: 'Dependentes',
             action: () => {
-              this.router.navigate(['dependentes']);
-            },
-          },
-          {
-            label: 'Assentamento',
-            shortLabel: 'Assentamento',
-            action: () => {
-              this.router.navigate(['']);
+              this.router.navigate(['/intranet/dependentes']);
             },
           },
           {

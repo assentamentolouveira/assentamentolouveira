@@ -1,3 +1,4 @@
+import { AssentamentoModule } from './../../pages/assentamento/assentamento.module';
 import { LoginComponent } from './../login/login-form/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -12,7 +13,7 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('../../pages/home/home.module').then((m) => m.HomeModule),
+          import('../../pages/assentamento/assentamento.module').then((m) => m.AssentamentoModule),
       },
       {
         path: 'titulares',

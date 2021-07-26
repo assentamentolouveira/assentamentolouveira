@@ -26,9 +26,12 @@ export class LoginComponent implements OnInit {
     this.carregando = true
     this.loginService.realizaLogin({idUsuario: dadosDoLogin.login, senha: dadosDoLogin.password}).pipe(finalize(()=> this.carregando = false)).subscribe(
       (sucesso: token) => {
-        console.log(sucesso.token);
         this.loginService.gravaUsuario(sucesso);
-        this.router.navigate(['/internet'])
+        if( this.loginService.isInternet) {
+          this.router.navigate(['/internet'])
+        } else {
+          this.router.navigate(['/intranet'])
+        }
       }
       , error => { this.poNotificationService.error(`Ocorreu um erron o momento do login: ${error.error.message}`), console.log(error) }
     );

@@ -49,7 +49,7 @@ export class TermoAceiteComponent implements OnInit {
     if (this.loginService.informacoesDoLogin.acessoInicial) {
       this.modal.open();
     } else {
-      this.router.navigate(['/internet/home']);
+      this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/editar`]);
     }
   }
 
@@ -57,7 +57,7 @@ export class TermoAceiteComponent implements OnInit {
     if (this.FormularioTermosDeAceite.value.checkCriterioDeAceite) {
       this.internetService.gravaLogin(this.loginService.informacoesDoLogin.idUsuario).subscribe(() => {
         this.modal.close();
-        this.router.navigate(['/internet/home'])
+        this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/editar`]);
       },
         error => this.poNotificationService.error('Erro ao atualizar o usuário: ' + error.statusText));
     } else {

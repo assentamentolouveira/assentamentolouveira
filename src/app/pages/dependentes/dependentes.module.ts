@@ -8,5 +8,6 @@ import { SharedModule } from './../../shared/Modulos/shared.module';
 @NgModule({
   declarations: [DependentesFormComponent, DependentesListComponent],
   imports: [SharedModule, DependentesRoutingModule],
+  exports: [DependentesFormComponent]
 })
 export class DependentesModule {}

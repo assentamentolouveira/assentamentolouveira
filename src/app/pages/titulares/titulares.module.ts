@@ -8,5 +8,6 @@ import { TitularesListComponent } from './titulares-list/titulares-list.componen
 @NgModule({
   declarations: [TitularesFormComponent, TitularesListComponent],
   imports: [SharedModule, TitularesRoutingModule],
+  exports: [TitularesFormComponent]
 })
 export class TitularesModule {}
