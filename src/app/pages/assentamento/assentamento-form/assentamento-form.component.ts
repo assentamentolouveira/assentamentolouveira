@@ -20,21 +20,24 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   public isDependente = false;
   public isMoradia = false;
 
-  buttons: Array<PoButtonGroupItem> = [
+  botoes: Array<PoButtonGroupItem> = [
     {
       label: 'Titular',
       action: () => this.action(true, false, false, 1),
-      selected: true
+      selected: true,
+      icon: 'po-icon-user'
     },
     {
       label: 'Dependente',
       action: () => this.action(false, true, false, 2),
-      selected: false
+      selected: false,
+      icon: 'po-icon-users'
     },
     {
       label: 'Moradia',
       action: () => this.action(false, false, true, 3),
-      selected: false
+      selected: false,
+      icon: 'po-icon-warehouse'
     },
   ];
 
@@ -62,10 +65,10 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     this.isTitular = isTitular;
     this.isDependente = isDependente;
     this.isMoradia = isMoradia;
-    this.buttons.map((botao, indice) => {
+    this.botoes.map((botao, indice) => {
       indice + 1 === opcaoSelecionada
-        ? (this.buttons[indice].selected = true)
-        : (this.buttons[indice].selected = false);
+        ? (this.botoes[indice].selected = true)
+        : (this.botoes[indice].selected = false);
     });
   }
   protected buildResourceForm(): void {}

@@ -1,8 +1,10 @@
+import { Observable, of } from 'rxjs';
 import { Injectable, Injector } from '@angular/core';
 import { PoTableColumn } from '@po-ui/ng-components';
 
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { Dependentes } from './dependentes.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -42,12 +44,14 @@ export class DependentesService extends BaseResourceService {
         type: 'string',
         visible: true,
       },
-      {
-        property: 'acoes',
-        width: '10%',
-        label: 'Ações',
-        type: 'link',
-      },
     ];
+  }
+
+  getAll(): Observable<any> {
+    return of(this.retornaDependentes());
+  }
+
+  retornaDependentes() {
+    return [{ id: 1, nome: '121', cpf: '1234', rg: 1 }, { id: 1, nome: '121', cpf: '1234', rg: 1 }, { id: 1, nome: '121', cpf: '1234', rg: 1 }, { id: 1, nome: '121', cpf: '1234', rg: 1 }, { id: 1, nome: '121', cpf: '1234', rg: 1 }]
   }
 }

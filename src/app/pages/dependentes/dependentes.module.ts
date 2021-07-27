@@ -1,3 +1,5 @@
+import { PoUiComponentsModule } from 'src/app/shared/Modulos/po-ui-components.module';
+import { TitularesModule } from './../titulares/titulares.module';
 import { NgModule } from '@angular/core';
 
 import { DependentesRoutingModule } from './dependentes-routing.module';
@@ -7,7 +9,7 @@ import { SharedModule } from './../../shared/Modulos/shared.module';
 
 @NgModule({
   declarations: [DependentesFormComponent, DependentesListComponent],
-  imports: [SharedModule, DependentesRoutingModule],
+  imports: [SharedModule, PoUiComponentsModule, DependentesRoutingModule, TitularesModule],
   exports: [DependentesFormComponent]
 })
 export class DependentesModule {}

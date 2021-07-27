@@ -1,1 +1,9 @@
-  <p>dependentes-form works!</p>
+<app-titulares-form></app-titulares-form>
+<br />
+<po-divider p-label="Lista de Dependentes"></po-divider>
+<po-table
+  [p-columns]="colunas"
+  [p-hide-columns-manager]="true"
+  [p-items]="listaDependentes"
+  [p-actions]="acoes"
+></po-table>
