@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class DependentesFormComponent implements OnInit {
   public colunas: PoTableColumn[];
-  public listaDependentes: Array<any>
+  public listaDependentes: Array<any> = []
   public acoes: Array<PoTableAction> = [
     {
       icon: 'po-icon-edit',
@@ -30,7 +30,16 @@ export class DependentesFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.colunas = this.dependentesService.getColumns();
-    this.dependentesService.getAll().subscribe(resposta => this.listaDependentes = resposta);
+    this.carregaDados();
   }
 
+  carregaDados(): void {
+    this.dependentesService.getAll().subscribe(resposta => {
+      this.listaDependentes = this.listaDependentes.concat(resposta)}
+      );
+  }
+
+  carregarMais(): void {
+    this.carregaDados();
+  }
 }

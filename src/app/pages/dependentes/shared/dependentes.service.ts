@@ -52,6 +52,17 @@ export class DependentesService extends BaseResourceService {
   }
 
   retornaDependentes() {
-    return [{ id: 1, nome: '121', cpf: '1234', rg: 1 }, { id: 1, nome: '121', cpf: '1234', rg: 1 }, { id: 1, nome: '121', cpf: '1234', rg: 1 }, { id: 1, nome: '121', cpf: '1234', rg: 1 }, { id: 1, nome: '121', cpf: '1234', rg: 1 }]
+    return [
+      { id: 1, nome: '121', cpf: '1234', rg: 1 },
+      { id: 1, nome: '121', cpf: '1234', rg: 1 },
+      { id: 1, nome: '121', cpf: '1234', rg: 1 },
+      { id: 1, nome: '121', cpf: '1234', rg: 1 },
+      { id: 1, nome: '121', cpf: '1234', rg: 1 },
+      { id: 1, nome: '121', cpf: '1234', rg: 1 },
+      { id: 1, nome: '121', cpf: '1234', rg: 1 },
+      { id: 1, nome: '121', cpf: '1234', rg: 1 },
+      { id: 1, nome: '121', cpf: '1234', rg: 1 },
+      { id: 1, nome: '121', cpf: '1234', rg: 1 },
+    ];
   }
 }

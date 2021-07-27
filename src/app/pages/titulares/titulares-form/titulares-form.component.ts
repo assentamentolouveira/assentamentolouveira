@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, Input } from '@angular/core';
 import { PoRadioGroupOption, PoSelectOption } from '@po-ui/ng-components';
 
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
@@ -12,8 +12,11 @@ import { TitularesService } from './../shared/titulares.service';
 })
 export class TitularesFormComponent extends BaseResourceFormComponent<Titulares> {
   estadoCivilOpcoes: Array<PoSelectOption>;
+  parentescoOpcoes: Array<PoSelectOption>;
   generoOpcoes: Array<PoSelectOption>;
   naturalidadeOpcoes: Array<PoSelectOption>;
+
+  @Input() isDependente = false;
 
   readonly especialOpcoes: Array<PoRadioGroupOption> = [
     { label: 'Sim', value: 'S' },
@@ -72,5 +75,20 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
         label: 'Masculino',
       },
     ];
+
+    this.parentescoOpcoes =[
+      {
+        value: 'filho',
+        label: 'Filho',
+      },
+      {
+        value: 'pai',
+        label: 'Pai',
+      },
+      {
+        value: 'mae',
+        label: 'Mãe',
+      },
+    ]
   }
 }

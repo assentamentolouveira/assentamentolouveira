@@ -1,4 +1,4 @@
-<app-titulares-form></app-titulares-form>
+<app-titulares-form [isDependente]=true></app-titulares-form>
 <br />
 <po-divider p-label="Lista de Dependentes"></po-divider>
 <po-table
@@ -6,4 +6,7 @@
   [p-hide-columns-manager]="true"
   [p-items]="listaDependentes"
   [p-actions]="acoes"
+  [p-height]=300
+  (p-show-more)="carregarMais()"
+  [p-infinite-scroll]=true
 ></po-table>

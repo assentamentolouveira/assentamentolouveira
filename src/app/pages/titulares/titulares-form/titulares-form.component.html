@@ -1,4 +1,15 @@
 <div>
+  <po-divider p-label="Parentesco"></po-divider>
+  <div class="po-row" *ngIf="isDependente">
+    <po-combo
+    class="po-lg-12"
+    [p-clean]=true
+    p-label="Grau de Parentesco"
+    [p-options]="parentescoOpcoes"
+    p-placeholder="Selecione o Grau de Parentesco"
+  >
+  </po-combo>
+  </div>
   <po-divider p-label="Informações Gerais"></po-divider>
   <div class="po-row">
     <po-input
