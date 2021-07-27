@@ -6,7 +6,11 @@
 } */
 :root {
   /* CORES PRINCIPAIS */
-  --color-primary:rgba(2,62,138,100);
+  --color-primary:rgba(#3d9b5d);
+  --color-secondary: #92488e;
+  --color-tertiary: #eac347;
+  --color-page-login-header-product-name-color: #92488e;
+  --color-combo-color-selected: #92488e
 
   /* MENU */
   --color-menu-background-color-menu: rgba(2,62,138,0.30);
