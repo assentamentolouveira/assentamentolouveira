@@ -1,4 +1,3 @@
-<po-page-default>
   <div>
     <po-divider p-label="Informações Gerais"></po-divider>
 
@@ -70,72 +69,80 @@
       >
       </po-datepicker>
 
-      <po-select
+      <po-combo
         class="po-lg-3"
+        [p-clean]=true
         p-label="Tempo na Residência"
         [p-options]="tempoResidenciaOpcoes"
         p-placeholder="Selecione o tempo na residencia"
-      ></po-select>
+      ></po-combo>
     </div>
   </div>
 
   <div>
     <po-divider p-label="Situação do Assentamento"></po-divider>
     <div class="po-row">
-      <po-select
+      <po-combo
         class="po-lg-3"
+        [p-clean]=true
         p-label="Quantidade de Famílias"
         [p-options]="familiasOpcoes"
         p-placeholder="Selecione a Quantidade de Familias"
-      ></po-select>
+      ></po-combo>
 
-      <po-select
+      <po-combo
         class="po-lg-3"
+        [p-clean]=true
         p-label="Tipo de Uso"
         [p-options]="familiasOpcoes"
         p-placeholder="Selecione o tipo de uso"
-      ></po-select>
+      ></po-combo>
 
-      <po-select
+      <po-combo
         class="po-lg-3"
+        [p-clean]=true
         p-label="Forma de Posse"
         [p-options]="familiasOpcoes"
         p-placeholder="Selecione a forma de posse"
-      ></po-select>
+      ></po-combo>
 
-      <po-select
+      <po-combo
         class="po-lg-3"
+        [p-clean]=true
         p-label="Quantidade de Cômodos"
         [p-options]="familiasOpcoes"
         p-placeholder="Selecione a Quantidade de Cômodos"
-      ></po-select>
+      ></po-combo>
     </div>
 
     <div class="po-row">
-      <po-select
+      <po-combo
         class="po-lg-3"
+        [p-clean]=true
         p-label="Quantidade de Banheiros"
         [p-options]="familiasOpcoes"
         p-placeholder="Selecione a Quantidade de banheiros"
-      ></po-select>
+      ></po-combo>
 
-      <po-select
+      <po-combo
         class="po-lg-3"
+        [p-clean]=true
         p-label="Rede de Energia Elétrica"
         [p-options]="familiasOpcoes"
-      ></po-select>
+      ></po-combo>
 
-      <po-select
+      <po-combo
         class="po-lg-3"
+        [p-clean]=true
         p-label="Abastecimento de Água"
         [p-options]="familiasOpcoes"
-      ></po-select>
+      ></po-combo>
 
-      <po-select
+      <po-combo
         class="po-lg-3"
+        [p-clean]=true
         p-label="Coleta de Esgoto"
         [p-options]="familiasOpcoes"
-      ></po-select>
+      ></po-combo>
     </div>
   </div>
-</po-page-default>

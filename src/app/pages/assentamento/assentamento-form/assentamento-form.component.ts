@@ -1,4 +1,4 @@
-import { PoPageAction } from '@po-ui/ng-components';
+import { PoButtonGroupItem, PoPageAction } from '@po-ui/ng-components';
 import { LoginService } from './../../../core/login/shared/login.service';
 import { Router } from '@angular/router';
 import { AssentamentoService } from './../shared/assentamento.service';
@@ -15,6 +15,29 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   public readonly actions: Array<PoPageAction> = [
     { label: 'Salvar', action: () => alert('Salvar'), icon: 'po-icon-ok' },
   ];
+
+  public isTitular = true;
+  public isDependente = false;
+  public isMoradia = false;
+
+  buttons: Array<PoButtonGroupItem> = [
+    {
+      label: 'Titular',
+      action: () => this.action(true, false, false, 1),
+      selected: true
+    },
+    {
+      label: 'Dependente',
+      action: () => this.action(false, true, false, 2),
+      selected: false
+    },
+    {
+      label: 'Moradia',
+      action: () => this.action(false, false, true, 3),
+      selected: false
+    },
+  ];
+
   constructor(
     protected assentamentoService: AssentamentoService,
     protected injector: Injector,
@@ -30,6 +53,21 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     }
   }
 
+  action(
+    isTitular: boolean,
+    isDependente: boolean,
+    isMoradia: boolean,
+    opcaoSelecionada: number
+  ) {
+    this.isTitular = isTitular;
+    this.isDependente = isDependente;
+    this.isMoradia = isMoradia;
+    this.buttons.map((botao, indice) => {
+      indice + 1 === opcaoSelecionada
+        ? (this.buttons[indice].selected = true)
+        : (this.buttons[indice].selected = false);
+    });
+  }
   protected buildResourceForm(): void {}
 
   protected creationPageTitle(): string {

@@ -1,13 +1,9 @@
 <po-page-default [p-title]="pageTitle" [p-actions]="actions">
-  <po-tabs>
-    <po-tab p-label="Títulares" [p-active]="true">
-      <app-titulares-form></app-titulares-form>
-    </po-tab>
-    <po-tab p-label="Dependentes">
-      <app-dependentes-form></app-dependentes-form>
-    </po-tab>
-    <po-tab p-label="Moradia">
-      <app-moradia-form></app-moradia-form>
-    </po-tab>
-  </po-tabs>
+  <div class="po-row">
+    <po-button-group class="po-md-12" [p-buttons]="buttons"> </po-button-group>
+  </div>
+
+  <app-titulares-form *ngIf="isTitular"></app-titulares-form>
+  <app-dependentes-form *ngIf="isDependente"></app-dependentes-form>
+  <app-moradia-form *ngIf="isMoradia"></app-moradia-form>
 </po-page-default>
