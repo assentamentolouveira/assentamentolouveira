@@ -14,7 +14,7 @@ export class MenuComponent implements OnInit {
   logo: string;
 
   constructor(private router: Router) {
-    this.logo = `../../../${environment.imagesPath}//logo_louveira.png`;
+    this.logo = `../../../${environment.imagesPath}//brasao-removebg-preview.png`;
   }
 
   ngOnInit(): void {

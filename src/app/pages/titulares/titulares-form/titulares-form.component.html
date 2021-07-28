@@ -1,144 +1,152 @@
 <div>
-  <po-divider p-label="Parentesco"></po-divider>
-  <div class="po-row" *ngIf="isDependente">
-    <po-combo
-    class="po-lg-12"
-    [p-clean]=true
-    p-label="Grau de Parentesco"
-    [p-options]="parentescoOpcoes"
-    p-placeholder="Selecione o Grau de Parentesco"
-  >
-  </po-combo>
-  </div>
-  <po-divider p-label="Informações Gerais"></po-divider>
-  <div class="po-row">
-    <po-input
-      class="po-lg-6"
-      p-label="Nome"
-      p-placeholder="João da Silva"
-      p-clean
-    >
-    </po-input>
-    <po-input
-      class="po-lg-6"
-      p-label="Nome Social"
-      p-placeholder="João da Silva"
-      p-clean
-    ></po-input>
-  </div>
+  <div *ngIf="isDependente">
+    <po-divider p-label="Parentesco"></po-divider>
+    <div class="po-row">
+      <po-combo
+        class="po-lg-12"
+        [p-clean]="true"
+        p-label="Grau de Parentesco"
+        [p-options]="parentescoOpcoes"
+        p-placeholder="Selecione o Grau de Parentesco"
+      >
+      </po-combo>
+    </div>
 
-  <div class="po-row">
-    <po-input
-      class="po-lg-4"
-      p-label="CPF"
-      p-placeholder="999.999.999-99"
-      p-mask="999.999.999-99"
-      p-clean
-    >
-    </po-input>
-    <po-input class="po-lg-4" p-label="RG" p-placeholder="99.999.999-1" p-clean>
-    </po-input>
-    <po-input class="po-lg-4" p-label="UR RG" p-placeholder="SSP" p-clean>
-    </po-input>
-  </div>
+    <po-divider p-label="Informações Gerais"></po-divider>
+    <div class="po-row">
+      <po-input
+        class="po-lg-6"
+        p-label="Nome"
+        p-placeholder="João da Silva"
+        p-clean
+      >
+      </po-input>
+      <po-input
+        class="po-lg-6"
+        p-label="Nome Social"
+        p-placeholder="João da Silva"
+        p-clean
+      ></po-input>
+    </div>
 
-  <div class="po-row">
-    <po-combo
-      class="po-lg-3"
-      [p-clean]=true
-      p-label="Estado Civil"
-      [p-options]="estadoCivilOpcoes"
-      p-placeholder="Selecione o estado civil"
-    >
-    </po-combo>
-    <po-datepicker
-      class="po-lg-3"
-      p-label="Data de Nascimento"
-      p-placeholder="dd/mm/aaaa"
-      p-clean
-    >
-    </po-datepicker>
-    <po-combo
-      class="po-lg-3"
-      [p-clean]=true
-      p-label="Gênero"
-      [p-options]="generoOpcoes"
-      p-placeholder="Selecione o Gênero"
-    >
-    </po-combo>
-    <po-input
-      class="po-lg-3"
-      p-label="Naturalidade"
-      p-placeholder="Louveira - SP"
-      p-clean
-    >
-    </po-input>
-  </div>
-</div>
+    <div class="po-row">
+      <po-input
+        class="po-lg-4"
+        p-label="CPF"
+        p-placeholder="999.999.999-99"
+        p-mask="999.999.999-99"
+        p-clean
+      >
+      </po-input>
+      <po-input
+        class="po-lg-4"
+        p-label="RG"
+        p-placeholder="99.999.999-1"
+        p-clean
+      >
+      </po-input>
+      <po-input class="po-lg-4" p-label="UR RG" p-placeholder="SSP" p-clean>
+      </po-input>
+    </div>
 
-<div>
-  <po-divider p-label="Contato"></po-divider>
-  <div class="po-row">
-    <po-input
-      class="po-lg-4"
-      p-label="Telefone"
-      p-placeholder="(19) 9999-9999"
-      p-mask="(99) 9999-9999"
-      p-clean
-    ></po-input>
-    <po-input
-      class="po-lg-4"
-      p-label="Celular"
-      p-placeholder="(19) 99999-9999"
-      p-mask="(99) 99999-9999"
-      p-clean
-    ></po-input>
-
-    <po-input
-      class="po-lg-4"
-      p-label="WhatsApp"
-      p-placeholder="(19) 99999-9999"
-      p-mask="(99) 99999-9999"
-      p-clean
-    ></po-input>
+    <div class="po-row">
+      <po-combo
+        class="po-lg-3"
+        [p-clean]="true"
+        p-label="Estado Civil"
+        [p-options]="estadoCivilOpcoes"
+        p-placeholder="Selecione o estado civil"
+      >
+      </po-combo>
+      <po-datepicker
+        class="po-lg-3"
+        p-label="Data de Nascimento"
+        p-placeholder="dd/mm/aaaa"
+        p-clean
+      >
+      </po-datepicker>
+      <po-combo
+        class="po-lg-3"
+        [p-clean]="true"
+        p-label="Gênero"
+        [p-options]="generoOpcoes"
+        p-placeholder="Selecione o Gênero"
+      >
+      </po-combo>
+      <po-input
+        class="po-lg-3"
+        p-label="Naturalidade"
+        p-placeholder="Louveira - SP"
+        p-clean
+      >
+      </po-input>
+    </div>
   </div>
 
-  <div class="po-row">
-    <po-email
-      class="po-lg-6"
-      p-label="Email"
-      p-placeholder="seu@email.com.br"
-      p-clean
-    >
-    </po-email>
+  <div>
+    <po-divider p-label="Contato"></po-divider>
+    <div class="po-row">
+      <po-input
+        class="po-lg-4"
+        p-label="Telefone"
+        p-placeholder="(19) 9999-9999"
+        p-mask="(99) 9999-9999"
+        p-clean
+      ></po-input>
+      <po-input
+        class="po-lg-4"
+        p-label="Celular"
+        p-placeholder="(19) 99999-9999"
+        p-mask="(99) 99999-9999"
+        p-clean
+      ></po-input>
+
+      <po-input
+        class="po-lg-4"
+        p-label="WhatsApp"
+        p-placeholder="(19) 99999-9999"
+        p-mask="(99) 99999-9999"
+        p-clean
+      ></po-input>
+    </div>
+
+    <div class="po-row">
+      <po-email
+        class="po-lg-6"
+        p-label="Email"
+        p-placeholder="seu@email.com.br"
+        p-clean
+      >
+      </po-email>
+    </div>
   </div>
-</div>
 
-<div>
-  <po-divider p-label="Dados Complementares"></po-divider>
-  <div class="po-row">
-    <po-radio-group
-      class="po-md-3"
-      p-label="Possui alguma necessidade Especial?"
-      [p-options]="especialOpcoes"
-    >
-    </po-radio-group>
+  <div>
+    <po-divider p-label="Dados Complementares"></po-divider>
+    <div class="po-row">
+      <po-radio-group
+        class="po-md-3"
+        p-label="Possui alguma necessidade Especial?"
+        [p-options]="especialOpcoes"
+      >
+      </po-radio-group>
 
-    <po-input
-      class="po-lg-9"
-      p-label="Qual?"
-      p-placeholder="Informe a necessidade especial"
-      p-clean
-    ></po-input>
-  </div>
+      <po-input
+        class="po-lg-9"
+        p-label="Qual?"
+        p-placeholder="Informe a necessidade especial"
+        p-clean
+      ></po-input>
+    </div>
 
-  <div class="po-row">
-    <po-decimal
-      class="po-lg-3"
-      p-label="Renda Bruta"
-      p-placeholder="1100,00"
-      p-clean
-    >
-    </po-decimal>
+    <div class="po-row">
+      <po-decimal
+        class="po-lg-3"
+        p-label="Renda Bruta"
+        p-placeholder="1100,00"
+        p-clean
+      >
+      </po-decimal>
+    </div>
   </div>
 </div>
