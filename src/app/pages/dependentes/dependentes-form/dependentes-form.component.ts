@@ -1,7 +1,7 @@
 import { DependentesService } from './../shared/dependentes.service';
-import { PoTableAction, PoTableColumn } from '@po-ui/ng-components';
+import { PoTableAction, PoTableColumn, PoNotificationService } from '@po-ui/ng-components';
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Dependentes } from '../shared/dependentes.model';
 
 @Component({
   selector: 'app-dependentes-form',
@@ -15,7 +15,8 @@ export class DependentesFormComponent implements OnInit {
   public acoes: Array<PoTableAction> = [
     {
       icon: 'po-icon-edit',
-      label: 'Editar Dependente'
+      label: 'Editar Dependente',
+      action: this.editarDependente.bind(this)
     },
     {
       icon: 'po-icon-user-delete',
@@ -25,8 +26,9 @@ export class DependentesFormComponent implements OnInit {
     }
 
   ];
+  public dependenteSelecionado:number = 0;
 
-  constructor(private dependentesService: DependentesService) { }
+  constructor(private dependentesService: DependentesService, private poNotificationService:PoNotificationService) { }
 
   ngOnInit(): void {
     this.colunas = this.dependentesService.getColumns();
@@ -41,5 +43,13 @@ export class DependentesFormComponent implements OnInit {
 
   carregarMais(): void {
     this.carregaDados();
+  }
+
+  editarDependente(dependenteSelecionado: any): void{
+    this.dependenteSelecionado = dependenteSelecionado.id;
+  }
+
+  salvarEdicao(): void {
+    this.poNotificationService.success('Registro Alterado com Sucesso')
   }
 }

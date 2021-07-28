@@ -1,4 +1,20 @@
-<app-titulares-form [isDependente]=true></app-titulares-form>
+<po-divider p-label="Edição de Dependentes"></po-divider>
+
+<div *ngIf="dependenteSelecionado === 0; else formularioTitular">
+  <p class="po-font-title" style="text-align: center; padding: 10px">
+    Nenhum Dependente Selecionado.
+  </p>
+</div>
+
+<ng-template #formularioTitular>
+  <app-titulares-form [isDependente]="true"></app-titulares-form>
+    <po-button
+      class="po-offset-lg-11 po-offset-xl-11"
+      p-label="Salvar Edição"
+      (p-click)="salvarEdicao()"
+    >
+    </po-button>
+</ng-template>
 <br />
 <po-divider p-label="Lista de Dependentes"></po-divider>
 <po-table
@@ -6,7 +22,7 @@
   [p-hide-columns-manager]="true"
   [p-items]="listaDependentes"
   [p-actions]="acoes"
-  [p-height]=300
+  [p-height]="300"
   (p-show-more)="carregarMais()"
-  [p-infinite-scroll]=true
+  [p-infinite-scroll]="true"
 ></po-table>

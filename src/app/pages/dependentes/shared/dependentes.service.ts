@@ -51,6 +51,10 @@ export class DependentesService extends BaseResourceService {
     return of(this.retornaDependentes());
   }
 
+  getId(): Observable<any> {
+    return of(this.retornaDependentes());
+  }
+
   retornaDependentes() {
     return [
       { id: 1, nome: '121', cpf: '1234', rg: 1 },
