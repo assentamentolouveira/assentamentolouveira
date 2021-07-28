@@ -8,12 +8,13 @@
 
 <ng-template #formularioTitular>
   <app-titulares-form [isDependente]="true"></app-titulares-form>
-    <po-button
-      class="po-offset-lg-11 po-offset-xl-11"
-      p-label="Salvar Edição"
-      (p-click)="salvarEdicao()"
-    >
-    </po-button>
+  <po-button
+    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10"
+    p-label="Salvar Edição"
+    p-icon="po-icon-edit"
+    (p-click)="salvarEdicao()"
+  >
+  </po-button>
 </ng-template>
 <br />
 <po-divider p-label="Lista de Dependentes"></po-divider>
