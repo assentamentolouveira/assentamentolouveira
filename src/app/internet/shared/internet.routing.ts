@@ -1,3 +1,4 @@
+import { NewUserComponent } from './../../core/login/new-user/new-user.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/core/auth/auth.guard';
 import { LoginComponent } from 'src/app/core/login/login-form/login.component';
@@ -7,6 +8,7 @@ import { TermoAceiteComponent } from '../pages/termo-aceite/termo-aceite.compone
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'newuser', component: NewUserComponent },
   { path: '', component: TermoAceiteComponent, canActivate:[AuthGuard] },
   { path: ':id/editar', component: AssentamentoFormComponent}
 

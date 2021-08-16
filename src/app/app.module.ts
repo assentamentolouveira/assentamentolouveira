@@ -1,4 +1,3 @@
-import { LoginComponent } from './core/login/login-form/login.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -9,18 +8,19 @@ import { PoUiComponentsModule } from './shared/Modulos/po-ui-components.module';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthTokenInterceptor } from './shared/internceptor/auth-token.interceptor';
+import { LoginModule } from './core/login/shared/login.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     PoUiComponentsModule,
     RouterModule.forRoot([]),
-    PoTemplatesModule
+    PoTemplatesModule,
+    LoginModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true }

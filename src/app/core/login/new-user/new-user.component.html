@@ -1,0 +1,94 @@
+<!-- <po-page-default>
+  <div class="container">
+    <div class="po-row">
+      <po-widget
+        class="po-lg-8 po-xl-8 po-offset-lg-2 po-offset-xl-2 po-xl-8"
+        [p-height]="400"
+      >
+      </po-widget>
+    </div>
+  </div>
+</po-page-default> -->
+
+<div class="flex-box container-box">
+  <div class="content-box">
+    <po-widget
+      class="po-lg-8 po-xl-8 po-offset-lg-2 po-offset-xl-2 po-xl-8"
+      [p-height]="570"
+      p-primary-label="Voltar"
+      (p-primary-action)="voltar()"
+    >
+      <p class="po-font-title text-align-center">Novo Usuário</p>
+      <po-divider p-label="Informe os Dados para Cadastro"></po-divider>
+      <form [formGroup]="reactiveForm">
+        <div class="po-row">
+          <po-input
+            class="po-md-6"
+            formControlName="cpf"
+            p-clean
+            p-mask="999.999.999-99"
+            p-icon="po-icon-user"
+            p-label="CPF"
+            p-placeholder="Informe o CPF"
+            p-required="true"
+            p-pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})"
+            p-error-pattern="CPF inválido"
+          >
+          </po-input>
+          <po-password
+            class="po-md-6"
+            formControlName="senha"
+            name="senha"
+            p-label="Senha"
+            p-placeholder="Informe uma nova senha"
+            p-error-pattern="A senha deve possuir ao menos 6 dígitos"
+          >
+          </po-password>
+        </div>
+        <div class="po-row">
+          <po-datepicker
+            class="po-md-12"
+            formControlName="dataNascimento"
+            name="dataNascimento"
+            p-label="Data de Nascimento"
+            p-placeholder="Selecione a data de Nascimento"
+          >
+          </po-datepicker>
+        </div>
+        <div class="po-row">
+          <po-input
+            class="po-md-12"
+            formControlName="nomePai"
+            p-clean
+            p-icon="po-icon-users"
+            p-label="Nome do Pai"
+            p-placeholder="Informe o nome do seu Pai"
+          >
+          </po-input>
+        </div>
+        <div class="po-row">
+          <po-input
+            class="po-md-12"
+            formControlName="nomeMae"
+            p-clean
+            p-icon="po-icon-users"
+            p-label="Nome da Mãe"
+            p-placeholder="Informe o nome da sua Mãe"
+          >
+          </po-input>
+        </div>
+        <div class="po-row">
+          <po-button
+            p-label="Criar Usuário"
+            class="
+              po-sm-12 po-lg-2 po-mt-2 po-xl-2 po-offset-lg-5 po-offset-xl-5
+            "
+            [p-disabled]="!botaoAtivado"
+            (p-click)="gravaUsuario()"
+          >
+          </po-button>
+        </div>
+      </form>
+    </po-widget>
+  </div>
+</div>
