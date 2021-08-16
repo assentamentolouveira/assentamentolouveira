@@ -4,6 +4,7 @@ import { NewUserService } from './../shared/newUser.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { newUser } from '../shared/newUser.model';
+import { Validacoes } from 'src/app/shared/validações/Validacoes';
 
 @Component({
   selector: 'app-new-user',
@@ -27,7 +28,7 @@ export class NewUserComponent implements OnInit {
 
   criaFormulario(): void {
     this.reactiveForm = this.fb.group({
-      cpf: [''],
+      cpf: ['', Validators.compose([Validators.required, Validacoes.ValidaCpf])],
       senha: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(50)])],
       dataNascimento: ['', Validators.compose([Validators.required])],
       nomePai: ['', Validators.required],
@@ -51,5 +52,6 @@ export class NewUserComponent implements OnInit {
   voltar(): void {
     this.router.navigate(['/internet/login'])
   }
+
 
 }
