@@ -49,4 +49,32 @@ export class TitularesService extends BaseResourceService {
       },
     ];
   }
+
+  getRendasColumns(): PoTableColumn[] {
+    return [
+      {
+        property: 'tipo',
+        width: '80%',
+        label: 'Tipo de Renda',
+        type: 'string',
+        visible: true,
+      },
+      {
+        property: 'valor',
+        label: 'Valor',
+        type: 'currency',
+        format: 'BRL',
+        width: '20%',
+        visible: true,
+      }
+    ];
+  }
+
+  retornaRendas() {
+    return [
+      { valor: '2500.00', tipo: 'Formal' },
+      { valor: '750.99', tipo: 'Informal' },
+      { valor: '1200.34', tipo: 'Aposentadoria' },
+    ];
+  }
 }

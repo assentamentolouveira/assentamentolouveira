@@ -1,4 +1,4 @@
-<po-divider p-label="Edição de Dependentes"></po-divider>
+<po-divider p-label="Dependentes"></po-divider>
 
 <div *ngIf="dependenteSelecionado === 0; else formularioTitular">
   <p class="po-font-title" style="text-align: center; padding: 10px">
@@ -8,6 +8,9 @@
 
 <ng-template #formularioTitular>
   <app-titulares-form [isDependente]="true"></app-titulares-form>
+
+  <po-divider p-label="Edição de Dependentes"></po-divider>
+
   <po-button
     class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10"
     p-label="Salvar Edição"

@@ -1,4 +1,232 @@
-<div>
+<div class="po-mt-2 po-xl-12 po-lg-12">
+  <po-divider p-label="Informações Assentamento"></po-divider>
+  <div class="po-row">
+    <po-input
+      class="po-lg-4"
+      p-label="Assentamento"
+      p-placeholder="Assentamento"
+      p-clean
+    >
+    </po-input>
+    <po-input
+      class="po-lg-4"
+      p-label="Selagem Atual"
+      p-placeholder="Selagem Atual"
+      p-clean
+    ></po-input>
+    <po-input
+      class="po-lg-4"
+      p-label="Selagem Antiga"
+      p-placeholder="Selagem FUMHAB"
+      p-clean
+    ></po-input>
+  </div>
+
+  <po-divider p-label="Informações Gerais"></po-divider>
+  <div class="po-row">
+    <po-input
+      class="po-lg-3"
+      p-label="Nome Responsável"
+      p-placeholder="Nome do Responsável"
+      p-clean
+    >
+    </po-input>
+    <po-number
+      class="po-lg-3"
+      p-label="Cartão Cidadão"
+      p-placeholder="Número do Cartão Cidadão"
+      p-mask="999.999.999-99"
+      p-clean
+    ></po-number>
+    <po-input
+      class="po-lg-3"
+      p-label="CPF"
+      p-placeholder="Número do CPF"
+      p-mask="999.999.999-99"
+      p-clean
+    ></po-input>
+    <po-datepicker
+      class="po-lg-3"
+      p-label="Data de Nascimento"
+      p-placeholder="dd/mm/aaaa"
+      p-clean
+    >
+    </po-datepicker>
+  </div>
+
+  <div class="po-row">
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Gênero"
+      [p-options]="generoOpcoes"
+      p-placeholder="Selecione o Gênero"
+      [p-clean]="true"
+    >
+    </po-combo>
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Raça/Etinia"
+      [p-options]="etniaOpcoes"
+      p-placeholder="Selecione a Etinia"
+      [p-clean]="true"
+    >
+    </po-combo>
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Escolaridade"
+      [p-options]="escolaridadeOpcoes"
+      p-placeholder="Selecione o Grau de Escolaridade"
+      [p-clean]="true"
+    >
+    </po-combo>
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Possio Deficiencia"
+      [p-options]="deficienciaOpcoes"
+      p-placeholder="Selecione a defiencia"
+      [p-clean]="true"
+    >
+    </po-combo>
+  </div>
+  <div class="po-row">
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Estado Civil"
+      [p-options]="estadoCivilOpcoes"
+      p-placeholder="Selecione o estado civil"
+    >
+    </po-combo>
+    <po-input
+      class="po-lg-3"
+      p-label="Renda Total"
+      p-readonly="true"
+      p-placeholder="R$4.451,33"
+      p-clean
+    >
+    </po-input>
+  </div>
+
+  <po-divider p-label="Informações Sobre Moradia"></po-divider>
+  <div class="po-row">
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Família Incluída no Processo Habitacional"
+      [p-options]="boleanoOpcoes"
+      p-placeholder="Selecione o estado civil"
+    >
+    </po-combo>
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Familia por Domícíio"
+      [p-options]="familiaDomicilioOpcoes"
+      p-placeholder="Quantas Famílias existem no Domicílio"
+    >
+    </po-combo>
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Tempo de Moradia no Bairro"
+      [p-options]="tempoDeMoradiaOpcoes"
+      p-placeholder="Tempo de Moradia no Bairro Atual"
+    >
+    </po-combo>
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Tempo de Moradia em Louveira"
+      [p-options]="tempoDeMoradiaOpcoes"
+      p-placeholder="Tempo de Moradia em Louveira/SP"
+    >
+    </po-combo>
+  </div>
+  <div class="po-row">
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Possui Imóvel"
+      [p-options]="boleanoOpcoes"
+      p-placeholder="Possui algum imóvel no país?"
+    >
+    </po-combo>
+    <po-input
+      class="po-lg-9"
+      p-label="Onde"
+      p-placeholder="Local do Imóvel"
+      p-clean
+    >
+    </po-input>
+  </div>
+  <div class="po-row">
+    <po-combo
+      class="po-lg-3"
+      [p-clean]="true"
+      p-label="Já Contemplado"
+      [p-options]="boleanoOpcoes"
+      p-placeholder="Já foi contemplado em algum programa?"
+    >
+    </po-combo>
+    <po-input
+      class="po-lg-9"
+      p-label="Qual?"
+      p-placeholder="Qual programa você já foi beneficiado?"
+      p-clean
+    >
+    </po-input>
+  </div>
+  <div class="po-row">
+    <po-combo
+      class="po-lg-4"
+      [p-clean]="true"
+      p-label="Já Contemplado no País"
+      [p-options]="boleanoOpcoes"
+      p-placeholder="Já foi contemplado em algum programa no país?"
+    >
+    </po-combo>
+    <po-input
+      class="po-lg-4"
+      p-label="Qual?"
+      p-placeholder="Qual programa você já foi beneficiado?"
+      p-clean
+    >
+    </po-input>
+    <po-input
+      class="po-lg-4"
+      p-label="Onde?"
+      p-placeholder="Onde fica o ímóvel que você já foi beneficiado?"
+      p-clean
+    >
+    </po-input>
+  </div>
+</div>
+
+<po-divider p-label="Rendas"></po-divider>
+
+<div class="po-mt-2 po-xl-12 po-lg-12">
+  <po-button
+    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10"
+    p-label="Adicionar Renda"
+    p-icon="po-icon-plus"
+  >
+  </po-button>
+  <br />
+  <po-divider p-label="Rendas Atuais"></po-divider>
+  <po-table
+    [p-columns]="colunasRenda"
+    [p-items]="listaRendas"
+    [p-actions]="acoes"
+    [p-height]="300"
+    [p-infinite-scroll]="true"
+  ></po-table>
+</div>
+
+<!-- <div>
   <div *ngIf="isDependente">
     <po-divider p-label="Parentesco"></po-divider>
     <div class="po-row">
@@ -150,4 +378,4 @@
       </po-decimal>
     </div>
   </div>
-</div>
+</div> -->

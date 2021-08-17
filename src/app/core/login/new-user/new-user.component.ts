@@ -39,7 +39,7 @@ export class NewUserComponent implements OnInit {
   gravaUsuario(): void {
     if (this.reactiveForm.valid) {
       const teste: newUser = this.reactiveForm.value;
-      this.newUserService.criarUsuario(teste).subscribe(() => {
+      this.newUserService.criarUsuario(teste).subscribe((res) => {
         this.poNotificationService.success('Usuário Criado com Sucesso!');
         this.router.navigate(['/internet/login'])
       }
