@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { PoNotificationService } from '@po-ui/ng-components';
 import { NewUserService } from './../shared/newUser.service';
@@ -38,12 +39,16 @@ export class NewUserComponent implements OnInit {
 
   gravaUsuario(): void {
     if (this.reactiveForm.valid) {
+      this.botaoAtivado = false;
       const teste: newUser = this.reactiveForm.value;
-      this.newUserService.criarUsuario(teste).subscribe((res) => {
+      this.newUserService.criarUsuario(teste).
+      pipe(
+          finalize(() => this.botaoAtivado = true)
+          ).subscribe((res) => {
         this.poNotificationService.success('Usuário Criado com Sucesso!');
         this.router.navigate(['/internet/login'])
       }
-        , erro => this.poNotificationService.error(`Ocorreu um erro ao Criar o usuário: ${erro}`))
+        , erro => this.poNotificationService.error(`Ocorreu um erro ao Criar o usuário: ${erro.error.message}`))
     } else {
       this.poNotificationService.warning('Preeencha todos os campos do formulário.')
     }

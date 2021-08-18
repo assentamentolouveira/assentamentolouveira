@@ -1,3 +1,4 @@
+import { RendasModule } from './../rendas/shared/rendas.module';
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from 'src/app/shared/Modulos/shared.module';
@@ -7,7 +8,7 @@ import { TitularesListComponent } from './titulares-list/titulares-list.componen
 
 @NgModule({
   declarations: [TitularesFormComponent, TitularesListComponent],
-  imports: [SharedModule, TitularesRoutingModule],
+  imports: [SharedModule, TitularesRoutingModule, RendasModule],
   exports: [TitularesFormComponent]
 })
 export class TitularesModule {}

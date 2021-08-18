@@ -204,28 +204,39 @@
     >
     </po-input>
   </div>
-</div>
 
-<po-divider p-label="Rendas"></po-divider>
+  <po-divider p-label="Rendas"></po-divider>
 
-<div class="po-mt-2 po-xl-12 po-lg-12">
-  <po-button
-    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10"
-    p-label="Adicionar Renda"
-    p-icon="po-icon-plus"
-  >
-  </po-button>
-  <br />
-  <po-divider p-label="Rendas Atuais"></po-divider>
   <po-table
     [p-columns]="colunasRenda"
     [p-items]="listaRendas"
     [p-actions]="acoes"
-    [p-height]="300"
+    [p-height]="200"
     [p-infinite-scroll]="true"
   ></po-table>
+
+  <po-divider></po-divider>
+  <div class="po-row">
+    <po-info
+      class="po-md-6 po-mb-sm-2 po-mb-md-2 po-lb-lg-2"
+      p-label="Total da Renda"
+      p-value="{{ 1000 | currency: 'BRL' }}"
+    >
+    </po-info>
+
+    <po-button
+      class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-4 po-offset-xl-4"
+      p-label="Adicionar Renda"
+      p-icon="po-icon-plus"
+      (p-click)="adicionaRenda()"
+    >
+    </po-button>
+  </div>
 </div>
 
+<po-modal [p-primary-action]="confirmar">
+  <app-rendas (atualizaRenda)="atualizaRenda()"> </app-rendas>
+</po-modal>
 <!-- <div>
   <div *ngIf="isDependente">
     <po-divider p-label="Parentesco"></po-divider>

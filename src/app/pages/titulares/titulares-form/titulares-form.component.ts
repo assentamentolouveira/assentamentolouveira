@@ -1,5 +1,5 @@
-import { Component, Injector, Input } from '@angular/core';
-import { PoRadioGroupOption, PoSelectOption, PoTableAction, PoTableColumn } from '@po-ui/ng-components';
+import { Component, Injector, Input, ViewChild } from '@angular/core';
+import { PoModalAction, PoModalComponent, PoRadioGroupOption, PoSelectOption, PoTableAction, PoTableColumn, PoNotificationService } from '@po-ui/ng-components';
 
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { Titulares } from '../shared/titulares.model';
@@ -11,6 +11,8 @@ import { TitularesService } from './../shared/titulares.service';
   styles: [],
 })
 export class TitularesFormComponent extends BaseResourceFormComponent<Titulares> {
+  private formularioPreenchido = false;
+
   public estadoCivilOpcoes: Array<PoSelectOption>;
   public parentescoOpcoes: Array<PoSelectOption>;
   public etniaOpcoes: Array<PoSelectOption>;
@@ -37,16 +39,28 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     }
 
   ];
+
+  public confirmar: PoModalAction = {
+    action: () => {
+      if (!this.formularioPreenchido) {
+        this.poNotificationService.error("Informe o valor e tipo de renda")
+      } else {
+        this.formularioPreenchido = false;
+        this.poModal.close();
+        this.poNotificationService.success("Renda Adicionada com sucesso")
+      };
+    },
+    label: 'Confirmar'
+  };
+
   @Input() isDependente = false;
 
-  readonly especialOpcoes: Array<PoRadioGroupOption> = [
-    { label: 'Sim', value: 'S' },
-    { label: 'Não', value: 'N' },
-  ];
+  @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
 
   constructor(
     protected titularesService: TitularesService,
-    protected injector: Injector
+    protected injector: Injector,
+    private poNotificationService: PoNotificationService
   ) {
     super(injector, new Titulares(), titularesService);
   }
@@ -68,8 +82,16 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   }
 
   editarRenda(): void {
-
   }
+
+  adicionaRenda(): void {
+    this.poModal.open();
+  }
+
+  atualizaRenda():void {
+    this.formularioPreenchido = true;
+  }
+
   initialize(): void {
     this.estadoCivilOpcoes = [
       {
@@ -89,6 +111,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
         label: 'Viúvo(a)',
       },
     ];
+
     this.generoOpcoes = [
       {
         value: '1',

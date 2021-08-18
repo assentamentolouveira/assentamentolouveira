@@ -54,7 +54,7 @@ export class TitularesService extends BaseResourceService {
     return [
       {
         property: 'tipo',
-        width: '80%',
+        width: '65%',
         label: 'Tipo de Renda',
         type: 'string',
         visible: true,
@@ -64,7 +64,7 @@ export class TitularesService extends BaseResourceService {
         label: 'Valor',
         type: 'currency',
         format: 'BRL',
-        width: '20%',
+        width: '35%',
         visible: true,
       }
     ];

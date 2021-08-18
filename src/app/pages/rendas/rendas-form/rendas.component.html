@@ -1,0 +1,21 @@
+<form [formGroup]="reactiveForm">
+  <div class="po-row">
+    <po-number
+      class="po-lg-6"
+      p-label="Valor da Renda"
+      p-placeholder="Informe o valor da renda em Reais"
+      p-clean
+      formControlName="valorRenda"
+    ></po-number>
+    <po-combo
+      class="po-lg-6"
+      [p-clean]="true"
+      p-label="Raça/Etinia"
+      [p-options]="rendaOpcoes"
+      p-placeholder="Selecione a Etinia"
+      [p-clean]="true"
+      formControlName="tipoRenda"
+    >
+    </po-combo>
+  </div>
+</form>
