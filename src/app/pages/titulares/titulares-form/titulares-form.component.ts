@@ -1,9 +1,12 @@
+import { RendasService } from './../../rendas/shared/rendas.service';
 import { Component, Injector, Input, ViewChild } from '@angular/core';
 import { PoModalAction, PoModalComponent, PoRadioGroupOption, PoSelectOption, PoTableAction, PoTableColumn, PoNotificationService } from '@po-ui/ng-components';
 
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { Titulares } from '../shared/titulares.model';
 import { TitularesService } from './../shared/titulares.service';
+import { Renda } from '../../rendas/shared/renda.model';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-titulares-form',
@@ -12,6 +15,10 @@ import { TitularesService } from './../shared/titulares.service';
 })
 export class TitularesFormComponent extends BaseResourceFormComponent<Titulares> {
   private formularioPreenchido = false;
+
+  public valorRenda: number = 0;
+  public tipoRenda: string = '';
+  public modalAberto: boolean = false;
 
   public estadoCivilOpcoes: Array<PoSelectOption>;
   public parentescoOpcoes: Array<PoSelectOption>;
@@ -28,12 +35,12 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   public acoes: Array<PoTableAction> = [
     {
       icon: 'po-icon-edit',
-      label: 'Editar Dependente',
+      label: 'Editar Renda',
       action: this.editarRenda.bind(this)
     },
     {
       icon: 'po-icon-user-delete',
-      label: 'Remover Dependente',
+      label: 'Remover Renda',
       type: 'danger',
 
     }
@@ -46,7 +53,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
         this.poNotificationService.error("Informe o valor e tipo de renda")
       } else {
         this.formularioPreenchido = false;
-        this.poModal.close();
+        this.fecharModal();
         this.poNotificationService.success("Renda Adicionada com sucesso")
       };
     },
@@ -60,7 +67,8 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   constructor(
     protected titularesService: TitularesService,
     protected injector: Injector,
-    private poNotificationService: PoNotificationService
+    private poNotificationService: PoNotificationService,
+    private rendasService: RendasService
   ) {
     super(injector, new Titulares(), titularesService);
   }
@@ -81,14 +89,29 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     return 'Editando Titular:' + titularesNome;
   }
 
-  editarRenda(): void {
+  editarRenda(rendaSelecionada: any): void {
+    this.valorRenda = parseFloat(rendaSelecionada.valorRenda);
+    this.tipoRenda = rendaSelecionada.tipoRenda;
+    this.abrirModal();
   }
 
   adicionaRenda(): void {
+    this.valorRenda = 0;
+    this.tipoRenda = '';
+    this.abrirModal();
+  }
+
+  abrirModal(): void {
+    this.modalAberto = true;
     this.poModal.open();
   }
 
-  atualizaRenda():void {
+  fecharModal(): void {
+    this.modalAberto = false;
+    this.poModal.close();
+  }
+
+  atualizaRenda(): void {
     this.formularioPreenchido = true;
   }
 
@@ -308,6 +331,8 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     ];
 
     this.colunasRenda = this.titularesService.getRendasColumns();
-    this.listaRendas = this.titularesService.retornaRendas();
+    this.rendasService.getRendasById().pipe(
+        take(1)
+      ).subscribe(res => this.listaRendas = res);
   }
 }

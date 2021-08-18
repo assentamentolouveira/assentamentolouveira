@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PoSelectOption } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
@@ -13,23 +13,26 @@ export class RendasComponent implements OnInit, OnDestroy {
   public rendaOpcoes: Array<PoSelectOption>;
   private subscription: Subscription;
 
-  @Output() atualizaRenda = new EventEmitter();;
+  @Input() valorRenda:number;
+  @Input() tipoRenda:string;
+
+  @Output() atualizaRenda:EventEmitter<any> = new EventEmitter();;
 
   constructor(private fb: FormBuilder) {
-    this.criaFormulario();
     this.initialize();
+  }
+
+  ngOnInit() {
+    this.criaFormulario();
     this.subscription = this.reactiveForm.valueChanges.subscribe(
       () => this.reactiveForm.valid? this.atualizaRenda.emit(this.reactiveForm.value) : false
     );
   }
 
-  ngOnInit() {
-  }
-
   criaFormulario(): void {
     this.reactiveForm = this.fb.group({
-      valorRenda: ['', Validators.compose([Validators.required])],
-      tipoRenda: ['', Validators.compose([Validators.required])],
+      valorRenda: [this.valorRenda, Validators.compose([Validators.required])],
+      tipoRenda: [this.tipoRenda, Validators.compose([Validators.required])],
     });
   }
 

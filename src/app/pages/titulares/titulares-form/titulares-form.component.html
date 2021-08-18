@@ -234,8 +234,13 @@
   </div>
 </div>
 
-<po-modal [p-primary-action]="confirmar">
-  <app-rendas (atualizaRenda)="atualizaRenda()"> </app-rendas>
+<po-modal  [p-primary-action]="confirmar" p-title="Renda">
+  <app-rendas
+    *ngIf="modalAberto"
+    (atualizaRenda)="atualizaRenda()"
+    [tipoRenda] = tipoRenda
+    [valorRenda] = valorRenda
+    > </app-rendas>
 </po-modal>
 <!-- <div>
   <div *ngIf="isDependente">
