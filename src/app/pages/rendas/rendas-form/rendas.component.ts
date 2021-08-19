@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./rendas.component.css']
 })
 export class RendasComponent implements OnInit, OnDestroy {
-  public reactiveForm: FormGroup;
+  public formularioRendas: FormGroup;
   public rendaOpcoes: Array<PoSelectOption>;
   private subscription: Subscription;
 
@@ -24,13 +24,13 @@ export class RendasComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.criaFormulario();
-    this.subscription = this.reactiveForm.valueChanges.subscribe(
-      () => this.reactiveForm.valid? this.atualizaRenda.emit(this.reactiveForm.value) : false
+    this.subscription = this.formularioRendas.valueChanges.subscribe(
+      () => this.formularioRendas.valid? this.atualizaRenda.emit(this.formularioRendas.value) : false
     );
   }
 
   criaFormulario(): void {
-    this.reactiveForm = this.fb.group({
+    this.formularioRendas = this.fb.group({
       valorRenda: [this.valorRenda, Validators.compose([Validators.required])],
       tipoRenda: [this.tipoRenda, Validators.compose([Validators.required])],
     });

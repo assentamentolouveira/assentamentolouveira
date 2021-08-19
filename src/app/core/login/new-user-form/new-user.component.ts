@@ -5,7 +5,7 @@ import { NewUserService } from './../shared/newUser.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { newUser } from '../shared/newUser.model';
-import { Validacoes } from 'src/app/shared/validações/Validacoes';
+import { Validacoes } from 'src/app/shared/validações/validacoes';
 
 @Component({
   selector: 'app-new-user',

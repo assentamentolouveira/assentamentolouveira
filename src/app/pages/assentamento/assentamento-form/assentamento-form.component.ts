@@ -80,6 +80,6 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   protected editionPageTitle(): string {
     const informacoesAssentamento =
       `${this.route.snapshot.paramMap.get('id')}` || '';
-    return 'Editando Assentamento: ' + informacoesAssentamento;
+    return 'Editando Usuário: ' + informacoesAssentamento;
   }
 }

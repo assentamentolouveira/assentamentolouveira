@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { token } from '../shared/token.model';
 import { login } from '../shared/login.model';
-import {finalize} from 'rxjs/operators'
+import { finalize } from 'rxjs/operators'
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,11 @@ import {finalize} from 'rxjs/operators'
 export class LoginComponent implements OnInit {
 
   private tituloDaPagina = this.loginService.isInternet ? 'Internet' : 'Intranet'
-  literaisPersonalizadas = { welcome: `Gerenciamento de Assentamentos - ${this.tituloDaPagina}` }
+  literaisPersonalizadas = {
+    welcome: `Gerenciamento de Assentamentos - ${this.tituloDaPagina}`,
+    loginPlaceholder: 'Informe o seu CPF',
+    titlePopover: 'É novo por aqui? Crie o seu usuário através do botão Novo Usuário'
+  }
   carregando = false;
 
   constructor(private loginService: LoginService, private poNotificationService: PoNotificationService, private router: Router) { }
@@ -24,10 +28,10 @@ export class LoginComponent implements OnInit {
 
   login(dadosDoLogin: any) {
     this.carregando = true
-    this.loginService.realizaLogin({idUsuario: dadosDoLogin.login, senha: dadosDoLogin.password}).pipe(finalize(()=> this.carregando = false)).subscribe(
+    this.loginService.realizaLogin({ idUsuario: dadosDoLogin.login, senha: dadosDoLogin.password }).pipe(finalize(() => this.carregando = false)).subscribe(
       (sucesso: token) => {
         this.loginService.gravaUsuario(sucesso);
-        if( this.loginService.isInternet) {
+        if (this.loginService.isInternet) {
           this.router.navigate(['/internet'])
         } else {
           this.router.navigate(['/intranet'])
