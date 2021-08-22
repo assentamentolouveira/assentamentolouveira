@@ -16,6 +16,7 @@ export class NewUserComponent implements OnInit {
 
   public reactiveForm: FormGroup;
   public botaoAtivado: boolean = false;
+  public botaoCarregando: boolean = false;
   constructor(private fb: FormBuilder
     , private newUserService: NewUserService
     , private poNotificationService: PoNotificationService
@@ -40,15 +41,16 @@ export class NewUserComponent implements OnInit {
   gravaUsuario(): void {
     if (this.reactiveForm.valid) {
       this.botaoAtivado = false;
+      this.botaoCarregando = true;
       const teste: newUser = this.reactiveForm.value;
       this.newUserService.criarUsuario(teste).
       pipe(
-          finalize(() => this.botaoAtivado = true)
+          finalize(() => {this.botaoAtivado = true, this.botaoCarregando = false})
           ).subscribe((res) => {
         this.poNotificationService.success('Usuário Criado com Sucesso!');
         this.router.navigate(['/internet/login'])
       }
-        , erro => this.poNotificationService.error(`Ocorreu um erro ao Criar o usuário: ${erro.error.message}`))
+)
     } else {
       this.poNotificationService.warning('Preeencha todos os campos do formulário.')
     }

@@ -1,18 +1,20 @@
 <form [formGroup]="formularioRendas">
   <div class="po-row">
-    <po-number
+    <po-decimal
       class="po-lg-6"
       p-label="Valor da Renda"
       p-placeholder="Informe o valor da renda em Reais"
-      p-clean
+      p-clean=true
+      [p-decimals-length]=2
+
       formControlName="valorRenda"
-    ></po-number>
+    ></po-decimal>
     <po-combo
       class="po-lg-6"
       [p-clean]="true"
-      p-label="Raça/Etinia"
+      p-label="Tipo de Renda"
       [p-options]="rendaOpcoes"
-      p-placeholder="Selecione a Etinia"
+      p-placeholder="Selecione o Tipo de Renda"
       [p-clean]="true"
       formControlName="tipoRenda"
     >

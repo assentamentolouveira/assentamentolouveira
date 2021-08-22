@@ -83,6 +83,7 @@
               po-sm-12 po-lg-2 po-mt-2 po-xl-2 po-offset-lg-5 po-offset-xl-5
             "
             [p-disabled]="!botaoAtivado"
+            [p-loading]="botaoCarregando"
             (p-click)="gravaUsuario()"
           >
           </po-button>

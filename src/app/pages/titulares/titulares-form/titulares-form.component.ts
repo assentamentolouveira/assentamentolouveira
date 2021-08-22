@@ -19,7 +19,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   private formularioPreenchido = false;
   public formularioTitular: FormGroup;
 
-  public valorRenda: number = 0;
+  public valorRenda: number;
   public tipoRenda: string = '';
   public modalAberto: boolean = false;
 
@@ -167,5 +167,9 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     this.rendasService.getRendasById().pipe(
       take(1)
     ).subscribe(res => this.listaRendas = res);
+
+    this.formularioTitular.valueChanges.subscribe(res => {
+      this.formularioTitular.valid ? true : false;
+    })
   }
 }
