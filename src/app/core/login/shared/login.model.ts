@@ -1,5 +1,5 @@
 export interface login {
-  idUsuario?:string;
+  idUsuario:string;
   senha?:string;
   acessoInicial?:boolean;
   token?:string;

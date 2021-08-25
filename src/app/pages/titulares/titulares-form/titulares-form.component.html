@@ -11,14 +11,14 @@
       >
       </po-input>
       <po-input
-        formControlName="selagemAtual"
+        formControlName="numeroSelagemAtual"
         class="po-lg-4"
         p-label="Selagem Atual"
         p-placeholder="Selagem Atual"
         p-clean
       ></po-input>
       <po-input
-        formControlName="selagemAntiga"
+        formControlName="numeroSelagemAntiga"
         class="po-lg-4"
         p-label="Selagem Antiga"
         p-placeholder="Selagem FUMHAB"
@@ -77,7 +77,7 @@
       >
       </po-combo>
       <po-combo
-        formControlName="racaEtinia"
+        formControlName="etnia"
         class="po-lg-3"
         [p-clean]="true"
         p-label="Raça/Etinia"
@@ -133,7 +133,7 @@
     <po-divider p-label="Informações Sobre Moradia"></po-divider>
     <div class="po-row">
       <po-combo
-        formControlName="familiaNoProcessoHabitacional"
+        formControlName="familiaIncProcHabit"
         class="po-lg-3"
         [p-clean]="true"
         p-label="Família Incluída no Processo Habitacional"
@@ -175,14 +175,17 @@
         class="po-lg-3"
         [p-clean]="true"
         p-label="Possui Imóvel"
+        (p-change)="possuiImovelSelecionado($event)"
         [p-options]="boleanoOpcoes"
         p-placeholder="Possui algum imóvel no país?"
       >
       </po-combo>
       <po-input
-        formControlName="localImovel"
+        formControlName="qualLocalDoImovel"
         class="po-lg-9"
         p-label="Onde"
+        [p-disabled]="converterBooleanString(!localDoImovelAtivo)"
+        [p-required]="converterBooleanString(localDoImovelAtivo)"
         p-placeholder="Local do Imóvel"
         p-clean
       >
@@ -190,16 +193,19 @@
     </div>
     <div class="po-row">
       <po-combo
-        formControlName="jaContemplado"
+        formControlName="programaHabitacional"
         class="po-lg-3"
         [p-clean]="true"
         p-label="Já Contemplado"
+        (p-change)="jaContempladoSelecionado($event)"
         [p-options]="boleanoOpcoes"
         p-placeholder="Já foi contemplado em algum programa?"
       >
       </po-combo>
       <po-input
-        formControlName="programaContemplado"
+        formControlName="qualProgHabitacional"
+        [p-disabled]="converterBooleanString(!programaContempladoAtivo)"
+        [p-required]="converterBooleanString(programaContempladoAtivo)"
         class="po-lg-9"
         p-label="Qual?"
         p-placeholder="Qual programa você já foi beneficiado?"
@@ -209,7 +215,8 @@
     </div>
     <div class="po-row">
       <po-combo
-        formControlName="contempladoNoPais"
+        formControlName="regFundOuUsocapiao"
+        (p-change)="jaContempladoPaisSelecionado($event)"
         class="po-lg-4"
         [p-clean]="true"
         p-label="Já Contemplado no País"
@@ -220,14 +227,18 @@
       <po-input
         formControlName="programaContempladoPais"
         class="po-lg-4"
+        [p-disabled]="converterBooleanString(!programaContempladoPaisAtivo)"
+        [p-required]="converterBooleanString(programaContempladoPaisAtivo)"
         p-label="Qual?"
         p-placeholder="Qual programa você já foi beneficiado?"
         p-clean
       >
       </po-input>
       <po-input
-        formControlName="ondeProgramaContempladoPais"
+        formControlName="aondeRegFundOuUsocapiao"
         class="po-lg-4"
+        [p-disabled]="converterBooleanString(!programaContempladoPaisAtivo)"
+        [p-required]="converterBooleanString(programaContempladoPaisAtivo)"
         p-label="Onde?"
         p-placeholder="Onde fica o ímóvel que você já foi beneficiado?"
         p-clean
@@ -235,7 +246,10 @@
       </po-input>
     </div>
 
-    <po-divider p-label="Rendas"></po-divider>
+
+
+    <!-- ALTERAÇÃO DE TABELA DE RENDA -->
+    <!-- <po-divider p-label="Rendas"></po-divider>
 
     <po-table
       [p-columns]="colunasRenda"
@@ -273,7 +287,7 @@
     [valorRenda]="valorRenda"
   >
   </app-rendas>
-</po-modal>
+</po-modal> -->
 <!-- <div>
   <div *ngIf="isDependente">
     <po-divider p-label="Parentesco"></po-divider>

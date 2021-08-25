@@ -26,19 +26,19 @@ export class OpcoesComboService {
 
   generoOpcoes = [
     {
-      value: '1',
+      value: 1,
       label: 'Masculino',
     },
     {
-      value: '2',
+      value: 2,
       label: 'Feminino',
     },
     {
-      value: '3',
+      value: 3,
       label: 'Não Binário',
     },
     {
-      value: '4',
+      value: 4,
       label: 'Prefiro não informar',
     },
   ];
@@ -60,67 +60,67 @@ export class OpcoesComboService {
 
   etniaOpcoes = [
     {
-      value: '1',
+      value: 1,
       label: 'Branca',
     },
     {
-      value: '2',
+      value: 2,
       label: 'Parda',
     },
     {
-      value: '3',
+      value: 3,
       label: 'Preta',
     },
     {
-      value: '4',
+      value: 4,
       label: 'Amarela',
     },
     {
-      value: '5',
+      value: 5,
       label: 'Indígena',
     },
   ];
 
   escolaridadeOpcoes = [
     {
-      value: '0',
-      label: 'Não Informado',
+      value: 10,
+      label: 'Não Alfabetizado',
     },
     {
-      value: '1',
+      value: 1,
       label: 'Fundamental Completo',
     },
     {
-      value: '2',
+      value: 2,
       label: 'Fundamental Incompleto',
     },
     {
-      value: '3',
+      value: 3,
       label: 'Ensino Médio Completo',
     },
     {
-      value: '4',
+      value: 4,
       label: 'Ensino Médio Incompleto',
     },
     {
-      value: '5',
+      value: 5,
       label: 'Superior Completo',
     },
     {
-      value: '6',
+      value: 6,
       label: 'Superior Incompleto',
     },
     {
-      value: '7',
+      value: 7,
       label: 'Ensino Técnico Completo',
     },
     {
-      value: '8',
+      value: 8,
       label: 'Ensino Técnico Incompleto',
     },
     {
-      value: '9',
-      label: 'Não Alfabetizado',
+      value: 9,
+      label: 'Não Informado',
     }
   ];
 
@@ -165,56 +165,56 @@ export class OpcoesComboService {
 
   boleanoOpcoes = [
     {
-      value: '1',
+      value: 'true',
       label: 'Sim'
     },
     {
-      value: '2',
+      value: 'false',
       label: 'Não'
     }
   ];
 
   familiaDomicilioOpcoes = [
     {
-      value: '1',
+      value: 1,
       label: 'Uma Família'
     },
     {
-      value: '2',
+      value: 2,
       label: 'Duas Famílias'
     },
     {
-      value: '3',
+      value: 3,
       label: 'Três Famílias'
     },
     {
-      value: '4',
+      value: 4,
       label: 'Mais de Três Familias'
     }
   ];
 
   tempoDeMoradiaOpcoes = [
     {
-      value: '1',
+      value: 1,
       label: 'Até 1 ano'
     },
     {
-      value: '2',
+      value: 2,
       label: 'De 1 à 5 anos'
     },
     {
-      value: '3',
+      value: 3,
       label: 'De 5 à 10 anos'
     },
     {
-      value: '4',
+      value: 4,
       label: 'De 10 à 20 anos'
     }, {
-      value: '5',
+      value: 5,
       label: 'De 20 à 30 anos'
     },
     {
-      value: '6',
+      value: 6,
       label: 'Acima de 30 anos'
     }
   ];

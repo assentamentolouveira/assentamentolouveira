@@ -1,3 +1,4 @@
+import { RendasModule } from './../rendas/shared/rendas.module';
 import { MoradiaModule } from './../moradia/moradia.module';
 import { DependentesModule } from './../dependentes/dependentes.module';
 import { TitularesModule } from './../titulares/titulares.module';
@@ -20,6 +21,7 @@ import { PoUiComponentsModule } from 'src/app/shared/Modulos/po-ui-components.mo
     AssentamentoRoutingModule,
     TitularesModule,
     DependentesModule,
+    RendasModule,
     MoradiaModule,
   ]
 })

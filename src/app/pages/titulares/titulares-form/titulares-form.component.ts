@@ -1,27 +1,36 @@
 import { RendasService } from './../../rendas/shared/rendas.service';
-import { Component, Injector, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { PoModalAction, PoModalComponent, PoRadioGroupOption, PoSelectOption, PoTableAction, PoTableColumn, PoNotificationService } from '@po-ui/ng-components';
 
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { Titulares } from '../shared/titulares.model';
 import { TitularesService } from './../shared/titulares.service';
 import { Renda } from '../../rendas/shared/renda.model';
-import { take } from 'rxjs/operators';
+import { debounce, debounceTime, take } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service';
+import { Subscription } from 'rxjs';
+import { Titular } from '../shared/titular.model';
 
 @Component({
   selector: 'app-titulares-form',
   templateUrl: './titulares-form.component.html',
   styles: [],
 })
-export class TitularesFormComponent extends BaseResourceFormComponent<Titulares> {
+export class TitularesFormComponent extends BaseResourceFormComponent<Titulares> implements OnDestroy {
   private formularioPreenchido = false;
+  private subscriptionFormularioTitular: Subscription;
+
   public formularioTitular: FormGroup;
 
   public valorRenda: number;
   public tipoRenda: string = '';
   public modalAberto: boolean = false;
+
+  public programaContempladoAtivo = false;
+  public programaContempladoPaisAtivo = false;
+  public localDoImovelAtivo = false;
+
 
   public estadoCivilOpcoes: Array<PoSelectOption>;
   public parentescoOpcoes: Array<PoSelectOption>;
@@ -66,6 +75,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   //Campos do Formulário
 
   @Input() isDependente = false;
+  @Output() formularioTitularValido: EventEmitter<FormGroup> = new EventEmitter()
 
   @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
 
@@ -88,31 +98,35 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
 
   criaFormulario(): void {
     this.formularioTitular = this.fb.group({
-      assentamento: [''],
-      selagemAtual: [''],
-      selagemAntiga: [''],
+      assentamento: ['', Validators.compose([Validators.required])],
+      numeroSelagemAtual: ['', Validators.compose([Validators.required])],
+      numeroSelagemAntiga: [''],
       nomeResponsavel: [''],
       numeroCartaoCidadao: [''],
       numeroCPF: [''],
       dataNascimento: [''],
-      genero: [''],
-      racaEtinia: [''],
-      escolaridade: [''],
+      genero: ['', Validators.compose([Validators.required])],
+      etnia: ['', Validators.compose([Validators.required])],
+      escolaridade: [0, Validators.compose([Validators.required])],
       deficiencia: [''],
       estadoCivil: [''],
       rendaTotal: [''],
-      familiaNoProcessoHabitacional: [''],
-      familiaPorDomicilio: [''],
-      tempoMoradiaBairro: [''],
-      tempoMoradiaLouveira: [''],
-      possuiImovel: [''],
-      localImovel: [''],
-      jaContemplado: [''],
-      programaContemplado: [''],
-      contempladoNoPais: [''],
-      programaContempladoPais: [''],
-      ondeProgramaContempladoPais: ['']
+      familiaIncProcHabit: ['', Validators.compose([Validators.required])],
+      familiaPorDomicilio: ['', Validators.compose([Validators.required])],
+      tempoMoradiaBairro: ['', Validators.compose([Validators.required])],
+      tempoMoradiaLouveira: ['', Validators.compose([Validators.required])],
+      possuiImovel: ['', Validators.compose([Validators.required])],
+      qualLocalDoImovel: [''],
+      programaHabitacional: ['', Validators.compose([Validators.required])],
+      qualProgHabitacional: [''],
+      regFundOuUsocapiao: ['', Validators.compose([Validators.required])],
+      qualRegFundOuUsocapiao: [''],
+      aondeRegFundOuUsocapiao: ['']
     });
+
+    this.subscriptionFormularioTitular = this.formularioTitular.valueChanges.pipe(
+      debounceTime(1000)
+    ).subscribe(res => this.formularioTitular.valid ? this.formularioTitularValido.emit(this.formularioTitular) : false)
   }
 
   protected buildResourceForm(): void { }
@@ -171,5 +185,44 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     this.formularioTitular.valueChanges.subscribe(res => {
       this.formularioTitular.valid ? true : false;
     })
+  }
+
+  jaContempladoSelecionado(selecionado: number) {
+    if (selecionado === 1) {
+      this.programaContempladoAtivo = true
+    } else {
+      this.programaContempladoAtivo = false;
+      this.formularioTitular.patchValue({ qualProgHabitacional: "" })
+    }
+  }
+
+  jaContempladoPaisSelecionado(selecionado: number) {
+    if (selecionado === 1) {
+      this.programaContempladoPaisAtivo = true
+    } else {
+      this.programaContempladoPaisAtivo = false;
+      this.formularioTitular.patchValue({ qualRegFundOuUsocapiao: "", aondeRegFundOuUsocapiao: "" })
+    }
+  }
+
+  possuiImovelSelecionado(selecionado: number) {
+    if (selecionado === 1) {
+      this.localDoImovelAtivo = true;
+    } else {
+      this.localDoImovelAtivo = false;
+      this.formularioTitular.patchValue({ qualLocalDoImovel: "" })
+    }
+  }
+
+  converterBooleanString(valorBooleano: boolean): string {
+    if (valorBooleano) {
+      return 'true'
+    } else {
+      return 'false'
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptionFormularioTitular.unsubscribe();
   }
 }

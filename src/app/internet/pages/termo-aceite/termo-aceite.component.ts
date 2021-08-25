@@ -1,3 +1,4 @@
+import { TitularesService } from './../../../pages/titulares/shared/titulares.service';
 import { LoginService } from './../../../core/login/shared/login.service';
 import { InternetService } from './../../shared/internet.service';
 import { Router } from '@angular/router';
@@ -36,6 +37,7 @@ export class TermoAceiteComponent implements OnInit {
     private poNotificationService: PoNotificationService,
     private router: Router,
     private internetService: InternetService,
+    private titularesService: TitularesService,
     private loginService: LoginService) { }
 
   ngOnInit() {
@@ -49,7 +51,12 @@ export class TermoAceiteComponent implements OnInit {
     if (this.loginService.informacoesDoLogin.acessoInicial) {
       this.modal.open();
     } else {
-      this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/editar`]);
+      this.titularesService.getTitularByCPF(this.loginService.informacoesDoLogin.idUsuario).subscribe(() => {
+        this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/editar`]);
+      },
+        () => {
+          this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/`]);
+        })
     }
   }
 
@@ -57,7 +64,7 @@ export class TermoAceiteComponent implements OnInit {
     if (this.FormularioTermosDeAceite.value.checkCriterioDeAceite) {
       this.internetService.gravaLogin(this.loginService.informacoesDoLogin.idUsuario).subscribe(() => {
         this.modal.close();
-        this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/editar`]);
+        this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}`]);
       },
         error => this.poNotificationService.error('Erro ao atualizar o usuário: ' + error.statusText));
     } else {

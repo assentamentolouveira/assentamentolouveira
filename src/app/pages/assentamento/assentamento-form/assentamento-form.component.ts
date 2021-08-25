@@ -1,3 +1,4 @@
+import { TitularesService } from './../../titulares/shared/titulares.service';
 import { PoButtonGroupItem, PoPageAction } from '@po-ui/ng-components';
 import { LoginService } from './../../../core/login/shared/login.service';
 import { Router } from '@angular/router';
@@ -5,6 +6,9 @@ import { AssentamentoService } from './../shared/assentamento.service';
 import { Assentamento } from './../shared/assentamento.model';
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
+import { Titular } from '../../titulares/shared/titular.model';
+import { FormGroup } from '@angular/forms';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-assentamento-form',
@@ -14,11 +18,16 @@ import { BaseResourceFormComponent } from 'src/app/shared/components/base-resour
 export class AssentamentoFormComponent extends BaseResourceFormComponent<Assentamento> {
   public readonly actions: Array<PoPageAction> = [
     { label: 'Salvar', action: () => alert('Salvar'), icon: 'po-icon-ok' },
+    { label: 'Renda', action: () => alert('Renda'), icon: 'po-icon-ok' },
   ];
 
   public isTitular = true;
   public isDependente = false;
   public isMoradia = false;
+
+  private titularValido = false;
+  private edicao = false;
+  private titular: Titular;
 
   botoes: Array<PoButtonGroupItem> = [
     {
@@ -44,7 +53,8 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   constructor(
     protected assentamentoService: AssentamentoService,
     protected injector: Injector,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private titularService: TitularesService
   ) {
     super(injector, new Assentamento(), assentamentoService);
     if (this.loginService.isInternet) {
@@ -54,6 +64,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         icon: 'po-icon-exit',
       });
     }
+    this.edicao = this.router.url.includes('editar')
   }
 
   action(
@@ -71,7 +82,19 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         : (this.botoes[indice].selected = false);
     });
   }
-  protected buildResourceForm(): void {}
+
+  dependenteValido(): boolean {
+    return this.titularValido
+  }
+
+  formularioTitularValido(formularioValido: FormGroup): boolean {
+    this.titularService.criarTitular(formularioValido.value).pipe(take(1)).subscribe(res => console.log(res), error => console.error(error))
+    this.titularValido = formularioValido.valid;
+    this.titular = formularioValido.value;
+    return formularioValido.valid
+  }
+
+  protected buildResourceForm(): void { }
 
   protected creationPageTitle(): string {
     return 'Novo Assentamento';

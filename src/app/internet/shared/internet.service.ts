@@ -9,10 +9,10 @@ import { login } from 'src/app/core/login/shared/login.model';
 })
 export class InternetService extends BaseResourceService {
   constructor(protected injector: Injector) {
-    super(environment.URL + '/usuario/', injector)
+    super(environment.URL + '/usuario', injector)
   }
 
-  gravaLogin(id:string | undefined): Observable<login> {
+  gravaLogin(id:string): Observable<any> {
     return this.http.put(`${this.apiPath}/${id}`, {acessoInicial: false}, this.httpOptions)
   }
 }

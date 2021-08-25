@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'newuser', component: NewUserComponent },
   { path: '', component: TermoAceiteComponent, canActivate:[AuthGuard] },
-  { path: ':id/editar', component: AssentamentoFormComponent}
+  { path: ':id/editar', component: AssentamentoFormComponent},
+  { path: ':id', component: AssentamentoFormComponent}
 
 ];
 
