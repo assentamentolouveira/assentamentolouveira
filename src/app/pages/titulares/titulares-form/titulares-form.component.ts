@@ -1,3 +1,5 @@
+import { Titular } from './../shared/titular.model';
+import { Router } from '@angular/router';
 import { RendasService } from './../../rendas/shared/rendas.service';
 import { Component, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { PoModalAction, PoModalComponent, PoRadioGroupOption, PoSelectOption, PoTableAction, PoTableColumn, PoNotificationService } from '@po-ui/ng-components';
@@ -10,7 +12,6 @@ import { debounce, debounceTime, take } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service';
 import { Subscription } from 'rxjs';
-import { Titular } from '../shared/titular.model';
 
 @Component({
   selector: 'app-titulares-form',
@@ -26,6 +27,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   public valorRenda: number;
   public tipoRenda: string = '';
   public modalAberto: boolean = false;
+  private dadosTitular:Titular;
 
   public programaContempladoAtivo = false;
   public programaContempladoPaisAtivo = false;
@@ -85,12 +87,14 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     private poNotificationService: PoNotificationService,
     private rendasService: RendasService,
     private opcoesComboService: OpcoesComboService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {
     super(injector, new Titulares(), titularesService);
+    this.dadosTitular = JSON.parse(this.titularesService.getTitularInfo())
   }
 
   ngOnInit(): void {
+    console.log(this.dadosTitular)
     super.ngOnInit();
     this.criaFormulario();
     this.initialize();
@@ -98,35 +102,35 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
 
   criaFormulario(): void {
     this.formularioTitular = this.fb.group({
-      assentamento: ['', Validators.compose([Validators.required])],
-      numeroSelagemAtual: ['', Validators.compose([Validators.required])],
-      numeroSelagemAntiga: [''],
-      nomeResponsavel: [''],
-      numeroCartaoCidadao: [''],
-      numeroCPF: [''],
-      dataNascimento: [''],
-      genero: ['', Validators.compose([Validators.required])],
-      etnia: ['', Validators.compose([Validators.required])],
-      escolaridade: [0, Validators.compose([Validators.required])],
-      deficiencia: [''],
-      estadoCivil: [''],
-      rendaTotal: [''],
-      familiaIncProcHabit: ['', Validators.compose([Validators.required])],
-      familiaPorDomicilio: ['', Validators.compose([Validators.required])],
-      tempoMoradiaBairro: ['', Validators.compose([Validators.required])],
-      tempoMoradiaLouveira: ['', Validators.compose([Validators.required])],
-      possuiImovel: ['', Validators.compose([Validators.required])],
-      qualLocalDoImovel: [''],
-      programaHabitacional: ['', Validators.compose([Validators.required])],
-      qualProgHabitacional: [''],
-      regFundOuUsocapiao: ['', Validators.compose([Validators.required])],
-      qualRegFundOuUsocapiao: [''],
-      aondeRegFundOuUsocapiao: ['']
+      assentamento: [this.dadosTitular.assentamento],
+      numeroSelagemAtual: [this.dadosTitular.numeroSelagemAtual],
+      numeroSelagemAntiga: [this.dadosTitular.numeroSelagemAntiga],
+      nomeResponsavel: [this.dadosTitular.nomeResponsavel],
+      numeroCartaoCidadao: [this.dadosTitular.numeroCartaoCidadao],
+      numeroCPF: [this.route.snapshot.paramMap.get('id')],
+      dataNascimento: [this.dadosTitular.dataNascimento],
+      genero: [this.dadosTitular.genero, Validators.compose([Validators.required])],
+      etnia: [this.dadosTitular.etnia, Validators.compose([Validators.required])],
+      escolaridade: [this.dadosTitular.escolaridade, Validators.compose([Validators.required])],
+      deficiencia: [this.dadosTitular.deficiencia],
+      estadoCivil: [this.dadosTitular.estadoCivil],
+      rendaTotal: [this.dadosTitular.rendaTotal],
+      familiaIncProcHabit: [this.dadosTitular.familiaIncProcHabit, Validators.compose([Validators.required])],
+      familiaPorDomicilio: [this.dadosTitular.familiaPorDomicilio, Validators.compose([Validators.required])],
+      tempoMoradiaBairro: [this.dadosTitular.tempoMoradiaBairro, Validators.compose([Validators.required])],
+      tempoMoradiaLouveira: [this.dadosTitular.tempoMoradiaLouveira, Validators.compose([Validators.required])],
+      possuiImovel: [this.dadosTitular.possuiImovel, Validators.compose([Validators.required])],
+      qualLocalDoImovel: [this.dadosTitular.qualLocalDoImovel],
+      programaHabitacional: [this.dadosTitular.programaHabitacional, Validators.compose([Validators.required])],
+      qualProgHabitacional: [this.dadosTitular.qualProgHabitacional],
+      regFundOuUsocapiao: [this.dadosTitular.regFundOuUsocapiao, Validators.compose([Validators.required])],
+      qualRegFundOuUsocapiao: [this.dadosTitular.qualRegFundOuUsocapiao],
+      aondeRegFundOuUsocapiao: [this.dadosTitular.aondeRegFundOuUsocapiao]
     });
 
     this.subscriptionFormularioTitular = this.formularioTitular.valueChanges.pipe(
       debounceTime(1000)
-    ).subscribe(res => this.formularioTitular.valid ? this.formularioTitularValido.emit(this.formularioTitular) : false)
+    ).subscribe(res => this.formularioTitularValido.emit(this.formularioTitular))
   }
 
   protected buildResourceForm(): void { }
@@ -136,8 +140,8 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   }
 
   protected editionPageTitle(): string {
-    const titularesNome = this.resource.nome || '';
-    return 'Editando Titular:' + titularesNome;
+    const titularCPF = this.resource.nome || '';
+    return 'Editando Titular:' + titularCPF;
   }
 
   editarRenda(rendaSelecionada: any): void {

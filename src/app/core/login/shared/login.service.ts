@@ -47,9 +47,10 @@ export class LoginService extends BaseResourceService {
   gravaUsuario(usuarioLogado: token): void {
     this.informacoesDoLogin = usuarioLogado;
     this.JWTToken = usuarioLogado.token;
+    sessionStorage.setItem('token', usuarioLogado.token)
   }
 
-  getToken(): string {
-    return this.JWTToken;
+  getToken(): string | null {
+    return sessionStorage.getItem('token')//this.JWTToken;
   }
 }

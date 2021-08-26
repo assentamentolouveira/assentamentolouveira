@@ -1,5 +1,5 @@
 import { TitularesService } from './../../titulares/shared/titulares.service';
-import { PoButtonGroupItem, PoPageAction } from '@po-ui/ng-components';
+import { PoButtonGroupItem, PoPageAction, PoNotificationService } from '@po-ui/ng-components';
 import { LoginService } from './../../../core/login/shared/login.service';
 import { Router } from '@angular/router';
 import { AssentamentoService } from './../shared/assentamento.service';
@@ -8,7 +8,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { Titular } from '../../titulares/shared/titular.model';
 import { FormGroup } from '@angular/forms';
-import { take } from 'rxjs/operators';
+import { take, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-assentamento-form',
@@ -17,13 +17,13 @@ import { take } from 'rxjs/operators';
 })
 export class AssentamentoFormComponent extends BaseResourceFormComponent<Assentamento> {
   public readonly actions: Array<PoPageAction> = [
-    { label: 'Salvar', action: () => alert('Salvar'), icon: 'po-icon-ok' },
-    { label: 'Renda', action: () => alert('Renda'), icon: 'po-icon-ok' },
+    { label: 'Salvar', action: () => alert('Salvar'), icon: 'po-icon-ok' }
   ];
 
   public isTitular = true;
   public isDependente = false;
   public isMoradia = false;
+  public carregando = true;
 
   private titularValido = false;
   private edicao = false;
@@ -53,6 +53,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   constructor(
     protected assentamentoService: AssentamentoService,
     protected injector: Injector,
+    private poNotificationService: PoNotificationService,
     private loginService: LoginService,
     private titularService: TitularesService
   ) {
@@ -65,6 +66,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       });
     }
     this.edicao = this.router.url.includes('editar')
+    this.titularValido = this.edicao;
   }
 
   action(
@@ -84,11 +86,28 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   dependenteValido(): boolean {
+    if (!this.titularValido) {
+      this.poNotificationService.error("Informe os campos obrigatórios")
+    }
     return this.titularValido
   }
 
   formularioTitularValido(formularioValido: FormGroup): boolean {
-    this.titularService.criarTitular(formularioValido.value).pipe(take(1)).subscribe(res => console.log(res), error => console.error(error))
+    if (formularioValido.valid) {
+      this.carregando = false;
+      if (this.edicao) {
+        this.titularService.alterarTitular(formularioValido.value).pipe(
+          take(1),
+          finalize(() => this.carregando = true)
+        ).subscribe(res => console.log(res), error => console.error(error))
+      } else {
+        this.titularService.criarTitular(formularioValido.value).pipe(
+          take(1),
+          finalize(() => this.carregando = true)
+        ).subscribe(res => console.log(res), error => console.error(error))
+      }
+    }
+
     this.titularValido = formularioValido.valid;
     this.titular = formularioValido.value;
     return formularioValido.valid

@@ -14,12 +14,48 @@ export class TitularesService extends BaseResourceService {
     super(environment.URL + '/titular', injector);
   }
 
-  getTitularByCPF(cpf:string):Observable<any>{
+  private dadosTitular: Titular;
+
+  getTitularByCPF(cpf: string): Observable<any> {
     return this.http.get(`${this.apiPath}/${cpf}`)
   }
 
-  criarTitular(titular:Titular) {
+  setTitularInfo(titular:Titular): void {
+    sessionStorage.setItem('titular', JSON.stringify(titular))
+    sessionStorage.setItem('idTitular', titular.id)
+    this.dadosTitular = titular;
+  }
+
+  getTitularInfo(): any {
+    const teste = sessionStorage.getItem('titular')
+    return teste//this.dadosTitular;
+  }
+
+  criarTitular(titular: Titular):Observable<any> {
+    titular = this.ajustaJsonTitular(titular)
     return this.http.post(this.apiPath, titular, this.httpOptions);
+  }
+
+  alterarTitular(titular: Titular):Observable<any>{
+    titular = this.ajustaJsonTitular(titular)
+    return this.http.put(`${this.apiPath}/${titular.numeroCPF}`, titular, this.httpOptions);
+  }
+
+  ajustaJsonTitular(titular: Titular): Titular {
+    titular.familiaIncProcHabit = this.converterParaBoleano(titular.familiaIncProcHabit);
+    titular.possuiImovel = this.converterParaBoleano(titular.possuiImovel);
+    titular.programaHabitacional = this.converterParaBoleano(titular.programaHabitacional);
+    titular.regFundOuUsocapiao = this.converterParaBoleano(titular.regFundOuUsocapiao);
+    return titular
+  }
+
+  converterParaBoleano(valor: number | boolean): boolean {
+    if (valor === 1) {
+      return true
+    } else {
+      return true
+    }
+
   }
 
   getColumns(): PoTableColumn[] {

@@ -165,11 +165,11 @@ export class OpcoesComboService {
 
   boleanoOpcoes = [
     {
-      value: 'true',
+      value: 1,
       label: 'Sim'
     },
     {
-      value: 'false',
+      value: 2,
       label: 'Não'
     }
   ];
@@ -218,6 +218,65 @@ export class OpcoesComboService {
       label: 'Acima de 30 anos'
     }
   ];
+
+  parentescoResponsavelOpcoes = [
+    {
+      value: 1,
+      label: 'Pessoa de Referência'
+    },
+    {
+      value: 2,
+      label: 'Cônjuge/Companheiro(a)'
+    },
+    {
+      value: 3,
+      label: 'Filho(a)'
+    },
+    {
+      value: 4,
+      label: 'Enteado(a)'
+    },
+    {
+      value: 5,
+      label: 'Neto(a)'
+    },
+    {
+      value: 6,
+      label: 'Pai'
+    },
+    {
+      value: 7,
+      label: 'Mãe'
+    },
+    {
+      value: 8,
+      label: 'Sogro(a)'
+    },
+    {
+      value: 9,
+      label: 'Irmão/Irmã'
+    },
+    {
+      value: 10,
+      label: 'Genro'
+    },
+    {
+      value: 11,
+      label: 'Nora'
+    },
+    {
+      value: 12,
+      label: 'Bisneto(a)'
+    },
+    {
+      value: 13,
+      label: 'Outro Parente'
+    },
+    {
+      value: 14,
+      label: 'Não Parente'
+    }
+  ]
 
   constructor() { }
 }

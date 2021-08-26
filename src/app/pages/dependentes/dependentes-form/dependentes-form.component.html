@@ -1,6 +1,5 @@
-<po-divider p-label="Dependentes"></po-divider>
 
-<div *ngIf="dependenteSelecionado === 0; else formularioTitular">
+<!-- <div *ngIf="dependenteSelecionado === 0; else formularioTitular">
   <p class="po-font-title" style="text-align: center; padding: 10px">
     Nenhum Dependente Selecionado.
   </p>
@@ -18,7 +17,109 @@
     (p-click)="salvarEdicao()"
   >
   </po-button>
+</ng-template> -->
+
+<div *ngIf="dependenteSelecionado === ''; else exibeDependente">
+  <po-divider p-label="Dependentes"></po-divider>
+  <p class="po-font-title" style="text-align: center; padding: 10px">
+    Nenhum Dependente Selecionado.
+  </p>
+</div>
+
+<ng-template #exibeDependente>
+
+  <form [formGroup]="formularioDependente">
+    <po-divider p-label="Informações Gerais"></po-divider>
+    <div class="po-row">
+      <po-input
+        formControlName="nomeResponsavel"
+        class="po-lg-3"
+        p-label="Nome Responsável"
+        p-placeholder="Nome do Responsável"
+        p-disabled="true"
+        p-clean
+      >
+      </po-input>
+      <po-number
+        formControlName="numeroCartaoCidadao"
+        class="po-lg-3"
+        p-label="Cartão Cidadão"
+        p-placeholder="Número do Cartão Cidadão"
+        p-disabled="true"
+        p-clean
+      ></po-number>
+      <po-input
+        formControlName="numeroCPF"
+        class="po-lg-3"
+        p-label="CPF"
+        p-placeholder="Número do CPF"
+        p-mask="999.999.999-99"
+        p-disabled="true"
+        p-clean
+      ></po-input>
+      <po-datepicker
+        formControlName="dataNascimento"
+        class="po-lg-3"
+        p-label="Data de Nascimento"
+        p-placeholder="dd/mm/aaaa"
+        p-disabled="true"
+        p-clean
+      >
+      </po-datepicker>
+    </div>
+
+    <div class="po-row">
+      <po-combo
+        formControlName="parentesco"
+        class="po-lg-3"
+        p-label="Parentesco com o Responsável'"
+        [p-options]="parentescoResponsavelOpcoes"
+        p-placeholder="Não informado"
+        [p-disabled]="true"
+        [p-clean]="true"
+      >
+      </po-combo>
+
+      <po-combo
+        formControlName="estadoCivil"
+        class="po-lg-3"
+        p-label="Estado Civil"
+        [p-options]="estadoCivilOpcoes"
+        p-placeholder="Selecione o estado civil"
+        [p-disabled]="true"
+      >
+      </po-combo>
+
+      <po-combo
+        formControlName="escolaridade"
+        class="po-lg-3"
+        p-label="Escolaridade"
+        [p-options]="escolaridadeOpcoes"
+        p-placeholder="Selecione o Grau de Escolaridade"
+        [p-clean]="true"
+      >
+      </po-combo>
+      <po-combo
+        formControlName="deficiencia"
+        class="po-lg-3"
+        p-label="Possui Deficiencia"
+        [p-options]="deficienciaOpcoes"
+        p-placeholder="Selecione a defiencia"
+        [p-disabled]="true"
+      >
+      </po-combo>
+    </div>
+  </form>
+  <po-button
+    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10"
+    p-label="Salvar Edição"
+    p-icon="po-icon-edit"
+    [p-disabled]="!habilitaConfirmacao"
+    (p-click)="salvarEdicao()"
+  >
+  </po-button>
 </ng-template>
+
 <br />
 <po-divider p-label="Lista de Dependentes"></po-divider>
 <po-table
@@ -27,6 +128,7 @@
   [p-items]="listaDependentes"
   [p-actions]="acoes"
   [p-height]="300"
+  [p-loading]='carregandoTabela'
   (p-show-more)="carregarMais()"
   [p-infinite-scroll]="true"
 ></po-table>

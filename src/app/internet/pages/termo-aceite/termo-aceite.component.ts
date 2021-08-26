@@ -51,7 +51,8 @@ export class TermoAceiteComponent implements OnInit {
     if (this.loginService.informacoesDoLogin.acessoInicial) {
       this.modal.open();
     } else {
-      this.titularesService.getTitularByCPF(this.loginService.informacoesDoLogin.idUsuario).subscribe(() => {
+      this.titularesService.getTitularByCPF(this.loginService.informacoesDoLogin.idUsuario).subscribe((res) => {
+        this.titularesService.setTitularInfo(res)
         this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/editar`]);
       },
         () => {

@@ -7,6 +7,7 @@
         class="po-lg-4"
         p-label="Assentamento"
         p-placeholder="Assentamento"
+        p-disabled="true"
         p-clean
       >
       </po-input>
@@ -15,6 +16,7 @@
         class="po-lg-4"
         p-label="Selagem Atual"
         p-placeholder="Selagem Atual"
+        p-disabled="true"
         p-clean
       ></po-input>
       <po-input
@@ -22,6 +24,7 @@
         class="po-lg-4"
         p-label="Selagem Antiga"
         p-placeholder="Selagem FUMHAB"
+        p-disabled="true"
         p-clean
       ></po-input>
     </div>
@@ -136,7 +139,7 @@
         formControlName="familiaIncProcHabit"
         class="po-lg-3"
         [p-clean]="true"
-        p-label="Família Incluída no Processo Habitacional"
+        p-label="Família Incluída no Programa Habitacional"
         [p-options]="boleanoOpcoes"
         p-placeholder="Sim ou não?"
       >
@@ -225,7 +228,7 @@
       >
       </po-combo>
       <po-input
-        formControlName="programaContempladoPais"
+        formControlName="qualProgHabitacional"
         class="po-lg-4"
         [p-disabled]="converterBooleanString(!programaContempladoPaisAtivo)"
         [p-required]="converterBooleanString(programaContempladoPaisAtivo)"

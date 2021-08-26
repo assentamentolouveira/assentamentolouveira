@@ -3,7 +3,14 @@
     <po-button-group class="po-md-12" [p-buttons]="botoes"> </po-button-group>
   </div> -->
 
-  <po-stepper>
+
+  <po-loading-overlay
+    [p-screen-lock]="true"
+    [hidden]="carregando"
+    p-text="string" >
+  </po-loading-overlay>
+
+  <po-stepper [p-step-icons]=true>
     <po-step p-label="Titulare" [p-can-active-next-step]="dependenteValido.bind(this)">
       <app-titulares-form (formularioTitularValido)="formularioTitularValido($event)"></app-titulares-form>
     </po-step>
