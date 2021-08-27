@@ -14,7 +14,7 @@ export interface Titular {
   estadoCivil: number,
   rendaTotal: number,
   familiaIncProcHabit: number | boolean,
-  familiaPorDomicilio: number,
+  quantidadeFamilia : number,
   tempoMoradiaBairro: number,
   tempoMoradiaLouveira: number,
   possuiImovel: number | boolean,

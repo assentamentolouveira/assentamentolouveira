@@ -26,19 +26,19 @@ export class OpcoesComboService {
 
   generoOpcoes = [
     {
-      value: 1,
+      value: 'Masculino',
       label: 'Masculino',
     },
     {
-      value: 2,
+      value: 'Feminino',
       label: 'Feminino',
     },
     {
-      value: 3,
+      value: 'NaoBinario',
       label: 'Não Binário',
     },
     {
-      value: 4,
+      value: 'PrefiroNaoInformar ',
       label: 'Prefiro não informar',
     },
   ];
@@ -60,69 +60,97 @@ export class OpcoesComboService {
 
   etniaOpcoes = [
     {
-      value: 1,
+      value: 'Branca',
       label: 'Branca',
     },
     {
-      value: 2,
+      value: 'Parda',
       label: 'Parda',
     },
     {
-      value: 3,
+      value: 'Preta',
       label: 'Preta',
     },
     {
-      value: 4,
+      value: 'Amarela',
       label: 'Amarela',
     },
     {
-      value: 5,
+      value: 'Indigena',
       label: 'Indígena',
     },
   ];
 
   escolaridadeOpcoes = [
     {
-      value: 10,
+      value: 'NaoAlfabetizado',
       label: 'Não Alfabetizado',
     },
     {
-      value: 1,
+      value: 'FundamentalCompleto',
       label: 'Fundamental Completo',
     },
     {
-      value: 2,
+      value: 'FundamentalIncompleto',
       label: 'Fundamental Incompleto',
     },
     {
-      value: 3,
+      value: 'EnsinoMedioCompleto',
       label: 'Ensino Médio Completo',
     },
     {
-      value: 4,
+      value: 'EnsinoMedioIncompleto',
       label: 'Ensino Médio Incompleto',
     },
     {
-      value: 5,
+      value: 'SuperiorCompleto',
       label: 'Superior Completo',
     },
     {
-      value: 6,
+      value: 'SuperiorIncompleto',
       label: 'Superior Incompleto',
     },
     {
-      value: 7,
+      value: 'TecnicoCompleto',
       label: 'Ensino Técnico Completo',
     },
     {
-      value: 8,
+      value: 'TecnicoIncompleto',
       label: 'Ensino Técnico Incompleto',
     },
     {
-      value: 9,
+      value: 'NaoInformado ',
       label: 'Não Informado',
     }
   ];
+
+
+  rendaOpcoes =[
+    {
+      value: 'Formal',
+      label: 'Formal',
+    },
+    {
+      value: 'InformalFormal',
+      label: 'Informal',
+    },
+    {
+      value: 'Aposentadoria',
+      label: 'Aposentadoria',
+    },
+    {
+      value: 'PensaoMorte',
+      label: 'Pensão Morte',
+    },
+    {
+      value: 'PensaoAlimenticia',
+      label: 'Pensão Alimentícia',
+    },
+    {
+      value: 'Bpc',
+      label: 'BPC',
+    }
+  ]
 
   deficienciaOpcoes = [
     {
@@ -176,45 +204,45 @@ export class OpcoesComboService {
 
   familiaDomicilioOpcoes = [
     {
-      value: 1,
+      value: 'Um',
       label: 'Uma Família'
     },
     {
-      value: 2,
+      value: 'Dois',
       label: 'Duas Famílias'
     },
     {
-      value: 3,
+      value: 'Tres',
       label: 'Três Famílias'
     },
     {
-      value: 4,
+      value: 'AcimaDeTres',
       label: 'Mais de Três Familias'
     }
   ];
 
   tempoDeMoradiaOpcoes = [
     {
-      value: 1,
+      value: 'AteUmAno',
       label: 'Até 1 ano'
     },
     {
-      value: 2,
+      value: 'UmACincoAnos',
       label: 'De 1 à 5 anos'
     },
     {
-      value: 3,
+      value: 'DeCincoADezAnos',
       label: 'De 5 à 10 anos'
     },
     {
-      value: 4,
+      value: 'DeDezAVinteAnos',
       label: 'De 10 à 20 anos'
     }, {
-      value: 5,
+      value: 'DeVinteATrintaAnos',
       label: 'De 20 à 30 anos'
     },
     {
-      value: 6,
+      value: 'AcimaDeTrintaAnos ',
       label: 'Acima de 30 anos'
     }
   ];

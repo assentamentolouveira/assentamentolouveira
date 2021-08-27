@@ -27,7 +27,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   public valorRenda: number;
   public tipoRenda: string = '';
   public modalAberto: boolean = false;
-  private dadosTitular:Titular;
+  private dadosTitular: Titular;
 
   public programaContempladoAtivo = false;
   public programaContempladoPaisAtivo = false;
@@ -90,7 +90,17 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     private fb: FormBuilder,
   ) {
     super(injector, new Titulares(), titularesService);
-    this.dadosTitular = JSON.parse(this.titularesService.getTitularInfo())
+    this.dadosTitular = JSON.parse(this.titularesService.getTitularInfo());
+    this.estadoCivilOpcoes = this.opcoesComboService.estadoCivilOpcoes;
+    this.generoOpcoes = this.opcoesComboService.generoOpcoes;
+    this.parentescoOpcoes = this.opcoesComboService.parentescoOpcoes;
+    this.etniaOpcoes = this.opcoesComboService.etniaOpcoes;
+    this.escolaridadeOpcoes = this.opcoesComboService.escolaridadeOpcoes;
+    this.deficienciaOpcoes = this.opcoesComboService.deficienciaOpcoes;
+    this.boleanoOpcoes = this.opcoesComboService.boleanoOpcoes;
+    this.familiaDomicilioOpcoes = this.opcoesComboService.familiaDomicilioOpcoes;
+    this.tempoDeMoradiaOpcoes = this.opcoesComboService.tempoDeMoradiaOpcoes;
+    this.poNotificationService.setDefaultDuration(3000);
   }
 
   ngOnInit(): void {
@@ -116,7 +126,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       estadoCivil: [this.dadosTitular.estadoCivil],
       rendaTotal: [this.dadosTitular.rendaTotal],
       familiaIncProcHabit: [this.dadosTitular.familiaIncProcHabit, Validators.compose([Validators.required])],
-      familiaPorDomicilio: [this.dadosTitular.familiaPorDomicilio, Validators.compose([Validators.required])],
+      quantidadeFamilia: [this.dadosTitular.quantidadeFamilia, Validators.compose([Validators.required])],
       tempoMoradiaBairro: [this.dadosTitular.tempoMoradiaBairro, Validators.compose([Validators.required])],
       tempoMoradiaLouveira: [this.dadosTitular.tempoMoradiaLouveira, Validators.compose([Validators.required])],
       possuiImovel: [this.dadosTitular.possuiImovel, Validators.compose([Validators.required])],
@@ -171,15 +181,6 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   }
 
   initialize(): void {
-    this.estadoCivilOpcoes = this.opcoesComboService.estadoCivilOpcoes;
-    this.generoOpcoes = this.opcoesComboService.generoOpcoes;
-    this.parentescoOpcoes = this.opcoesComboService.parentescoOpcoes;
-    this.etniaOpcoes = this.opcoesComboService.etniaOpcoes;
-    this.escolaridadeOpcoes = this.opcoesComboService.escolaridadeOpcoes;
-    this.deficienciaOpcoes = this.opcoesComboService.deficienciaOpcoes;
-    this.boleanoOpcoes = this.opcoesComboService.boleanoOpcoes;
-    this.familiaDomicilioOpcoes = this.opcoesComboService.familiaDomicilioOpcoes;
-    this.tempoDeMoradiaOpcoes = this.opcoesComboService.tempoDeMoradiaOpcoes;
     this.colunasRenda = this.titularesService.getRendasColumns();
 
     this.rendasService.getRendasById().pipe(

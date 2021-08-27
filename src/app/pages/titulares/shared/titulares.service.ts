@@ -20,7 +20,11 @@ export class TitularesService extends BaseResourceService {
     return this.http.get(`${this.apiPath}/${cpf}`)
   }
 
-  setTitularInfo(titular:Titular): void {
+  setTitularInfo(titular: Titular): void {
+    titular.familiaIncProcHabit = this.converterParaInteiro(titular.familiaIncProcHabit);
+    titular.possuiImovel = this.converterParaInteiro(titular.possuiImovel);
+    titular.programaHabitacional = this.converterParaInteiro(titular.programaHabitacional);
+    titular.regFundOuUsocapiao = this.converterParaInteiro(titular.regFundOuUsocapiao);
     sessionStorage.setItem('titular', JSON.stringify(titular))
     sessionStorage.setItem('idTitular', titular.id)
     this.dadosTitular = titular;
@@ -31,17 +35,17 @@ export class TitularesService extends BaseResourceService {
     return teste//this.dadosTitular;
   }
 
-  criarTitular(titular: Titular):Observable<any> {
-    titular = this.ajustaJsonTitular(titular)
+  criarTitular(titular: Titular): Observable<any> {
+    titular = this.ajustaEnvioJsonTitular(titular)
     return this.http.post(this.apiPath, titular, this.httpOptions);
   }
 
-  alterarTitular(titular: Titular):Observable<any>{
-    titular = this.ajustaJsonTitular(titular)
+  alterarTitular(titular: Titular): Observable<any> {
+    titular = this.ajustaEnvioJsonTitular(titular)
     return this.http.put(`${this.apiPath}/${titular.numeroCPF}`, titular, this.httpOptions);
   }
 
-  ajustaJsonTitular(titular: Titular): Titular {
+  ajustaEnvioJsonTitular(titular: Titular): Titular {
     titular.familiaIncProcHabit = this.converterParaBoleano(titular.familiaIncProcHabit);
     titular.possuiImovel = this.converterParaBoleano(titular.possuiImovel);
     titular.programaHabitacional = this.converterParaBoleano(titular.programaHabitacional);
@@ -50,12 +54,11 @@ export class TitularesService extends BaseResourceService {
   }
 
   converterParaBoleano(valor: number | boolean): boolean {
-    if (valor === 1) {
-      return true
-    } else {
-      return true
-    }
+    return valor ? true : false
+  }
 
+  converterParaInteiro(valor: number | boolean): number {
+    return valor ? 1 : 2
   }
 
   getColumns(): PoTableColumn[] {

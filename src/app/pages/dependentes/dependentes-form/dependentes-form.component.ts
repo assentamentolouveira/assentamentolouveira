@@ -21,7 +21,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   public acoes: Array<PoTableAction> = [
     {
       icon: 'po-icon-edit',
-      label: 'Editar Dependente',
+      label: 'Editar',
       action: this.editarDependente.bind(this)
     }
 
@@ -48,6 +48,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     this.estadoCivilOpcoes = this.opcoesComboService.estadoCivilOpcoes;
     this.escolaridadeOpcoes = this.opcoesComboService.escolaridadeOpcoes;
     this.deficienciaOpcoes = this.opcoesComboService.deficienciaOpcoes;
+    this.poNotificationService.setDefaultDuration(3000);
   }
 
   public formularioDependente: FormGroup;
@@ -119,7 +120,8 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
         res => {
           this.poNotificationService.success('Registro Alterado com Sucesso')
           this.dependenteSelecionado = '';
-        }
+        },
+        error => this.poNotificationService.error(error)
       )
     }
 

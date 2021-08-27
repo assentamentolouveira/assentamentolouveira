@@ -67,6 +67,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     }
     this.edicao = this.router.url.includes('editar')
     this.titularValido = this.edicao;
+    this.poNotificationService.setDefaultDuration(3000);
   }
 
   action(
