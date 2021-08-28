@@ -1,5 +1,6 @@
+import { Dependente } from './../../dependentes/shared/dependente.model';
 import { TitularesService } from './../../titulares/shared/titulares.service';
-import { PoButtonGroupItem, PoPageAction, PoNotificationService } from '@po-ui/ng-components';
+import { PoButtonGroupItem, PoPageAction, PoNotificationService, PoComboOption } from '@po-ui/ng-components';
 import { LoginService } from './../../../core/login/shared/login.service';
 import { Router } from '@angular/router';
 import { AssentamentoService } from './../shared/assentamento.service';
@@ -23,11 +24,14 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   public isTitular = true;
   public isDependente = false;
   public isMoradia = false;
-  public carregando = true;
+  public carregando = false;
 
   private titularValido = false;
   private edicao = false;
   private titular: Titular;
+  private dependentes: Dependente[];
+
+  public comboRenda: PoComboOption[] = [];
 
   botoes: Array<PoButtonGroupItem> = [
     {
@@ -95,6 +99,8 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   formularioTitularValido(formularioValido: FormGroup): boolean {
     if (formularioValido.valid) {
+      this.titular = JSON.parse(this.titularService.getTitularInfo());
+      this.montaComboRenda();
       this.carregando = false;
       if (this.edicao) {
         this.titularService.alterarTitular(formularioValido.value).pipe(
@@ -112,6 +118,17 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     this.titularValido = formularioValido.valid;
     this.titular = formularioValido.value;
     return formularioValido.valid
+  }
+
+  recebeDependentes(dependentes: any): void {
+    this.dependentes = dependentes;
+  }
+
+  montaComboRenda(): void {
+    this.comboRenda.push({ value: this.titular.id, label: this.titular.nomeResponsavel })
+    this.dependentes.map(dependente => this.comboRenda.push({ value: dependente.id, label: dependente.nome }));
+
+    console.log("combo Renda", this.comboRenda)
   }
 
   protected buildResourceForm(): void { }

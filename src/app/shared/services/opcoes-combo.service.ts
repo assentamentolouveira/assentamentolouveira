@@ -306,5 +306,11 @@ export class OpcoesComboService {
     }
   ]
 
-  constructor() { }
+  retornaLabelOpcoes(valor: number | string, combo: any[]): string {
+    let comboFilter = combo.filter(opc => opc.value === valor)
+    return comboFilter[0]?.label ? comboFilter[0].label : '';
+  }
+
+  constructor() {
+   }
 }

@@ -1,5 +1,8 @@
 export interface Renda{
   valorRenda:number;
-  tipoRenda:string;
+  tipo:string;
   descricaoRenda:string;
+  titularId: string;
+  dependenteId: string;
+  responsavel?: string;
 }

@@ -54,7 +54,7 @@ export class TitularesService extends BaseResourceService {
   }
 
   converterParaBoleano(valor: number | boolean): boolean {
-    return valor ? true : false
+    return valor === 1 ? true : false
   }
 
   converterParaInteiro(valor: number | boolean): number {

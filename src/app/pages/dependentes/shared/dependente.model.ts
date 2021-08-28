@@ -1,11 +1,13 @@
 export interface Dependente {
   id: string,
+  cpfFormatado: string,
   nomeResponsavel: string,
   numeroCartaoCidadao: string,
-  numeroCPF: string,
+  numeroCpf: string,
   dataNascimento: Date,
-  parentesco: number,
+  parentesco: number | string,
   estadoCivil: number,
   escolaridade: number,
-  deficiencia: number
+  deficiencia: number,
+  nome: string,
 }

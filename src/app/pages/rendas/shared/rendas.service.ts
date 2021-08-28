@@ -1,3 +1,5 @@
+import { environment } from 'src/environments/environment';
+import { PoTableColumn } from '@po-ui/ng-components';
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,18 +11,37 @@ import { Renda } from './renda.model';
 })
 export class RendasService extends BaseResourceService {
   constructor(protected injector: Injector) {
-    super('api/titulares', injector);
+    super(environment.URL + '/renda', injector);
   }
 
+  getColunas(): PoTableColumn[] {
+    return [
+      {
+        property: 'responsavel',
+        width: '32%',
+        label: 'Responsavel',
+        type: 'string',
+        visible: true,
+      },
+      {
+        property: 'valor',
+        width: '33%',
+        label: 'Nome',
+        format:'BRL',
+        type: 'currency',
+        visible: true,
+      },
+      {
+        property: 'tipo',
+        width: '33%',
+        label: 'Tipo',
+        type: 'string',
+        visible: true,
+      }
+    ];
+  }
   getRendasById(cpf: string = ''): Observable<Renda[]> {
-    const teste = [
-      { valorRenda: 2500.00, tipoRenda: '1', descricaoRenda: 'Formal' },
-      { valorRenda: 750.99, tipoRenda: '2', descricaoRenda: 'Informal' },
-      { valorRenda: 1200.34, tipoRenda: '3', descricaoRenda: 'Aposentadoria' },
-    ]
-    return of(teste).pipe(
-
-    )
+    return this.http.get<Renda[]>(this.apiPath)
   }
 
 }

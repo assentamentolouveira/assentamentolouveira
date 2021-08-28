@@ -112,8 +112,10 @@
   <po-button
     class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10"
     p-label="Salvar Edição"
-    p-icon="po-icon-edit"
+    p-icon="po-icon-ok"
     [p-disabled]="!habilitaConfirmacao"
+    [p-disabled]='realizandoAlteracao'
+    [p-loading]='realizandoAlteracao'
     (p-click)="salvarEdicao()"
   >
   </po-button>

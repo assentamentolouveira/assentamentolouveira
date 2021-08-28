@@ -1,11 +1,12 @@
+import { DocumentPipe } from './../../../shared/pipes/document.pipe';
+import { Dependente } from './../shared/dependente.model';
 import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service';
 import { DependentesService } from './../shared/dependentes.service';
 import { PoTableAction, PoTableColumn, PoNotificationService, PoSelectOption } from '@po-ui/ng-components';
-import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { Dependentes } from '../shared/dependentes.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
-import { Dependente } from '../shared/dependente.model';
 import { take, finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
@@ -30,17 +31,20 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   public dependenteSelecionado: string = '';
   public carregandoTabela = false;
   public habilitaConfirmacao = false;
-
-  private subscriptionFormularioDependente: Subscription;
-
+  public realizandoAlteracao = false;
   public parentescoResponsavelOpcoes: Array<PoSelectOption>;
   public estadoCivilOpcoes: Array<PoSelectOption>;
   public escolaridadeOpcoes: Array<PoSelectOption>;
   public deficienciaOpcoes: Array<PoSelectOption>;
 
+  private subscriptionFormularioDependente: Subscription;
+
+  @Output() enviaDependentes = new EventEmitter()
+
   constructor(private dependentesService: DependentesService
     , private poNotificationService: PoNotificationService
     , private fb: FormBuilder
+    , private documentPipe: DocumentPipe
     , private opcoesComboService: OpcoesComboService
     , protected injector: Injector) {
     super(injector, new Dependentes(), dependentesService);
@@ -79,17 +83,24 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
 
   carregaDados(): void {
     this.carregandoTabela = true;
+    this.realizandoAlteracao = true;
     this.dependentesService.getDepentendesPorTitular(sessionStorage.getItem('idTitular')).pipe(
       take(1),
-      finalize(() => this.carregandoTabela = false)
+      finalize(() => { this.carregandoTabela = false; this.realizandoAlteracao = false })
     ).subscribe(resposta => {
-      resposta = resposta.map((dependente: any) => {
-        return { ...dependente, nome: 'teste' }
-      })
-      console.log(resposta)
+      // resposta = resposta.map((dependente: any) => {
+      //   return { ...dependente, nome: 'teste' }
+      // })
+      const teste = new DocumentPipe()
+      resposta.map(res => { res.parentesco = this.converteParentesco(res), res.cpfFormatado = teste.transform(res.numeroCpf) })
+      this.enviaDependentes.emit(resposta);
       this.listaDependentes = resposta;
-    }
+    }, error => this.poNotificationService.error("Erro ao buscar a Renda")
     );
+  }
+
+  converteParentesco(dependente: Dependente): string {
+    return this.opcoesComboService.retornaLabelOpcoes(dependente.parentesco, this.opcoesComboService.parentescoOpcoes)
   }
 
   carregarMais(): void {
@@ -112,7 +123,8 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
 
   salvarEdicao(): void {
     if (this.formularioDependente.valid) {
-      const dependente = { ...this.formularioDependente.value, id: this.dependenteSelecionado }
+      this.realizandoAlteracao = true;
+      const dependente = { ...this.formularioDependente.value, id: this.dependenteSelecionado, titularId: sessionStorage.getItem('idTitular') }
       this.dependentesService.alteraDependente(dependente).pipe(
         take(1),
         finalize(() => this.carregaDados())

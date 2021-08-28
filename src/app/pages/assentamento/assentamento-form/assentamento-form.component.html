@@ -15,13 +15,15 @@
       <app-titulares-form (formularioTitularValido)="formularioTitularValido($event)"></app-titulares-form>
     </po-step>
     <po-step p-label="Dependentes">
-      <app-dependentes-form></app-dependentes-form>
+      <app-dependentes-form (enviaDependentes)="recebeDependentes($event)"></app-dependentes-form>
     </po-step>
     <po-step p-label="Moradia">
       <app-moradia-form></app-moradia-form>
     </po-step>
     <po-step p-label="Rendas">
-      <app-rendas></app-rendas>
+      <div *ngIf="comboRenda.length > 0">
+        <app-rendas [comboRenda]="comboRenda"></app-rendas>
+      </div>
     </po-step>
   </po-stepper>
 

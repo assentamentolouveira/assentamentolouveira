@@ -4,7 +4,7 @@ import { PoTableColumn } from '@po-ui/ng-components';
 
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { Dependentes } from './dependentes.model';
-import { map } from 'rxjs/operators';
+import { map, mergeMap, switchMap, toArray } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Dependente } from './dependente.model';
 
@@ -26,9 +26,16 @@ export class DependentesService extends BaseResourceService {
         visible: true,
       },
       {
-        property: 'numeroCpf',
-        width: '50%',
+        property: 'cpfFormatado',
+        width: '25%',
         label: 'CPF',
+        type: 'string',
+        visible: true,
+      },
+      {
+        property: 'parentesco',
+        width: '25%',
+        label: 'Parentesco',
         type: 'string',
         visible: true,
       }
@@ -39,8 +46,19 @@ export class DependentesService extends BaseResourceService {
     return of(this.retornaDependentes());
   }
 
-  getDepentendesPorTitular(idTitular:string | null): Observable<any> {
-    return this.http.get(`${this.apiPath}/titular/${idTitular}`)
+  getDepentendesPorTitular(idTitular:string | null): Observable<Dependente[]> {
+    return this.http.get<Dependente[]>(`${this.apiPath}/titular/${idTitular}`).pipe(
+      switchMap((dependentes) => dependentes),
+      mergeMap(a=> {
+        return this.getDetalhesDependentesCartaoCidadao(a).pipe(
+          map(dependente => dependente)
+        );
+      })
+    , toArray())
+  }
+
+  getDetalhesDependentesCartaoCidadao(dependente:Dependente): Observable<Dependente>{
+    return of<Dependente>({...dependente, nome:'desenvolvimento', parentesco:'filho'})
   }
 
   alteraDependente(dependente: Dependente):Observable<any>{

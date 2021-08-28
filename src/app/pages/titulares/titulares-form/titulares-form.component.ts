@@ -189,7 +189,8 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
 
     this.formularioTitular.valueChanges.subscribe(res => {
       this.formularioTitular.valid ? true : false;
-    })
+    }
+    ,error => this.poNotificationService.error("Erro ao buscar a Renda") )
   }
 
   jaContempladoSelecionado(selecionado: number) {
