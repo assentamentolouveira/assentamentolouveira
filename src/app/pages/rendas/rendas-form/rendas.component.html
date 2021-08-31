@@ -1,64 +1,73 @@
-
 <form [formGroup]="formularioRendas">
   <div class="po-mt-2 po-xl-12 po-lg-12">
     <div class="po-row">
-    <po-combo
-      class="po-lg-4"
-      [p-clean]="true"
-      p-label="Titular da Renda"
-      [p-options]="comboRenda"
-      p-placeholder="Selecione o Responsável pela Renda"
-      [p-clean]="true"
-      formControlName="responsavelRenda"
-    >
-      <ng-template p-combo-option-template let-option>
-        <div class="po-row">
-          <po-avatar class="po-sm-2 po-md-3 po-lg-1" p-size="sm"></po-avatar>
+      <po-combo
+        class="po-lg-4"
+        [p-clean]="true"
+        p-label="Titular da Renda"
+        [p-options]="comboRenda"
+        p-placeholder="Selecione o Responsável pela Renda"
+        [p-clean]="true"
+        formControlName="responsavelRenda"
+      >
+        <ng-template p-combo-option-template let-option>
+          <div class="po-row">
+            <po-avatar class="po-sm-2 po-md-3 po-lg-1" p-size="sm"></po-avatar>
 
-          <div class="po-sm-10 po-md-9 po-lg-11">
-            <div class="po-font-text-large-bold">Nome: {{ option.label }}</div>
+            <div class="po-sm-10 po-md-9 po-lg-11">
+              <div class="po-font-text-large-bold">
+                Nome: {{ option.label }}
+              </div>
+            </div>
           </div>
-        </div>
-      </ng-template>
-    </po-combo>
-    <po-decimal
-      class="po-lg-4"
-      p-label="Valor da Renda (R$)"
-      p-placeholder="Informe o valor da renda em Reais"
-      p-clean="true"
-      [p-decimals-length]="2"
-      formControlName="valorRenda"
-    ></po-decimal>
-    <po-combo
-      class="po-lg-4"
-      [p-clean]="true"
-      p-label="Tipo de Renda"
-      [p-options]="rendaOpcoes"
-      p-placeholder="Selecione o Tipo de Renda"
-      [p-clean]="true"
-      formControlName="tipoRenda"
-    >
-    </po-combo>
+        </ng-template>
+      </po-combo>
+      <po-decimal
+        class="po-lg-4"
+        p-label="Valor da Renda (R$)"
+        p-placeholder="Informe o valor da renda em Reais"
+        p-clean="true"
+        [p-decimals-length]="2"
+        formControlName="valor"
+      ></po-decimal>
+      <po-combo
+        class="po-lg-4"
+        [p-clean]="true"
+        p-label="Tipo de Renda"
+        [p-options]="rendaOpcoes"
+        p-placeholder="Selecione o Tipo de Renda"
+        [p-clean]="true"
+        formControlName="tipo"
+      >
+      </po-combo>
+    </div>
+    <div class="po-row">
+      <po-button
+        *ngIf="edicao"
+        class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-8 po-offset-xl-8"
+        p-label="Cancelar"
+        p-icon="po-icon-close"
+        (p-click)="cancelaEdicao()"
+      >
+      </po-button>
+      <po-button
+        [ngClass]="classSalvar"
+        [p-label]="legendaBotao"
+        [p-icon]="iconeBotao"
+        (p-click)="incluirEditarRenda()"
+      >
+      </po-button>
+    </div>
   </div>
-  <div class="po-row">
-    <po-button
-      class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10"
-      [p-label]="legendaBotao"
-      [p-icon]="iconeBotao"
-    >
-    </po-button>
-  </div>
-</div>
-
 </form>
 
 <br />
 <po-divider p-label="Lista de Dependentes"></po-divider>
-  <po-table
-    [p-columns]="colunas"
-    [p-hide-columns-manager]="true"
-    [p-items]="listaRendas"
-    [p-actions]="acoes"
-    [p-height]="300"
-    [p-infinite-scroll]="true"
-  ></po-table>
+<po-table
+  [p-columns]="colunas"
+  [p-hide-columns-manager]="true"
+  [p-items]="listaRendas"
+  [p-actions]="acoes"
+  [p-height]="300"
+  [p-infinite-scroll]="true"
+></po-table>

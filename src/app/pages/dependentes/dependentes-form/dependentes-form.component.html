@@ -1,4 +1,3 @@
-
 <!-- <div *ngIf="dependenteSelecionado === 0; else formularioTitular">
   <p class="po-font-title" style="text-align: center; padding: 10px">
     Nenhum Dependente Selecionado.
@@ -110,12 +109,19 @@
     </div>
   </form>
   <po-button
-    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10"
+    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-8 po-offset-xl-8"
+    p-label="Cancelar"
+    p-icon="po-icon-close"
+    [p-disabled]="!habilitaConfirmacao"
+    (p-click)="cancelarEdicao()"
+  >
+  </po-button>
+  <po-button
+    class="po-sm-12 po-lg-2 po-xl-2"
     p-label="Salvar Edição"
     p-icon="po-icon-ok"
     [p-disabled]="!habilitaConfirmacao"
-    [p-disabled]='realizandoAlteracao'
-    [p-loading]='realizandoAlteracao'
+    [p-loading]="realizandoAlteracao"
     (p-click)="salvarEdicao()"
   >
   </po-button>
@@ -129,7 +135,7 @@
   [p-items]="listaDependentes"
   [p-actions]="acoes"
   [p-height]="300"
-  [p-loading]='carregandoTabela'
+  [p-loading]="carregandoTabela"
   (p-show-more)="carregarMais()"
   [p-infinite-scroll]="true"
 ></po-table>

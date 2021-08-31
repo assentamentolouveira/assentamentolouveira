@@ -104,7 +104,6 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   }
 
   ngOnInit(): void {
-    console.log(this.dadosTitular)
     super.ngOnInit();
     this.criaFormulario();
     this.initialize();

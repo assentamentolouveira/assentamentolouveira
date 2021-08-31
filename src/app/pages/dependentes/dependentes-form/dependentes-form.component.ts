@@ -121,6 +121,11 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     })
   }
 
+  cancelarEdicao(): void {
+    this.dependenteSelecionado = '';
+    this.poNotificationService.warning("Alteração Cancelada");
+  }
+
   salvarEdicao(): void {
     if (this.formularioDependente.valid) {
       this.realizandoAlteracao = true;

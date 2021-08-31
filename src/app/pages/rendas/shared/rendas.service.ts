@@ -17,7 +17,19 @@ export class RendasService extends BaseResourceService {
   getColunas(): PoTableColumn[] {
     return [
       {
-        property: 'responsavel',
+        property: 'id',
+        label: 'id',
+        type: 'string',
+        visible: false,
+      },
+      {
+        property: 'dependenteId',
+        label: 'dependenteId',
+        type: 'string',
+        visible: false,
+      },
+      {
+        property: 'responsavelRenda',
         width: '32%',
         label: 'Responsavel',
         type: 'string',
@@ -27,12 +39,12 @@ export class RendasService extends BaseResourceService {
         property: 'valor',
         width: '33%',
         label: 'Nome',
-        format:'BRL',
+        format: 'BRL',
         type: 'currency',
         visible: true,
       },
       {
-        property: 'tipo',
+        property: 'descricaoRenda',
         width: '33%',
         label: 'Tipo',
         type: 'string',
@@ -42,6 +54,24 @@ export class RendasService extends BaseResourceService {
   }
   getRendasById(cpf: string = ''): Observable<Renda[]> {
     return this.http.get<Renda[]>(this.apiPath)
+  }
+
+  criarRenda(renda: Renda): Observable<any> {
+    const rendaTRatada = this.trataRenda(renda);
+    return this.http.post(this.apiPath, rendaTRatada, this.httpOptions);
+  }
+
+  alterarRenda(renda: Renda): Observable<any> {
+    const rendaTRatada = this.trataRenda(renda);
+    return this.http.put(`${this.apiPath}/${rendaTRatada.id}`, rendaTRatada, this.httpOptions);
+  }
+
+  trataRenda(renda: Renda): Renda {
+    if (renda.titularId === renda.responsavelRenda) {
+    } else {
+      renda.dependenteId = renda.dependenteId;
+    }
+    return renda
   }
 
 }
