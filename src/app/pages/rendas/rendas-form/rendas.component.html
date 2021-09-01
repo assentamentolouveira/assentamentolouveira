@@ -9,6 +9,7 @@
         p-placeholder="Selecione o Responsável pela Renda"
         [p-clean]="true"
         formControlName="responsavelRenda"
+        [p-required]=true
       >
         <ng-template p-combo-option-template let-option>
           <div class="po-row">
@@ -29,7 +30,8 @@
         p-clean="true"
         [p-decimals-length]="2"
         formControlName="valor"
-      ></po-decimal>
+        p-required=true
+        ></po-decimal>
       <po-combo
         class="po-lg-4"
         [p-clean]="true"
@@ -38,6 +40,7 @@
         p-placeholder="Selecione o Tipo de Renda"
         [p-clean]="true"
         formControlName="tipo"
+        [p-required]=true
       >
       </po-combo>
     </div>
@@ -48,6 +51,8 @@
         p-label="Cancelar"
         p-icon="po-icon-close"
         (p-click)="cancelaEdicao()"
+        [p-disabled]="!habilitaConfirmacao"
+        [p-loading]="realizandoAlteracaoAlteracao"
       >
       </po-button>
       <po-button
@@ -55,6 +60,8 @@
         [p-label]="legendaBotao"
         [p-icon]="iconeBotao"
         (p-click)="incluirEditarRenda()"
+        [p-disabled]="!habilitaConfirmacao"
+        [p-loading]="realizandoAlteracaoAlteracao"
       >
       </po-button>
     </div>
@@ -71,3 +78,12 @@
   [p-height]="300"
   [p-infinite-scroll]="true"
 ></po-table>
+<div class="po-row">
+  <po-info
+    class="po-md-6 po-mt-3 po-mb-sm-2 po-mb-md-2 po-lb-lg-2"
+    p-label="Total da Renda"
+    p-value="{{ somaRenda | currency: 'BRL' }}"
+    [p-orientation]="poInfoOrientation"
+  >
+  </po-info>
+</div>

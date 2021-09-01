@@ -126,7 +126,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   montaComboRenda(): void {
     this.comboRenda.push({ value: this.titular.id, label: this.titular.nomeResponsavel })
-    this.dependentes.map(dependente => this.comboRenda.push({ value: dependente.id, label: dependente.nome }));
+    this.dependentes?.map(dependente => this.comboRenda.push({ value: dependente.id, label: dependente.nome }));
 
     console.log("combo Renda", this.comboRenda)
   }

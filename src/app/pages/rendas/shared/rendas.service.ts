@@ -1,10 +1,10 @@
 import { environment } from 'src/environments/environment';
 import { PoTableColumn } from '@po-ui/ng-components';
-import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { Renda } from './renda.model';
+import { Injectable, Injector } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +58,7 @@ export class RendasService extends BaseResourceService {
 
   criarRenda(renda: Renda): Observable<any> {
     const rendaTRatada = this.trataRenda(renda);
+    delete rendaTRatada.id;
     return this.http.post(this.apiPath, rendaTRatada, this.httpOptions);
   }
 
@@ -66,10 +67,15 @@ export class RendasService extends BaseResourceService {
     return this.http.put(`${this.apiPath}/${rendaTRatada.id}`, rendaTRatada, this.httpOptions);
   }
 
+  excluirRenda(id:string): Observable<any>{
+    return this.http.delete<Renda[]>(`${this.apiPath}/${id}`)
+  }
+
   trataRenda(renda: Renda): Renda {
     if (renda.titularId === renda.responsavelRenda) {
+      delete renda.dependenteId;
     } else {
-      renda.dependenteId = renda.dependenteId;
+      renda.dependenteId = renda.responsavelRenda;
     }
     return renda
   }

@@ -49,16 +49,16 @@ export class DependentesService extends BaseResourceService {
   getDepentendesPorTitular(idTitular:string | null): Observable<Dependente[]> {
     return this.http.get<Dependente[]>(`${this.apiPath}/titular/${idTitular}`).pipe(
       switchMap((dependentes) => dependentes),
-      mergeMap(a=> {
-        return this.getDetalhesDependentesCartaoCidadao(a).pipe(
+      mergeMap((a,index)=> {
+        return this.getDetalhesDependentesCartaoCidadao(a, index).pipe(
           map(dependente => dependente)
         );
       })
     , toArray())
   }
 
-  getDetalhesDependentesCartaoCidadao(dependente:Dependente): Observable<Dependente>{
-    return of<Dependente>({...dependente, nome:'desenvolvimento', parentesco:'filho'})
+  getDetalhesDependentesCartaoCidadao(dependente:Dependente, index:number): Observable<Dependente>{
+    return of<Dependente>({...dependente, nome:'desenvolvimento' + index, parentesco:'filho'})
   }
 
   alteraDependente(dependente: Dependente):Observable<any>{

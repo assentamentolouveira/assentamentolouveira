@@ -95,7 +95,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       resposta.map(res => { res.parentesco = this.converteParentesco(res), res.cpfFormatado = teste.transform(res.numeroCpf) })
       this.enviaDependentes.emit(resposta);
       this.listaDependentes = resposta;
-    }, error => this.poNotificationService.error("Erro ao buscar a Renda")
+    }, error => { this.poNotificationService.error("Erro ao buscar a Renda"), this.enviaDependentes.emit([]); }
     );
   }
 
