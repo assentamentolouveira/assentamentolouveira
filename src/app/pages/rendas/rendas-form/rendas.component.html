@@ -9,7 +9,7 @@
         p-placeholder="Selecione o Responsável pela Renda"
         [p-clean]="true"
         formControlName="responsavelRenda"
-        [p-required]=true
+        [p-required]="true"
       >
         <ng-template p-combo-option-template let-option>
           <div class="po-row">
@@ -30,8 +30,8 @@
         p-clean="true"
         [p-decimals-length]="2"
         formControlName="valor"
-        p-required=true
-        ></po-decimal>
+        p-required="true"
+      ></po-decimal>
       <po-combo
         class="po-lg-4"
         [p-clean]="true"
@@ -40,7 +40,7 @@
         p-placeholder="Selecione o Tipo de Renda"
         [p-clean]="true"
         formControlName="tipo"
-        [p-required]=true
+        [p-required]="true"
       >
       </po-combo>
     </div>
@@ -69,7 +69,8 @@
 </form>
 
 <br />
-<po-divider p-label="Lista de Dependentes"></po-divider>
+<po-divider p-label="Lista de Dependentes" class="po-mt-2"></po-divider>
+<div *ngIf="isDesktop" else #cardsRenda></div>
 <po-table
   [p-columns]="colunas"
   [p-hide-columns-manager]="true"
@@ -79,6 +80,27 @@
   [p-loading]="realizandoAlteracaoAlteracao"
   [p-infinite-scroll]="true"
 ></po-table>
+
+<ng-template #cardsRenda>
+  <div class="po-row" *ngFor="let listaRenda of listaRendas">
+    <po-widget
+      class="po-md-12 po-lg-12 po-xl-12 po-mt-2"
+      p-primary-label="Editar"
+      (p-primary-action)="editarRendas(listaRenda)"
+      p-secondary-label="Excluir"
+      (p-secondary-action)="confirmaExclusao(listaRenda)"
+    >
+      <div class="po-font-subtitle">
+        Responsável: {{ listaRenda.responsavelRenda }}
+      </div>
+      <div class="po-font-subtitle po-text-center">
+        {{ listaRenda?.valor | currency: "BRL":true }}
+      </div>
+      <div class="po-text-center">{{ listaRenda.descricaoRenda }}</div>
+    </po-widget>
+  </div>
+</ng-template>
+
 <div class="po-row">
   <po-info
     class="po-md-6 po-mt-3 po-mb-sm-2 po-mb-md-2 po-lb-lg-2"

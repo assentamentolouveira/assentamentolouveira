@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators'
 import { Renda } from '../shared/renda.model';
 import { take } from 'rxjs/operators';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-rendas',
@@ -27,6 +28,7 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
 
   public realizandoAlteracaoAlteracao = false;
   public habilitaConfirmacao = false;
+  public isDesktop = true;
 
   public acoes: Array<PoTableAction> = [
     {
@@ -56,9 +58,11 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
     private opcoesComboService: OpcoesComboService,
     private rendasService: RendasService,
     private poNotificationService: PoNotificationService,
-    private poAlert: PoDialogService) {
+    private poAlert: PoDialogService,
+    private deviceService: DeviceDetectorService) {
     this.initialize();
     this.colunas = this.rendasService.getColunas()
+    this.isDesktop = this.deviceService.isDesktop();
   }
 
   ngOnInit() {
@@ -132,12 +136,12 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
     })
   }
 
-  confirmaExclusao(rendaSelecionada: { id: string }): void {
+  confirmaExclusao(rendaSelecionada: Renda): void {
     this.poAlert.confirm({
       literals: { cancel: "Cancelar", confirm: "Confirmar" },
       title: "Confirmação de Exclusão",
       message: "Deseja realmente excluir a renda selecionada?",
-      confirm: () => this.excluiRenda(rendaSelecionada.id)
+      confirm: () => this.excluiRenda(String(rendaSelecionada.id))
     });
   }
 
