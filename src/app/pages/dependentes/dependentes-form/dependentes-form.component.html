@@ -95,8 +95,7 @@
         [p-options]="escolaridadeOpcoes"
         p-placeholder="Selecione o Grau de Escolaridade"
         [p-clean]="true"
-        [p-disabled-init-filter]=true
-
+        [p-disabled-init-filter]="true"
       >
       </po-combo>
       <po-combo
@@ -111,7 +110,7 @@
     </div>
   </form>
   <po-button
-    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-8 po-offset-xl-8"
+    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-8 po-offset-xl-8 po-mb-1"
     p-label="Cancelar"
     p-icon="po-icon-close"
     [p-disabled]="!habilitaConfirmacao"
@@ -120,7 +119,7 @@
   >
   </po-button>
   <po-button
-    class="po-sm-12 po-lg-2 po-xl-2"
+    class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
     p-label="Salvar Edição"
     p-icon="po-icon-ok"
     [p-disabled]="!habilitaConfirmacao"
@@ -132,12 +131,32 @@
 
 <br />
 <po-divider p-label="Lista de Dependentes"></po-divider>
-<po-table
-  [p-columns]="colunas"
-  [p-hide-columns-manager]="true"
-  [p-items]="listaDependentes"
-  [p-actions]="acoes"
-  [p-height]="300"
-  [p-loading]="carregandoTabela"
-  [p-infinite-scroll]="true"
-></po-table>
+<div *ngIf="isDesktop; else dependente">
+  <po-table
+    [p-columns]="colunas"
+    [p-hide-columns-manager]="true"
+    [p-items]="listaDependentes"
+    [p-actions]="acoes"
+    [p-height]="300"
+    [p-loading]="carregandoTabela"
+    [p-infinite-scroll]="true"
+  ></po-table>
+</div>
+
+<ng-template #dependente>
+  <div class="po-row po-mt-1" *ngFor="let listaDependente of listaDependentes">
+    <po-widget
+      class="po-md-12 po-lg-12 po-xl-12"
+      p-primary-label="Editar"
+      (p-primary-action)="editarDependente(listaDependente)"
+    >
+      <div class="po-font-text-large-bold">
+        Nome: {{ listaDependente.nome }}
+      </div>
+      <div class="po-font-subtitle po-text-center">
+        {{ listaDependente.cpfFormatado }}
+      </div>
+      <div class="po-text-center">{{ listaDependente.parentesco }}</div>
+    </po-widget>
+  </div>
+</ng-template>

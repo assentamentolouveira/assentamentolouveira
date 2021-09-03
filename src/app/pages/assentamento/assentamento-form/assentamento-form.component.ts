@@ -131,6 +131,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   montaComboRenda(): void {
     const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
+    this.comboRenda = [];
     this.comboRenda.push({ value: String(sessionStorage.getItem('idTitular')), label: dadosTitular.nomeResponsavel })
     this.dependentes?.map(dependente => this.comboRenda.push({ value: dependente.id, label: dependente.nome }));
 

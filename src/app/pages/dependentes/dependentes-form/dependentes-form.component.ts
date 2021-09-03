@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { take, finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-dependentes-form',
@@ -36,6 +37,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   public estadoCivilOpcoes: Array<PoSelectOption>;
   public escolaridadeOpcoes: Array<PoSelectOption>;
   public deficienciaOpcoes: Array<PoSelectOption>;
+  public isDesktop = false;
 
   private subscriptionFormularioDependente: Subscription;
 
@@ -46,13 +48,15 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     , private fb: FormBuilder
     , private documentPipe: DocumentPipe
     , private opcoesComboService: OpcoesComboService
-    , protected injector: Injector) {
+    , protected injector: Injector
+    , private deviceService: DeviceDetectorService) {
     super(injector, new Dependentes(), dependentesService);
     this.parentescoResponsavelOpcoes = this.opcoesComboService.parentescoResponsavelOpcoes;
     this.estadoCivilOpcoes = this.opcoesComboService.estadoCivilOpcoes;
     this.escolaridadeOpcoes = this.opcoesComboService.escolaridadeOpcoes;
     this.deficienciaOpcoes = this.opcoesComboService.deficienciaOpcoes;
     this.poNotificationService.setDefaultDuration(3000);
+    this.isDesktop = this.deviceService.isDesktop();
   }
 
   public formularioDependente: FormGroup;

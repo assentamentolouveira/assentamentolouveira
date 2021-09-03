@@ -114,10 +114,10 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
   defineClasseBotaoSalvar(valorDefault: boolean): void {
     if (valorDefault) {
       this.legendaBotao = "Adicionar Renda"
-      this.classSalvar = "po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10"
+      this.classSalvar = "po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mb-2"
     } else {
       this.legendaBotao = "Editar Renda";
-      this.classSalvar = "po-sm-12 po-lg-2 po-xl-2"
+      this.classSalvar = "po-sm-12 po-lg-2 po-xl-2 po-mb-2"
     }
   }
   editarRendas(rendaSelecionada: Renda): void {

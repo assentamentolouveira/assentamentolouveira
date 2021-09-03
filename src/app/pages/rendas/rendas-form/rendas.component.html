@@ -47,7 +47,7 @@
     <div class="po-row">
       <po-button
         *ngIf="edicao"
-        class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-8 po-offset-xl-8"
+        class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-8 po-offset-xl-8 po-mb-1"
         p-label="Cancelar"
         p-icon="po-icon-close"
         (p-click)="cancelaEdicao()"
@@ -68,29 +68,29 @@
   </div>
 </form>
 
-<br />
-<po-divider p-label="Lista de Dependentes" class="po-mt-2"></po-divider>
-<div *ngIf="isDesktop" else #cardsRenda></div>
-<po-table
-  [p-columns]="colunas"
-  [p-hide-columns-manager]="true"
-  [p-items]="listaRendas"
-  [p-actions]="acoes"
-  [p-height]="300"
-  [p-loading]="realizandoAlteracaoAlteracao"
-  [p-infinite-scroll]="true"
-></po-table>
+<po-divider p-label="Lista de Dependentes"></po-divider>
+<div *ngIf="isDesktop else cardsRenda">
+  <po-table
+    [p-columns]="colunas"
+    [p-hide-columns-manager]="true"
+    [p-items]="listaRendas"
+    [p-actions]="acoes"
+    [p-height]="300"
+    [p-loading]="realizandoAlteracaoAlteracao"
+    [p-infinite-scroll]="true"
+  ></po-table>
+</div>
 
 <ng-template #cardsRenda>
-  <div class="po-row" *ngFor="let listaRenda of listaRendas">
+  <div class="po-row po-mt-1" *ngFor="let listaRenda of listaRendas">
     <po-widget
-      class="po-md-12 po-lg-12 po-xl-12 po-mt-2"
+      class="po-md-12 po-lg-12 po-xl-12"
       p-primary-label="Editar"
       (p-primary-action)="editarRendas(listaRenda)"
       p-secondary-label="Excluir"
       (p-secondary-action)="confirmaExclusao(listaRenda)"
     >
-      <div class="po-font-subtitle">
+      <div class="po-font-text-large-bold">
         Responsável: {{ listaRenda.responsavelRenda }}
       </div>
       <div class="po-font-subtitle po-text-center">
