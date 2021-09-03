@@ -55,7 +55,8 @@ export class TermoAceiteComponent implements OnInit {
         this.titularesService.setTitularInfo(res)
         this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/editar`]);
       },
-        () => {
+        (res) => {
+          this.titularesService.setTitularInfo();
           this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/`]);
         })
     }

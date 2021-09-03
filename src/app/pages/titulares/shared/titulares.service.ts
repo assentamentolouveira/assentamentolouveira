@@ -1,3 +1,5 @@
+import { DependentesService } from './../../dependentes/shared/dependentes.service';
+import { TitularCartaoCidadao } from './titular-cartao-cidadao.model';
 import { Titular } from './titular.model';
 import { Observable } from 'rxjs';
 import { Injectable, Injector } from '@angular/core';
@@ -5,44 +7,85 @@ import { PoTableColumn } from '@po-ui/ng-components';
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { Titulares } from './titulares.model';
 import { environment } from 'src/environments/environment';
+import { mergeMap, switchMap, toArray } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TitularesService extends BaseResourceService {
-  constructor(protected injector: Injector) {
+  constructor(protected injector: Injector, private dependentesService: DependentesService) {
     super(environment.URL + '/titular', injector);
   }
 
-  private dadosTitular: Titular;
+  private dadosTitular: Titular = this.novoTitular();
+  private dadosTitularCartaoCidadao: TitularCartaoCidadao;
 
   getTitularByCPF(cpf: string): Observable<any> {
     return this.http.get(`${this.apiPath}/${cpf}`)
   }
 
-  setTitularInfo(titular: Titular): void {
+  setTitularInfo(titular: Titular = this.novoTitular()): void {
     titular.familiaIncProcHabit = this.converterParaInteiro(titular.familiaIncProcHabit);
     titular.possuiImovel = this.converterParaInteiro(titular.possuiImovel);
     titular.programaHabitacional = this.converterParaInteiro(titular.programaHabitacional);
     titular.regFundOuUsocapiao = this.converterParaInteiro(titular.regFundOuUsocapiao);
-    sessionStorage.setItem('titular', JSON.stringify(titular))
+
+    this.dadosTitular.aondeRegFundOuUsocapiao = titular.aondeRegFundOuUsocapiao;
+    this.dadosTitular.assentamento = titular.assentamento;
+    this.dadosTitular.escolaridade = titular.escolaridade;
+    this.dadosTitular.etnia = titular.etnia;
+    this.dadosTitular.familiaIncProcHabit = titular.familiaIncProcHabit;
+    this.dadosTitular.genero = titular.genero;
+    this.dadosTitular.id = titular.id;
+    this.dadosTitular.numeroCpf = titular.numeroCpf;
+    this.dadosTitular.numeroSelagemAntiga = titular.numeroSelagemAntiga;
+    this.dadosTitular.numeroSelagemAtual = titular.numeroSelagemAtual;
+    this.dadosTitular.possuiImovel = titular.possuiImovel;
+    this.dadosTitular.programaHabitacional = titular.programaHabitacional;
+    this.dadosTitular.qualLocalDoImovel = titular.qualLocalDoImovel;
+    this.dadosTitular.qualProgHabitacional = titular.qualProgHabitacional;
+    this.dadosTitular.qualRegFundOuUsocapiao = titular.qualRegFundOuUsocapiao;
+    this.dadosTitular.quantidadeFamilia = titular.quantidadeFamilia;
+    this.dadosTitular.regFundOuUsocapiao = titular.regFundOuUsocapiao;
+    this.dadosTitular.tempoMoradiaBairro = titular.tempoMoradiaBairro;
+    this.dadosTitular.tempoMoradiaLouveira = titular.tempoMoradiaLouveira;
+
+    sessionStorage.removeItem('titular');
+    sessionStorage.removeItem('idTitular');
+    sessionStorage.setItem('titular', JSON.stringify(this.dadosTitular))
     sessionStorage.setItem('idTitular', titular.id)
-    this.dadosTitular = titular;
   }
 
   getTitularInfo(): any {
-    const teste = sessionStorage.getItem('titular')
-    return teste//this.dadosTitular;
+    return sessionStorage.getItem('titular');
   }
 
   criarTitular(titular: Titular): Observable<any> {
     titular = this.ajustaEnvioJsonTitular(titular)
-    return this.http.post(this.apiPath, titular, this.httpOptions);
+    return this.http.post(this.apiPath, titular, this.httpOptions).pipe(
+      //   mergeMap((titualar,index)=> {
+      //     return this.getDetalhesDependentesCartaoCidadao(a, index).pipe(
+      //       map(dependente => dependente)
+      //     );
+      //   })
+      // , toArray()
+    )
   }
+
+  gravaDadosTitularCartaoCidadao(dadosCartaoCidade: TitularCartaoCidadao): void {
+    this.dadosTitular.nomeResponsavel = dadosCartaoCidade.nomeResponsavel;
+    this.dadosTitular.numeroCartaoCidadao = dadosCartaoCidade.numeroCartaoCidadao;
+    this.dadosTitular.deficiencia = dadosCartaoCidade.deficiencia;
+    this.dadosTitular.estadoCivil = dadosCartaoCidade.estadoCivil;
+    this.dadosTitular.dependentes = dadosCartaoCidade.dependentes;
+    this.dadosTitular.dataNascimento = dadosCartaoCidade.dataNascimento;
+  }
+
+
 
   alterarTitular(titular: Titular): Observable<any> {
     titular = this.ajustaEnvioJsonTitular(titular)
-    return this.http.put(`${this.apiPath}/${titular.numeroCPF}`, titular, this.httpOptions);
+    return this.http.put(`${this.apiPath}/${titular.numeroCpf}`, titular, this.httpOptions);
   }
 
   ajustaEnvioJsonTitular(titular: Titular): Titular {
@@ -118,5 +161,36 @@ export class TitularesService extends BaseResourceService {
         visible: true,
       }
     ];
+  }
+
+  novoTitular(): Titular {
+    return {
+      id: "",
+      assentamento: "",
+      numeroSelagemAtual: "",
+      numeroSelagemAntiga: "",
+      nomeResponsavel: "",
+      numeroCartaoCidadao: "",
+      numeroCpf: "",
+      dataNascimento: "",
+      genero: 1,
+      etnia: 1,
+      escolaridade: 1,
+      deficiencia: "",
+      estadoCivil: 1,
+      rendaTotal: 1,
+      familiaIncProcHabit: 1,
+      quantidadeFamilia: 1,
+      tempoMoradiaBairro: 1,
+      tempoMoradiaLouveira: 1,
+      possuiImovel: 1,
+      qualLocalDoImovel: "",
+      programaHabitacional: 1,
+      qualProgHabitacional: "",
+      regFundOuUsocapiao: 1,
+      qualRegFundOuUsocapiao: "",
+      aondeRegFundOuUsocapiao: "",
+      dependentes: ""
+    }
   }
 }

@@ -12,17 +12,19 @@
 
   <po-stepper [p-step-icons]=true>
     <po-step p-label="Titulare" [p-can-active-next-step]="dependenteValido.bind(this)">
-      <app-titulares-form (formularioTitularValido)="formularioTitularValido($event)"></app-titulares-form>
+      <app-titulares-form [edicao]="edicao" (formularioTitularValido)="formularioTitularValido($event)"></app-titulares-form>
     </po-step>
     <po-step p-label="Dependentes">
-      <app-dependentes-form (enviaDependentes)="recebeDependentes($event)"></app-dependentes-form>
+      <div *ngIf="titularValido">
+        <app-dependentes-form (enviaDependentes)="recebeDependentes($event)"></app-dependentes-form>
+      </div>
     </po-step>
     <po-step p-label="Moradia">
       <app-moradia-form></app-moradia-form>
     </po-step>
     <po-step p-label="Rendas">
-      <div *ngIf="comboRenda.length > 0">
-        <app-rendas [comboRenda]="comboRenda"></app-rendas>
+      <div *ngIf="habilitaRenda">
+        <app-rendas [comboRenda]=comboRenda></app-rendas>
       </div>
     </po-step>
   </po-stepper>

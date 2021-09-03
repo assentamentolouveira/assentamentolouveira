@@ -24,10 +24,12 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   public isTitular = true;
   public isDependente = false;
   public isMoradia = false;
-  public carregando = false;
+  public carregando = true;
+  public habilitaRenda = false;
+  public titularValido = false;
+  public edicao = false;
 
-  private titularValido = false;
-  private edicao = false;
+
   private titular: Titular;
   private dependentes: Dependente[];
 
@@ -92,42 +94,47 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   dependenteValido(): boolean {
     if (!this.titularValido) {
-      this.poNotificationService.error("Informe os campos obrigatórios")
+      this.poNotificationService.error("Informe os campos obrigatórios do Titular")
     }
     return this.titularValido
   }
 
   formularioTitularValido(formularioValido: FormGroup): boolean {
+    this.titular = JSON.parse(this.titularService.getTitularInfo());
     if (formularioValido.valid) {
-      this.titular = JSON.parse(this.titularService.getTitularInfo());
-      this.montaComboRenda();
       this.carregando = false;
       if (this.edicao) {
         this.titularService.alterarTitular(formularioValido.value).pipe(
           take(1),
-          finalize(() => this.carregando = true)
-        ).subscribe(res => console.log(res), error => console.error(error))
+          finalize(() => { this.carregando = true })
+        ).subscribe(res => this.titularValido = true, error => console.error(error))
       } else {
         this.titularService.criarTitular(formularioValido.value).pipe(
           take(1),
           finalize(() => this.carregando = true)
-        ).subscribe(res => console.log(res), error => console.error(error))
+        ).subscribe(res => {
+          this.titularService.setTitularInfo(res),
+          this.titularValido = true
+        }
+        , error => console.error(error))
       }
     }
 
-    this.titularValido = formularioValido.valid;
     this.titular = formularioValido.value;
     return formularioValido.valid
   }
 
   recebeDependentes(dependentes: any): void {
     this.dependentes = dependentes;
+    this.montaComboRenda();
   }
 
   montaComboRenda(): void {
-    this.comboRenda.push({ value: this.titular.id, label: this.titular.nomeResponsavel })
+    const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
+    this.comboRenda.push({ value: String(sessionStorage.getItem('idTitular')), label: dadosTitular.nomeResponsavel })
     this.dependentes?.map(dependente => this.comboRenda.push({ value: dependente.id, label: dependente.nome }));
 
+    this.habilitaRenda = true;
     console.log("combo Renda", this.comboRenda)
   }
 

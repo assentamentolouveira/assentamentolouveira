@@ -115,6 +115,7 @@
     p-label="Cancelar"
     p-icon="po-icon-close"
     [p-disabled]="!habilitaConfirmacao"
+    [p-loading]="realizandoAlteracao"
     (p-click)="cancelarEdicao()"
   >
   </po-button>
@@ -138,6 +139,5 @@
   [p-actions]="acoes"
   [p-height]="300"
   [p-loading]="carregandoTabela"
-  (p-show-more)="carregarMais()"
   [p-infinite-scroll]="true"
 ></po-table>

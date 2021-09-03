@@ -22,7 +22,7 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
   public listaRendas: Renda[];
   public edicao: boolean = false;
   public classSalvar = "po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10";
-  public poInfoOrientation:PoInfoOrientation = PoInfoOrientation.Horizontal;
+  public poInfoOrientation: PoInfoOrientation = PoInfoOrientation.Horizontal;
   public somaRenda = 0;
 
   public realizandoAlteracaoAlteracao = false;
@@ -90,7 +90,7 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
     this.defineClasseBotaoSalvar(true);
     this.formularioRendas?.reset();
     this.rendaOpcoes = this.opcoesComboService.rendaOpcoes;
-    this.rendasService.getRendasById().pipe(
+    this.rendasService.getRendasById(String(sessionStorage.getItem('idTitular'))).pipe(
       take(1)
     ).subscribe(rendas => {
       rendas.map(renda => {
@@ -100,7 +100,11 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
       });
       this.listaRendas = rendas
     }
-      , error => this.poNotificationService.error("Erro ao consultar as Rendas"))
+      , error => {
+        console.log(error)
+        this.poNotificationService.error("Erro ao consultar as Rendas")
+
+      })
   }
 
   defineClasseBotaoSalvar(valorDefault: boolean): void {
@@ -130,16 +134,16 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
 
   confirmaExclusao(rendaSelecionada: { id: string }): void {
     this.poAlert.confirm({
-      literals: {cancel: "Cancelar", confirm:"Confirmar"},
+      literals: { cancel: "Cancelar", confirm: "Confirmar" },
       title: "Confirmação de Exclusão",
       message: "Deseja realmente excluir a renda selecionada?",
       confirm: () => this.excluiRenda(rendaSelecionada.id)
     });
   }
 
-  excluiRenda(id:string):void{
+  excluiRenda(id: string): void {
     this.rendasService.excluirRenda(id).subscribe(
-      res=>{
+      res => {
         this.poNotificationService.success("Renda Excluída com Sucesso");
         this.initialize()
       }
@@ -166,6 +170,7 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
     if (this.formularioRendas.valid) {
       this.habilitaConfirmacao = false;
       this.realizandoAlteracaoAlteracao = true;
+      this.formularioRendas.patchValue({ titularId: sessionStorage.getItem('idTitular') })
       if (this.edicao) {
         this.rendasService.alterarRenda(this.formularioRendas.value).
           pipe(

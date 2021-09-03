@@ -5,7 +5,7 @@ export interface Titular {
   numeroSelagemAntiga: string,
   nomeResponsavel: string,
   numeroCartaoCidadao: string,
-  numeroCPF: string,
+  numeroCpf: string,
   dataNascimento: string,
   genero: number,
   etnia: number,
@@ -23,5 +23,6 @@ export interface Titular {
   qualProgHabitacional: string,
   regFundOuUsocapiao: number | boolean,
   qualRegFundOuUsocapiao: string,
-  aondeRegFundOuUsocapiao: string
+  aondeRegFundOuUsocapiao: string,
+  dependentes?: string;
 }

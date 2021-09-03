@@ -52,8 +52,8 @@ export class RendasService extends BaseResourceService {
       }
     ];
   }
-  getRendasById(cpf: string = ''): Observable<Renda[]> {
-    return this.http.get<Renda[]>(this.apiPath)
+  getRendasById(id: string = ''): Observable<Renda[]> {
+    return this.http.get<Renda[]>(`${this.apiPath}/familia/${id}`)
   }
 
   criarRenda(renda: Renda): Observable<any> {

@@ -21,13 +21,14 @@ import { Subscription } from 'rxjs';
 export class TitularesFormComponent extends BaseResourceFormComponent<Titulares> implements OnDestroy {
   private formularioPreenchido = false;
   private subscriptionFormularioTitular: Subscription;
+  private dadosTitular: Titular;
+  private telaIniciada:boolean = false;
 
   public formularioTitular: FormGroup;
 
   public valorRenda: number;
   public tipoRenda: string = '';
   public modalAberto: boolean = false;
-  private dadosTitular: Titular;
 
   public programaContempladoAtivo = false;
   public programaContempladoPaisAtivo = false;
@@ -77,6 +78,8 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   //Campos do Formulário
 
   @Input() isDependente = false;
+  @Input() edicao = false;
+
   @Output() formularioTitularValido: EventEmitter<FormGroup> = new EventEmitter()
 
   @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
@@ -111,35 +114,35 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
 
   criaFormulario(): void {
     this.formularioTitular = this.fb.group({
-      assentamento: [this.dadosTitular.assentamento],
-      numeroSelagemAtual: [this.dadosTitular.numeroSelagemAtual],
-      numeroSelagemAntiga: [this.dadosTitular.numeroSelagemAntiga],
+      assentamento: ['-'],
+      numeroSelagemAtual: [''],
+      numeroSelagemAntiga: [''],
       nomeResponsavel: [this.dadosTitular.nomeResponsavel],
       numeroCartaoCidadao: [this.dadosTitular.numeroCartaoCidadao],
-      numeroCPF: [this.route.snapshot.paramMap.get('id')],
-      dataNascimento: [this.dadosTitular.dataNascimento],
-      genero: [this.dadosTitular.genero, Validators.compose([Validators.required])],
-      etnia: [this.dadosTitular.etnia, Validators.compose([Validators.required])],
-      escolaridade: [this.dadosTitular.escolaridade, Validators.compose([Validators.required])],
+      numeroCpf: [sessionStorage.getItem('usuario')],
+      dataNascimento: [new Date(this.dadosTitular.dataNascimento)],
+      genero: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      etnia: ['', Validators.compose([Validators.required])],
+      escolaridade: ['', Validators.compose([Validators.required])],
       deficiencia: [this.dadosTitular.deficiencia],
       estadoCivil: [this.dadosTitular.estadoCivil],
-      rendaTotal: [this.dadosTitular.rendaTotal],
-      familiaIncProcHabit: [this.dadosTitular.familiaIncProcHabit, Validators.compose([Validators.required])],
-      quantidadeFamilia: [this.dadosTitular.quantidadeFamilia, Validators.compose([Validators.required])],
-      tempoMoradiaBairro: [this.dadosTitular.tempoMoradiaBairro, Validators.compose([Validators.required])],
-      tempoMoradiaLouveira: [this.dadosTitular.tempoMoradiaLouveira, Validators.compose([Validators.required])],
-      possuiImovel: [this.dadosTitular.possuiImovel, Validators.compose([Validators.required])],
-      qualLocalDoImovel: [this.dadosTitular.qualLocalDoImovel],
-      programaHabitacional: [this.dadosTitular.programaHabitacional, Validators.compose([Validators.required])],
-      qualProgHabitacional: [this.dadosTitular.qualProgHabitacional],
-      regFundOuUsocapiao: [this.dadosTitular.regFundOuUsocapiao, Validators.compose([Validators.required])],
-      qualRegFundOuUsocapiao: [this.dadosTitular.qualRegFundOuUsocapiao],
-      aondeRegFundOuUsocapiao: [this.dadosTitular.aondeRegFundOuUsocapiao]
+      rendaTotal: [''],
+      familiaIncProcHabit: ['', Validators.compose([Validators.required])],
+      quantidadeFamilia: ['', Validators.compose([Validators.required])],
+      tempoMoradiaBairro: ['', Validators.compose([Validators.required])],
+      tempoMoradiaLouveira: ['', Validators.compose([Validators.required])],
+      possuiImovel: ['', Validators.compose([Validators.required])],
+      qualLocalDoImovel: [''],
+      programaHabitacional: ['', Validators.compose([Validators.required])],
+      qualProgHabitacional: [''],
+      regFundOuUsocapiao: ['', Validators.compose([Validators.required])],
+      qualRegFundOuUsocapiao: [''],
+      aondeRegFundOuUsocapiao: ['']
     });
 
-    this.subscriptionFormularioTitular = this.formularioTitular.valueChanges.pipe(
-      debounceTime(1000)
-    ).subscribe(res => this.formularioTitularValido.emit(this.formularioTitular))
+    if (this.edicao) {
+      this.montaFormularioEdicao()
+    }
   }
 
   protected buildResourceForm(): void { }
@@ -157,6 +160,35 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     this.valorRenda = parseFloat(rendaSelecionada.valorRenda);
     this.tipoRenda = rendaSelecionada.tipoRenda;
     this.abrirModal();
+  }
+
+  montaFormularioEdicao(): void {
+    this.formularioTitular.patchValue({
+      assentamento: this.dadosTitular.assentamento,
+      numeroSelagemAtual: this.dadosTitular.numeroSelagemAtual,
+      numeroSelagemAntiga: this.dadosTitular.numeroSelagemAntiga,
+      nomeResponsavel: this.dadosTitular.nomeResponsavel,
+      numeroCartaoCidadao: this.dadosTitular.numeroCartaoCidadao,
+      numeroCpf: this.route.snapshot.paramMap.get('id'),
+      dataNascimento: new Date(this.dadosTitular.dataNascimento),
+      genero: this.dadosTitular.genero,
+      etnia: this.dadosTitular.etnia,
+      escolaridade: this.dadosTitular.escolaridade,
+      deficiencia: this.dadosTitular.deficiencia,
+      estadoCivil: this.dadosTitular.estadoCivil,
+      rendaTotal: this.dadosTitular.rendaTotal,
+      familiaIncProcHabit: this.dadosTitular.familiaIncProcHabit,
+      quantidadeFamilia: this.dadosTitular.quantidadeFamilia,
+      tempoMoradiaBairro: this.dadosTitular.tempoMoradiaBairro,
+      tempoMoradiaLouveira: this.dadosTitular.tempoMoradiaLouveira,
+      possuiImovel: this.dadosTitular.possuiImovel,
+      qualLocalDoImovel: this.dadosTitular.qualLocalDoImovel,
+      programaHabitacional: this.dadosTitular.programaHabitacional,
+      qualProgHabitacional: this.dadosTitular.qualProgHabitacional,
+      regFundOuUsocapiao: this.dadosTitular.regFundOuUsocapiao,
+      qualRegFundOuUsocapiao: this.dadosTitular.qualRegFundOuUsocapiao,
+      aondeRegFundOuUsocapiao: this.dadosTitular.aondeRegFundOuUsocapiao
+    });
   }
 
   adicionaRenda(): void {
@@ -180,16 +212,16 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   }
 
   initialize(): void {
-    this.colunasRenda = this.titularesService.getRendasColumns();
+    // this.colunasRenda = this.titularesService.getRendasColumns();
 
-    this.rendasService.getRendasById().pipe(
-      take(1)
-    ).subscribe(res => this.listaRendas = res);
+    // this.rendasService.getRendasById(this.dadosTitular.id).pipe(
+    //   take(1)
+    // ).subscribe(res => this.listaRendas = res);
 
-    this.formularioTitular.valueChanges.subscribe(res => {
-      this.formularioTitular.valid ? true : false;
-    }
-    ,error => this.poNotificationService.error("Erro ao buscar a Renda") )
+    this.subscriptionFormularioTitular = this.formularioTitular.valueChanges.pipe(
+      debounceTime(1000)
+    ).subscribe(res => this.telaIniciada ? this.formularioTitularValido.emit(this.formularioTitular) : this.telaIniciada = true)
+
   }
 
   jaContempladoSelecionado(selecionado: number) {
