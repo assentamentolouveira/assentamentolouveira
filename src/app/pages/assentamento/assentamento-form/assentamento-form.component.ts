@@ -25,6 +25,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   public isDependente = false;
   public isMoradia = false;
   public carregando = true;
+  public mensagemLoading = ''
   public habilitaRenda = false;
   public titularValido = false;
   public edicao = false;
@@ -104,11 +105,13 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     if (formularioValido.valid) {
       this.carregando = false;
       if (this.edicao) {
+        this.mensagemLoading = "Alterando Titular...";
         this.titularService.alterarTitular(formularioValido.value).pipe(
           take(1),
           finalize(() => { this.carregando = true })
         ).subscribe(res => this.titularValido = true, error => console.error(error))
       } else {
+        this.mensagemLoading = "Incluindo Titular...";
         this.titularService.criarTitular(formularioValido.value).pipe(
           take(1),
           finalize(() => this.carregando = true)
