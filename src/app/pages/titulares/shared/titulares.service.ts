@@ -1,7 +1,7 @@
 import { DependentesService } from './../../dependentes/shared/dependentes.service';
 import { TitularCartaoCidadao } from './titular-cartao-cidadao.model';
 import { Titular } from './titular.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable, Injector } from '@angular/core';
 import { PoTableColumn } from '@po-ui/ng-components';
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
@@ -62,14 +62,7 @@ export class TitularesService extends BaseResourceService {
 
   criarTitular(titular: Titular): Observable<any> {
     titular = this.ajustaEnvioJsonTitular(titular)
-    return this.http.post(this.apiPath, titular, this.httpOptions).pipe(
-      //   mergeMap((titualar,index)=> {
-      //     return this.getDetalhesDependentesCartaoCidadao(a, index).pipe(
-      //       map(dependente => dependente)
-      //     );
-      //   })
-      // , toArray()
-    )
+    return this.http.post(this.apiPath, titular, this.httpOptions).pipe()
   }
 
   gravaDadosTitularCartaoCidadao(dadosCartaoCidade: TitularCartaoCidadao): void {

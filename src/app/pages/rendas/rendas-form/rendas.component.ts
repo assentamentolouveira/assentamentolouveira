@@ -105,8 +105,9 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
       this.listaRendas = rendas
     }
       , error => {
-        console.log(error)
-        this.poNotificationService.error("Erro ao consultar as Rendas")
+        if (error.status != 404) {
+          this.poNotificationService.error("Erro ao buscar a Renda")
+        }
 
       })
   }

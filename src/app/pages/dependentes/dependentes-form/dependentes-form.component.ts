@@ -3,7 +3,7 @@ import { Dependente } from './../shared/dependente.model';
 import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service';
 import { DependentesService } from './../shared/dependentes.service';
 import { PoTableAction, PoTableColumn, PoNotificationService, PoSelectOption } from '@po-ui/ng-components';
-import { Component, Injector, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit, Output, EventEmitter, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Dependentes } from '../shared/dependentes.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
@@ -17,7 +17,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   styles: [
   ]
 })
-export class DependentesFormComponent extends BaseResourceFormComponent<Dependentes> implements OnDestroy {
+export class DependentesFormComponent extends BaseResourceFormComponent<Dependentes> implements OnDestroy  {
   public colunas: PoTableColumn[];
   public listaDependentes: Array<any> = []
   public acoes: Array<PoTableAction> = [
@@ -95,8 +95,8 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       // resposta = resposta.map((dependente: any) => {
       //   return { ...dependente, nome: 'teste' }
       // })
-      const teste = new DocumentPipe()
-      resposta.map(res => { res.parentesco = this.converteParentesco(res), res.cpfFormatado = teste.transform(res.numeroCpf) })
+      const pipeCPF = new DocumentPipe()
+      resposta.map(res => { res.parentesco = this.converteParentesco(res), res.cpfFormatado = pipeCPF.transform(res.numeroCpf) })
       this.enviaDependentes.emit(resposta);
       this.listaDependentes = resposta;
     }, error => {

@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { Injectable, Injector } from '@angular/core';
 import { PoTableColumn } from '@po-ui/ng-components';
 
@@ -46,24 +46,25 @@ export class DependentesService extends BaseResourceService {
     return of(this.retornaDependentes());
   }
 
-  getDepentendesPorTitular(idTitular:string | null): Observable<Dependente[]> {
+  getDepentendesPorTitular(idTitular: string | null): Observable<Dependente[]> {
     return this.http.get<Dependente[]>(`${this.apiPath}/titular/${idTitular}`).pipe(
       switchMap((dependentes) => dependentes),
-      mergeMap((a,index)=> {
+      mergeMap((a, index) => {
         return this.getDetalhesDependentesCartaoCidadao(a, index).pipe(
           map(dependente => dependente)
         );
       })
-    , toArray())
+      , toArray())
   }
 
-  getDetalhesDependentesCartaoCidadao(dependente:Dependente, index:number): Observable<Dependente>{
-    return of<Dependente>({...dependente, nome:'desenvolvimento' + index, parentesco:'filho'})
+  getDetalhesDependentesCartaoCidadao(dependente: Dependente, index: number): Observable<Dependente> {
+    return of<Dependente>({ ...dependente, nome: 'desenvolvimento' + index, parentesco: 'filho', cpfCartaoCidadao: "" })
   }
 
-  alteraDependente(dependente: Dependente):Observable<any>{
+  alteraDependente(dependente: Dependente): Observable<any> {
     return this.http.put(`${this.apiPath}/${dependente.id}`, dependente, this.httpOptions);
   }
+
   getId(): Observable<any> {
     return of(this.retornaDependentes());
   }
@@ -81,5 +82,13 @@ export class DependentesService extends BaseResourceService {
       { id: 1, nome: '121', cpf: '1234', rg: 1 },
       { id: 1, nome: '121', cpf: '1234', rg: 1 },
     ];
+  }
+
+  incluiDependente(idTitular: string, cartaoCidadao: string): Observable<Dependente> {
+    const formularioDependente = {
+      titularId: idTitular,
+      cartacaoCidao: cartaoCidadao
+    }
+    return this.http.post<Dependente>(this.apiPath, formularioDependente, this.httpOptions);
   }
 }

@@ -31,7 +31,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
           errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
         }
         console.log(errorMsg);
-        return throwError(errorMsg);
+        return throwError({message:errorMsg, status: error.status});
       })
     )
   }

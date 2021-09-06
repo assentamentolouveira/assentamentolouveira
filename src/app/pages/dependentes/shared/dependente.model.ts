@@ -10,4 +10,5 @@ export interface Dependente {
   escolaridade: number,
   deficiencia: number,
   nome: string,
+  cpfCartaoCidadao: string
 }

@@ -1,3 +1,4 @@
+import { DependentesService } from './../../dependentes/shared/dependentes.service';
 import { Dependente } from './../../dependentes/shared/dependente.model';
 import { TitularesService } from './../../titulares/shared/titulares.service';
 import { PoButtonGroupItem, PoPageAction, PoNotificationService, PoComboOption } from '@po-ui/ng-components';
@@ -9,7 +10,8 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { Titular } from '../../titulares/shared/titular.model';
 import { FormGroup } from '@angular/forms';
-import { take, finalize } from 'rxjs/operators';
+import { take, finalize, retry } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-assentamento-form',
@@ -29,6 +31,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   public habilitaRenda = false;
   public titularValido = false;
   public edicao = false;
+  public atualizaDepentente = false;
 
 
   private titular: Titular;
@@ -62,7 +65,8 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     protected injector: Injector,
     private poNotificationService: PoNotificationService,
     private loginService: LoginService,
-    private titularService: TitularesService
+    private titularService: TitularesService,
+    private depentendesService: DependentesService,
   ) {
     super(injector, new Assentamento(), assentamentoService);
     if (this.loginService.isInternet) {
@@ -104,32 +108,63 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     this.titular = JSON.parse(this.titularService.getTitularInfo());
     if (formularioValido.valid) {
       this.carregando = false;
-      if (this.edicao) {
-        this.mensagemLoading = "Alterando Titular...";
-        this.titularService.alterarTitular(formularioValido.value).pipe(
-          take(1),
-          finalize(() => { this.carregando = true })
-        ).subscribe(res => this.titularValido = true, error => console.error(error))
-      } else {
-        this.mensagemLoading = "Incluindo Titular...";
-        this.titularService.criarTitular(formularioValido.value).pipe(
-          take(1),
-          finalize(() => this.carregando = true)
-        ).subscribe(res => {
-          this.titularService.setTitularInfo(res),
-          this.titularValido = true
-        }
-        , error => console.error(error))
-      }
+      this.edicao ? this.editaTitular(formularioValido.value) : this.incluiTitular(formularioValido.value)
     }
-
     this.titular = formularioValido.value;
     return formularioValido.valid
+  }
+
+  editaTitular(formulario: Titular): void {
+    this.mensagemLoading = "Alterando Titular...";
+    this.titularService.alterarTitular(formulario).pipe(
+      take(1),
+      finalize(() => { this.carregando = true })
+    ).subscribe(res => this.titularValido = true, error => console.error(error))
+  }
+
+  incluiTitular(formulario: Titular): void {
+    this.mensagemLoading = "Incluindo Titular...";
+    this.titularService.criarTitular(formulario).pipe(
+      take(1),
+    ).subscribe(res => {
+      this.titularService.setTitularInfo(res)
+
+      const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
+      const listaDeDepententes = dadosTitular.dependentes.split(',');
+
+      if (listaDeDepententes.length > 0) {
+        this.incluiDependentes(listaDeDepententes, res);
+      } else {
+        this.carregando = true;
+        this.titularValido = true
+      }
+    }
+      , error => console.error(error))
+
   }
 
   recebeDependentes(dependentes: any): void {
     this.dependentes = dependentes;
     this.montaComboRenda();
+  }
+
+  incluiDependentes(listaDeDepententes: string[], titular: Titular): void {
+    let observablesDependentes = {};
+
+    this.mensagemLoading = "Incluindo Dependentes...";
+    this.titularValido = false;
+    listaDeDepententes.forEach((dependente) => {
+      Object.assign(observablesDependentes, { [dependente]: this.depentendesService.incluiDependente(titular.id, dependente).pipe(retry(3)) })
+    })
+
+    forkJoin(observablesDependentes).pipe(
+      finalize(() => this.carregando = true)
+    ).subscribe(
+      res => {
+        this.titularValido = true;
+      }
+      , erro => console.error(`erro ao cadastrar dependente ${erro}`)
+    )
   }
 
   montaComboRenda(): void {
