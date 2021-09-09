@@ -125,7 +125,7 @@ export class OpcoesComboService {
   ];
 
 
-  rendaOpcoes =[
+  rendaOpcoes = [
     {
       value: 'Formal',
       label: 'Formal',
@@ -306,11 +306,299 @@ export class OpcoesComboService {
     }
   ]
 
+  familiaTemCadastroUnicoOpcoes = [
+    {
+      value: 1,
+      label: 'Sim, no Município'
+    },
+    {
+      value: 2,
+      label: 'Sim, em outro Município'
+    },
+    {
+      value: 3,
+      label: 'Não possuo'
+    }
+  ]
+
+  moradiaOpcoes = [
+    {
+      value: 1,
+      label: 'Própria'
+    },
+    {
+      value: 2,
+      label: 'Cedida'
+    },
+    {
+      value: 3,
+      label: 'Alugada'
+    },
+    {
+      value: 4,
+      label: 'Ocupação de áreas públicas ou particulares'
+    }
+  ]
+
+  quantidadeBanheirosOpcoes = [
+    {
+      value: 'Um',
+      label: 'Um'
+    },
+    {
+      value: 'Dois',
+      label: 'Dois'
+    },
+    {
+      value: 'Tres',
+      label: 'TrÊs'
+    },
+    {
+      value: 'AcimaDeTres',
+      label: 'Acima de Três'
+    }
+  ];
+
+
+  quantidadeComodosOpcoes = [
+    {
+      value: 'Um',
+      label: 'Um'
+    },
+    {
+      value: 'Dois',
+      label: 'Dois'
+    },
+    {
+      value: 'Tres',
+      label: 'Três'
+    },
+    {
+      value: 'Quatro',
+      label: 'Quatro'
+    },
+    {
+      value: 'AcimaDeQuatro',
+      label: 'Acima de Quatro'
+    }
+  ];
+
+  tipoMoradiaOpcoes = [
+    {
+      value: 1,
+      label: 'Casa'
+    },
+    {
+      value: 2,
+      label: 'Casa de vila ou condomínio'
+    },
+    {
+      value: 3,
+      label: 'Apartamento'
+    },
+    {
+      value: 4,
+      label: 'Cômodos compartilhados'
+    },
+    {
+      value: 5,
+      label: 'Cortiço'
+    },
+    {
+      value: 6,
+      label: 'Outro'
+    }
+  ]
+
+  caracteristicasCasaOpcoes = [
+    {
+      value: 1,
+      label: 'Alvenaria/tijolo com revestimento'
+    },
+    {
+      value: 2,
+      label: 'Alvenaria/tijolo sem revestimento '
+    },
+    {
+      value: 3,
+      label: 'Madeira'
+    },
+    {
+      value: 4,
+      label: 'Taipa revestida'
+    },
+    {
+      value: 5,
+      label: 'Taipa não revestida'
+    },
+    {
+      value: 6,
+      label: 'Cobertura com Laje'
+    },
+    {
+      value: 7,
+      label: 'Cobertura sem Laje'
+    },
+    {
+      value: 8,
+      label: 'Misto madeira e alvenaria'
+    }
+  ]
+
+  acessoEnergiaOpcoes = [
+    {
+      value: 1,
+      label: 'Sim, com medidor próprio'
+    },
+    {
+      value: 2,
+      label: 'Sim, com medidor compartilhado'
+    },
+    {
+      value: 3,
+      label: 'Sim, sem medidor'
+    },
+    {
+      value: 4,
+      label: 'Não possui energia elétrica no domicílio'
+    }
+  ]
+
+  acessoAguaOpcoes = [
+    {
+      value: 1,
+      label: 'Rede geral de distribuição'
+    },
+    {
+      value: 2,
+      label: 'Poço ou nascente'
+    },
+    {
+      value: 3,
+      label: 'Cisterna de captação de águas de chuva '
+    },
+    {
+      value: 4,
+      label: 'Carro pipa'
+    },
+    {
+      value: 5,
+      label: 'Não possui acesso a água'
+    }
+  ]
+
+  acessoSaneamentoOpcoes = [
+    {
+      value: 1,
+      label: 'Rede esgoto'
+    },
+    {
+      value: 2,
+      label: 'Fossa séptica'
+    },
+    {
+      value: 3,
+      label: 'Fossa Rudimentar'
+    },
+    {
+      value: 4,
+      label: 'Céu Aberto'
+    },
+    {
+      value: 5,
+      label: 'Domicílio sem banheiro'
+    }
+  ]
+
+  acessoColetaOpcoes = [
+    {
+      value: 1,
+      label: 'Sim, coleta direta (na porta de casa)'
+    },
+    {
+      value: 2,
+      label: 'Sim, coleta indireta'
+    },
+    {
+      value: 3,
+      label: 'Não possui coleta'
+    }
+  ]
+
+  numeroAutomoveiOpcoes = [
+    {
+      value: 1,
+      label: 'Um'
+    },
+    {
+      value: 2,
+      label: 'Dois'
+    },
+    {
+      value: 3,
+      label: 'Acima de Dois'
+    },
+    {
+      value: 4,
+      label: 'Não possui'
+    }
+  ]
+
+  desastresOpcoes = [
+    {
+      value: 1,
+      label: 'Alagamento'
+    },
+    {
+      value: 2,
+      label: 'Deslizamento de Terra'
+    },
+    {
+      value: 3,
+      label: 'Desabamento de Estrutura'
+    },
+    {
+      value: 4,
+      label: 'Incêndio'
+    },
+    {
+      value: 5,
+      label: 'Não Sofreu'
+    }
+  ]
+
+  usoMoradiaOpcoes = [
+    {
+      value: 1,
+      label: 'Habitacional'
+    },
+    {
+      value: 2,
+      label: 'Comercial'
+    },
+    {
+      value: 3,
+      label: 'Misto Habitacional e Comercial'
+    },
+    {
+      value: 4,
+      label: 'Igreja'
+    },
+    {
+      value: 5,
+      label: 'Misto Residencial e Igreja'
+    },
+    {
+      value: 6,
+      label: 'Outro'
+    }
+  ]
+
   retornaLabelOpcoes(valor: number | string, combo: any[]): string {
     let comboFilter = combo.filter(opc => opc.value === valor)
     return comboFilter[0]?.label ? comboFilter[0].label : '';
   }
 
   constructor() {
-   }
+  }
 }

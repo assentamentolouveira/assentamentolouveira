@@ -87,7 +87,7 @@ export class DependentesService extends BaseResourceService {
   incluiDependente(idTitular: string, cartaoCidadao: string): Observable<Dependente> {
     const formularioDependente = {
       titularId: idTitular,
-      cartacaoCidao: cartaoCidadao
+      numeroCartaoCidadao: cartaoCidadao
     }
     return this.http.post<Dependente>(this.apiPath, formularioDependente, this.httpOptions);
   }

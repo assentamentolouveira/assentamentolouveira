@@ -1,148 +1,352 @@
-  <div>
-    <po-divider p-label="Informações Gerais"></po-divider>
+<!-- <form [formGroup]="formularioMoradia"> -->
+<po-divider p-label="Informações Assentamento"></po-divider>
+<div class="po-row">
+  <po-input
+    class="po-lg-4"
+    p-label="Assentamento"
+    p-placeholder="Assentamento"
+    p-disabled="true"
+    p-clean
+  >
+  </po-input>
+  <po-input
+    class="po-lg-4"
+    p-label="Selagem Atual"
+    p-placeholder="Selagem Atual"
+    p-disabled="true"
+    p-clean
+  ></po-input>
+  <po-input
+    class="po-lg-4"
+    p-label="Selagem Antiga"
+    p-placeholder="Selagem FUMHAB"
+    p-disabled="true"
+    p-clean
+  ></po-input>
+</div>
 
-    <div class="po-row">
-      <po-input class="po-lg-6" p-label="Assentamento" p-placeholder="" p-clean>
-      </po-input>
-      <po-input
-        class="po-lg-6"
-        p-label="Selagem"
-        p-placeholder=""
-        p-clean
-      ></po-input>
-    </div>
+<div class="po-row">
+  <po-input
+    class="po-lg-4"
+    p-label="Endereço"
+    p-placeholder="Endereço"
+    p-disabled="true"
+    p-clean
+  >
+  </po-input>
+  <po-input
+    class="po-lg-1"
+    p-label="Número"
+    p-placeholder="Número"
+    p-disabled="true"
+    p-clean
+  ></po-input>
+  <po-input
+    class="po-lg-3"
+    p-label="Complemento"
+    p-placeholder="Complemento"
+    p-disabled="true"
+    p-clean
+  ></po-input>
+  <po-input
+    class="po-lg-4"
+    p-label="Bairro"
+    p-placeholder="Bairro"
+    p-disabled="true"
+    p-clean
+  ></po-input>
+</div>
 
-    <div class="po-row">
-      <po-input
-        class="po-lg-6"
-        p-label="Endereço"
-        p-placeholder="Rua 21 de Março"
-        p-clean
-      >
-      </po-input>
-      <po-input
-        class="po-lg-1"
-        p-label="Número"
-        p-placeholder="99"
-        p-clean
-      ></po-input>
+<po-divider p-label="Acesso a Serviços"></po-divider>
 
-      <po-input
-        class="po-lg-5"
-        p-label="Complemento"
-        p-placeholder="Bloco A"
-        p-clean
-      ></po-input>
-    </div>
+<div class="po-row">
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Família tem cadastro único?"
+    [p-options]="familiaTemCadastroUnico"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Família acessa a unidade básica de saúde?"
+    [p-options]="boleanoOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-input
+    class="po-lg-6"
+    p-label="Qual?"
+    p-placeholder="Infome o recurso"
+    p-clean
+  >
+  </po-input>
+</div>
+<div class="po-row">
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Família tem acesso à escolas, creches?"
+    [p-options]="boleanoOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Utiliza transporte escolar?"
+    [p-options]="boleanoOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Família acessa CRAS?"
+    [p-options]="boleanoOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Família acessa CREAS? "
+    [p-options]="boleanoOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+</div>
 
-    <div class="po-row">
-      <po-input
-        class="po-lg-5"
-        p-label="Bairro"
-        p-placeholder="Centro"
-        p-clean
-      ></po-input>
+<div class="po-row">
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Família acessa serviços de convivência para crianças ou adolescentes?"
+    [p-options]="boleanoOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Família acessa serviços de convivência para Idosos?"
+    [p-options]="boleanoOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+</div>
 
-      <po-input
-        class="po-lg-5"
-        p-label="Ponto de referencia"
-        p-placeholder="Estação Ferroviária"
-        p-clean
-      ></po-input>
+<po-divider p-label="Identificação da Moradia"></po-divider>
 
-      <po-input
-        class="po-lg-2"
-        p-label="CEP"
-        p-placeholder="13290-000"
-        p-mask="99999-999"
-        [p-minlength]="8"
-        p-clean
-      ></po-input>
-    </div>
+<div class="po-row">
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Moradia"
+    [p-options]="moradiaOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Quantidade de Banheiros"
+    [p-options]="quantidadeBanheirosOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Quantidade de cômodos"
+    [p-options]="quantidadeComodosOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Tipo de Moradia Ocupada"
+    [p-options]="tipoMoradiaOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-multiselect
+    class="po-lg-3"
+    name="multiselect"
+    p-label="Características que melhor descreve a sua casa"
+    p-placeholder="Selecione todas as opções necessárias"
+    [p-options]="caracteristicasCasaOpcoes"
+  >
+  </po-multiselect>
+</div>
 
-    <div class="po-row">
-      <po-datepicker
-        class="po-lg-3"
-        p-label="Chegada ao Município"
-        p-placeholder="dd/mm/aaaa"
-        p-clean
-      >
-      </po-datepicker>
+<div class="po-row">
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Acesso à energia elétrica"
+    [p-options]="acessoEnergiaOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Acesso à abastecimento de água"
+    [p-options]="acessoAguaOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Acesso a saneamento sanitário"
+    [p-options]="acessoSaneamentoOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Possui Automóveis?"
+    [p-options]="numeroAutomoveiOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+</div>
+<div class="po-row">
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="A sua moradia atual já sofreu algum tipo de desastre?"
+    [p-options]="desastresOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Uso da Moradia"
+    [p-options]="usoMoradiaOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+  <po-combo
+    class="po-lg-3"
+    [p-clean]="true"
+    p-label="Uso da Moradia"
+    [p-options]="usoMoradiaOpcoes"
+    p-placeholder="Selecione uma opção"
+    [p-clean]="true"
+  >
+  </po-combo>
+</div>
 
-      <po-combo
-        class="po-lg-3"
-        [p-clean]=true
-        p-label="Tempo na Residência"
-        [p-options]="tempoResidenciaOpcoes"
-        p-placeholder="Selecione o tempo na residencia"
-      ></po-combo>
-    </div>
-  </div>
+<po-divider p-label="Animais de Estimação"></po-divider>
 
-  <div>
-    <po-divider p-label="Situação do Assentamento"></po-divider>
-    <div class="po-row">
-      <po-combo
-        class="po-lg-3"
-        [p-clean]=true
-        p-label="Quantidade de Famílias"
-        [p-options]="familiasOpcoes"
-        p-placeholder="Selecione a Quantidade de Familias"
-      ></po-combo>
+<div class="po-row">
+  <po-number
+    class="po-lg-3"
+    p-label="Cachorro"
+    p-placeholder="Infome o número de cachorros"
+    p-clean
+  ></po-number>
+  <po-number
+    class="po-lg-3"
+    p-label="Gato"
+    p-placeholder="Infome o número de gatos"
+    p-clean
+  ></po-number>
+  <po-number
+    class="po-lg-3"
+    p-label="Pássaro"
+    p-placeholder="Infome o número de pássaros"
+    p-clean
+  ></po-number>
+  <po-number
+    class="po-lg-3"
+    p-label="Outros"
+    p-placeholder="Infome o número de outros animais"
+    p-clean
+  ></po-number>
+</div>
 
-      <po-combo
-        class="po-lg-3"
-        [p-clean]=true
-        p-label="Tipo de Uso"
-        [p-options]="familiasOpcoes"
-        p-placeholder="Selecione o tipo de uso"
-      ></po-combo>
+<po-divider p-label="Animais de Estimação"></po-divider>
 
-      <po-combo
-        class="po-lg-3"
-        [p-clean]=true
-        p-label="Forma de Posse"
-        [p-options]="familiasOpcoes"
-        p-placeholder="Selecione a forma de posse"
-      ></po-combo>
+<div class="po-row">
+  <po-decimal class="po-lg-3" p-label="Aluguel" p-placeholder="0,00" p-clean>
+  </po-decimal>
+  <po-decimal
+    class="po-lg-3"
+    p-label="Energia Elétrica"
+    p-placeholder="0,00"
+    p-clean
+  >
+  </po-decimal>
+  <po-decimal
+    class="po-lg-3"
+    p-label="Água/Esgoto"
+    p-placeholder="0,00"
+    p-clean
+  >
+  </po-decimal>
+  <po-decimal class="po-lg-3" p-label="Gás" p-placeholder="0,00" p-clean>
+  </po-decimal>
+</div>
 
-      <po-combo
-        class="po-lg-3"
-        [p-clean]=true
-        p-label="Quantidade de Cômodos"
-        [p-options]="familiasOpcoes"
-        p-placeholder="Selecione a Quantidade de Cômodos"
-      ></po-combo>
-    </div>
+<div class="po-row">
+  <po-decimal
+    class="po-lg-3"
+    p-label="Alimentação, higiene e limpeza"
+    p-placeholder="0,00"
+    p-clean
+  >
+  </po-decimal>
+  <po-decimal
+    class="po-lg-3"
+    p-label="Medicmentos"
+    p-placeholder="0,00"
+    p-clean
+  >
+  </po-decimal>
+  <po-decimal
+    class="po-lg-3"
+    p-label="Total de Despesas"
+    p-placeholder="0,00"
+    p-clean
+  >
+  </po-decimal>
+</div>
 
-    <div class="po-row">
-      <po-combo
-        class="po-lg-3"
-        [p-clean]=true
-        p-label="Quantidade de Banheiros"
-        [p-options]="familiasOpcoes"
-        p-placeholder="Selecione a Quantidade de banheiros"
-      ></po-combo>
+<div class="po-row">
+  <po-input
+    class="po-lg-12"
+    p-label="Observações"
+    p-placeholder="Observações"
+    p-clean
+  >
+  </po-input>
+</div>
 
-      <po-combo
-        class="po-lg-3"
-        [p-clean]=true
-        p-label="Rede de Energia Elétrica"
-        [p-options]="familiasOpcoes"
-      ></po-combo>
-
-      <po-combo
-        class="po-lg-3"
-        [p-clean]=true
-        p-label="Abastecimento de Água"
-        [p-options]="familiasOpcoes"
-      ></po-combo>
-
-      <po-combo
-        class="po-lg-3"
-        [p-clean]=true
-        p-label="Coleta de Esgoto"
-        [p-options]="familiasOpcoes"
-      ></po-combo>
-    </div>
-  </div>
+<!-- </form> -->
