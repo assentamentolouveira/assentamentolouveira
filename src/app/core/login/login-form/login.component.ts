@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/intranet'])
         }
       }
-      , error => { this.poNotificationService.error(`Ocorreu um erron o momento do login: ${error}`) }
+      , error => { this.poNotificationService.error(`Ocorreu um erron o momento do login: ${error.message}`) }
     );
   }
 

@@ -74,8 +74,6 @@ export class TitularesService extends BaseResourceService {
     this.dadosTitular.dataNascimento = dadosCartaoCidade.dataNascimento;
   }
 
-
-
   alterarTitular(titular: Titular): Observable<any> {
     titular = this.ajustaEnvioJsonTitular(titular)
     return this.http.put(`${this.apiPath}/${titular.numeroCpf}`, titular, this.httpOptions);

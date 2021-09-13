@@ -1,3 +1,4 @@
+import { MoradiaService } from './../../moradia/shared/moradia.service';
 import { DependentesService } from './../../dependentes/shared/dependentes.service';
 import { Dependente } from './../../dependentes/shared/dependente.model';
 import { TitularesService } from './../../titulares/shared/titulares.service';
@@ -67,6 +68,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     private loginService: LoginService,
     private titularService: TitularesService,
     private depentendesService: DependentesService,
+    private moradiaService: MoradiaService
   ) {
     super(injector, new Assentamento(), assentamentoService);
     if (this.loginService.isInternet) {
@@ -129,6 +131,8 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     ).subscribe(res => {
       this.titularService.setTitularInfo(res)
 
+      this.incluiMoradia(res);
+
       const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
       const listaDeDepententes = dadosTitular.dependentes.split(',');
 
@@ -139,13 +143,22 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         this.titularValido = true
       }
     }
-      , error => console.error(error))
+      , error => {
+        this.carregando = true;
+        this.titularValido = true;
+        this.poNotificationService.error(error.message)
+        console.error(error)
+      })
 
   }
 
   recebeDependentes(dependentes: any): void {
     this.dependentes = dependentes;
     this.montaComboRenda();
+  }
+
+  incluiMoradia(res: Titular): void {
+    this.moradiaService.postMoradia(res).subscribe();
   }
 
   incluiDependentes(listaDeDepententes: string[], titular: Titular): void {
@@ -175,6 +188,12 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
     this.habilitaRenda = true;
     console.log("combo Renda", this.comboRenda)
+  }
+
+  formularioMoradiaValido(formularioMoradia: FormGroup): void {
+    if (formularioMoradia.valid) {
+      console.log(formularioMoradia)
+    }
   }
 
   protected buildResourceForm(): void { }

@@ -83,6 +83,7 @@
       p-label="Família acessa a unidade básica de saúde?"
       formControlName="familiaAcessaUnidadeBasicaSaude"
       [p-options]="boleanoOpcoes"
+      (p-change)="familiaAcessaUnidadeBasicaSaudeSelecionado($event)"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
     >
@@ -92,6 +93,8 @@
       p-label="Qual?"
       formControlName="qualUnidadeBasicaSaude"
       p-placeholder="Infome o recurso"
+      [p-disabled]="converterBooleanString(!familiaAcessaUnidadeBasicaSaude)"
+      [p-required]="converterBooleanString(familiaAcessaUnidadeBasicaSaude)"
       p-clean
     >
     </po-input>

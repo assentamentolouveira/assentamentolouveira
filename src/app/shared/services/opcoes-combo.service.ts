@@ -342,19 +342,19 @@ export class OpcoesComboService {
 
   quantidadeBanheirosOpcoes = [
     {
-      value: 'Um',
+      value: 1,
       label: 'Um'
     },
     {
-      value: 'Dois',
+      value: 2,
       label: 'Dois'
     },
     {
-      value: 'Tres',
+      value: 3,
       label: 'TrÊs'
     },
     {
-      value: 'AcimaDeTres',
+      value: 4,
       label: 'Acima de Três'
     }
   ];
@@ -362,23 +362,23 @@ export class OpcoesComboService {
 
   quantidadeComodosOpcoes = [
     {
-      value: 'Um',
+      value: 1,
       label: 'Um'
     },
     {
-      value: 'Dois',
+      value: 2,
       label: 'Dois'
     },
     {
-      value: 'Tres',
+      value: 3,
       label: 'Três'
     },
     {
-      value: 'Quatro',
+      value: 4,
       label: 'Quatro'
     },
     {
-      value: 'AcimaDeQuatro',
+      value: 5,
       label: 'Acima de Quatro'
     }
   ];
@@ -394,18 +394,22 @@ export class OpcoesComboService {
     },
     {
       value: 3,
-      label: 'Apartamento'
+      label: 'Condominio'
     },
     {
       value: 4,
-      label: 'Cômodos compartilhados'
+      label: 'Apartamento'
     },
     {
       value: 5,
-      label: 'Cortiço'
+      label: 'Cômodos compartilhados'
     },
     {
       value: 6,
+      label: 'Cortiço'
+    },
+    {
+      value: 7,
       label: 'Outro'
     }
   ]

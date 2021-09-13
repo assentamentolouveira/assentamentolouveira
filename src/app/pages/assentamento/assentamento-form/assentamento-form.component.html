@@ -20,7 +20,7 @@
       </div>
     </po-step>
     <po-step p-label="Moradia">
-      <app-moradia-form></app-moradia-form>
+      <app-moradia-form (formularioMoradiaValido)="formularioMoradiaValido($event)"></app-moradia-form>
     </po-step>
     <po-step p-label="Rendas">
       <div *ngIf="habilitaRenda">

@@ -37,6 +37,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
   public numeroAutomoveiOpcoes: Array<PoSelectOption>;
   public desastresOpcoes: Array<PoSelectOption>;
   public usoMoradiaOpcoes: Array<PoSelectOption>;
+  public familiaAcessaUnidadeBasicaSaude = false;
 
   @Output() formularioMoradiaValido: EventEmitter<FormGroup> = new EventEmitter()
 
@@ -131,6 +132,23 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
     ).subscribe(res => this.telaIniciada ? this.formularioMoradiaValido.emit(this.formularioMoradia) : this.telaIniciada = true)
 
     // , Validators.compose([Validators.required])
+  }
+
+  familiaAcessaUnidadeBasicaSaudeSelecionado(selecionado: number) {
+    if (selecionado === 1) {
+      this.familiaAcessaUnidadeBasicaSaude = true;
+    } else {
+      this.familiaAcessaUnidadeBasicaSaude = false;
+      this.formularioMoradia.patchValue({ qualUnidadeBasicaSaude: "" })
+    }
+  }
+
+  converterBooleanString(valorBooleano: boolean): string {
+    if (valorBooleano) {
+      return 'true'
+    } else {
+      return 'false'
+    }
   }
 
   ngOnDestroy() {
