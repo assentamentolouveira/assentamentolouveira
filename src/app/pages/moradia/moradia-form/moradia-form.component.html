@@ -71,7 +71,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Família tem cadastro único?"
-      formControlName="familiaTemCadastroUnico"
+      formControlName="cadastroUnicoFamilia"
       [p-options]="familiaTemCadastroUnicoOpcoes"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
@@ -81,7 +81,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Família acessa a unidade básica de saúde?"
-      formControlName="familiaAcessaUnidadeBasicaSaude"
+      formControlName="acessaUnidBasicaSaude"
       [p-options]="boleanoOpcoes"
       (p-change)="familiaAcessaUnidadeBasicaSaudeSelecionado($event)"
       p-placeholder="Selecione uma opção"
@@ -91,7 +91,7 @@
     <po-input
       class="po-lg-6"
       p-label="Qual?"
-      formControlName="qualUnidadeBasicaSaude"
+      formControlName="qualUnidBasicaSaude"
       p-placeholder="Infome o recurso"
       [p-disabled]="converterBooleanString(!familiaAcessaUnidadeBasicaSaude)"
       [p-required]="converterBooleanString(familiaAcessaUnidadeBasicaSaude)"
@@ -104,7 +104,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Família tem acesso à escolas, creches?"
-      formControlName="familiaAcessoEscolas"
+      formControlName="temAcessoEscolaCreche"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
@@ -124,7 +124,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Família acessa CRAS?"
-      formControlName="familiaAcessaCRAS"
+      formControlName="acessaCras"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
@@ -134,7 +134,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Família acessa CREAS? "
-      formControlName="familiaAcessaCREAS"
+      formControlName="acessaCreas"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
@@ -147,7 +147,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Família acessa serviços de convivência para crianças ou adolescentes?"
-      formControlName="familiaAcessaServicosConvivenciaCrianca"
+      formControlName="acessaServConvivenciaCriancaAdolescente"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
@@ -157,7 +157,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Família acessa serviços de convivência para Idosos?"
-      formControlName="familiaAcessaServicosConvivenciaIdosos"
+      formControlName="acessaServConvivenciaCriancaIdoso"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
@@ -172,7 +172,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Moradia"
-      formControlName="moradia"
+      formControlName="tipoMoradia"
       [p-options]="moradiaOpcoes"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
@@ -182,7 +182,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Quantidade de Banheiros"
-      formControlName="quantidadeBanheiros"
+      formControlName="quantidadeBanheiro"
       [p-options]="quantidadeBanheirosOpcoes"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
@@ -192,7 +192,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Quantidade de cômodos"
-      formControlName="quantidadeComodos"
+      formControlName="quantidadeComodo"
       [p-options]="quantidadeComodosOpcoes"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
@@ -212,7 +212,7 @@
       class="po-lg-3"
       name="multiselect"
       p-label="Características que melhor descreve a sua casa"
-      formControlName="caracteristicasCasa"
+      formControlName="caracteristicaMoradia"
       p-placeholder="Selecione todas as opções necessárias"
       [p-options]="caracteristicasCasaOpcoes"
     >
@@ -254,7 +254,7 @@
       class="po-lg-3"
       [p-clean]="true"
       p-label="Possui Automóveis?"
-      formControlName="possuiAutomoveis"
+      formControlName="possuiAutomovel"
       [p-options]="numeroAutomoveiOpcoes"
       p-placeholder="Selecione uma opção"
       [p-clean]="true"
@@ -311,7 +311,7 @@
     <po-number
       class="po-lg-3"
       p-label="Outros"
-      formControlName="outroAnimal"
+      formControlName="outroAnimais"
       p-placeholder="Infome o número de outros animais"
       p-clean
     ></po-number>
@@ -320,12 +320,12 @@
   <po-divider p-label="Animais de Estimação"></po-divider>
 
   <div class="po-row">
-    <po-decimal class="po-lg-3" p-label="Aluguel" p-placeholder="0,00" p-clean>
+    <po-decimal class="po-lg-3" p-label="Aluguel" formControlName="gastoComAluguel" p-placeholder="0,00" p-clean>
     </po-decimal>
     <po-decimal
       class="po-lg-3"
       p-label="Energia Elétrica"
-      formControlName="energiaEletrica"
+      formControlName="gastoComEnergiaEletrica"
       p-placeholder="0,00"
       p-clean
     >
@@ -333,12 +333,12 @@
     <po-decimal
       class="po-lg-3"
       p-label="Água/Esgoto"
-      formControlName="aguaEsgoto"
+      formControlName="gastoComAguaEsgoto"
       p-placeholder="0,00"
       p-clean
     >
     </po-decimal>
-    <po-decimal class="po-lg-3" p-label="Gás" p-placeholder="0,00" p-clean>
+    <po-decimal class="po-lg-3" p-label="Gás"       formControlName="gastoComGas" p-placeholder="0,00" p-clean>
     </po-decimal>
   </div>
 
@@ -346,7 +346,7 @@
     <po-decimal
       class="po-lg-3"
       p-label="Alimentação, higiene e limpeza"
-      formControlName="gastoAlimentacao"
+      formControlName="gastoComAlimentacaoHigieneLimpeza"
       p-placeholder="0,00"
       p-clean
     >
@@ -354,7 +354,7 @@
     <po-decimal
       class="po-lg-3"
       p-label="Medicmentos"
-      formControlName="gastoMedicamentos"
+      formControlName="gastoComMedicamento"
       p-placeholder="0,00"
       p-clean
     >
@@ -362,7 +362,7 @@
     <po-decimal
       class="po-lg-3"
       p-label="Total de Despesas"
-      formControlName="totalDespesas"
+      formControlName="totalDeDespesasMensais"
       p-placeholder="0,00"
       p-clean
     >
@@ -373,7 +373,7 @@
     <po-input
       class="po-lg-12"
       p-label="Observações"
-      formControlName="observacoes"
+      formControlName="observacao"
       p-placeholder="Observações"
       p-clean
     >

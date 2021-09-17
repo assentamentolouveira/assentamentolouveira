@@ -50,6 +50,7 @@ export class NewUserComponent implements OnInit {
         this.poNotificationService.success('Usuário Criado com Sucesso!');
         this.router.navigate(['/internet/login'])
       }
+      , error =>  this.poNotificationService.error("Erro ao cadastrar usuário: " +  error.message)
 )
     } else {
       this.poNotificationService.warning('Preeencha todos os campos do formulário.')

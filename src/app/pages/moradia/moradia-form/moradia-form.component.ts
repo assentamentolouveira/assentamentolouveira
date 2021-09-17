@@ -8,7 +8,8 @@ import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service
 import { MoradiaService } from '../shared/moradia.service';
 import { Moradias } from '../shared/moradias.model';
 import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, take } from 'rxjs/operators';
+import { Moradia } from '../shared/moradia.model';
 
 @Component({
   selector: 'app-moradia-form',
@@ -83,47 +84,56 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
     this.desastresOpcoes = this.opcoesComboService.desastresOpcoes;
     this.usoMoradiaOpcoes = this.opcoesComboService.usoMoradiaOpcoes;
 
+    this.moradiaService.getMoradiabyTitular(String(sessionStorage.getItem('idTitular'))).pipe(
+      take(1)
+    ).subscribe(
+      res => {sessionStorage.setItem('moradiaID', res.id), this.montaFormularioEdicao(res)},
+      error => console.log(error)
+    )
   }
 
   criaFormulario(): void {
     this.formularioMoradia = this.fb.group({
-      assentamento: ['-', Validators.compose([Validators.required])],
-      numeroSelagemAtual: ['', Validators.compose([Validators.required])],
-      numeroSelagemAntiga: ['', Validators.compose([Validators.required])],
-      endereco: ['', Validators.compose([Validators.required])],
-      numero: ['', Validators.compose([Validators.required])],
-      complemento: ['', Validators.compose([Validators.required])],
-      bairro: ['', Validators.compose([Validators.required])],
-      familiaTemCadastroUnico: ['', Validators.compose([Validators.required])],
-      familiaAcessaUnidadeBasicaSaude: ['', Validators.compose([Validators.required])],
-      qualUnidadeBasicaSaude: ['', Validators.compose([Validators.required])],
-      familiaAcessoEscolas: ['', Validators.compose([Validators.required])],
+      titularId: [String(sessionStorage.getItem('idTitular'))],
+      assentamento: ['-'],
+      numeroSelagemAtual: [''],
+      numeroSelagemAntiga: [''],
+      endereco: [''],
+      numero: [''],
+      complemento: [''],
+      bairro: [''],
+      cadastroUnicoFamilia: ['', Validators.compose([Validators.required])],
+      acessaUnidBasicaSaude: ['', Validators.compose([Validators.required])],
+      qualUnidBasicaSaude: [''],
+      temAcessoEscolaCreche: ['', Validators.compose([Validators.required])],
       utilizaTransporteEscolar: ['', Validators.compose([Validators.required])],
-      familiaAcessaCRAS: ['', Validators.compose([Validators.required])],
-      familiaAcessaCREAS: ['', Validators.compose([Validators.required])],
-      familiaAcessaServicosConvivenciaCrianca: ['', Validators.compose([Validators.required])],
-      familiaAcessaServicosConvivenciaIdosos: ['', Validators.compose([Validators.required])],
-      moradia: ['', Validators.compose([Validators.required])],
-      quantidadeBanheiros: ['', Validators.compose([Validators.required])],
-      quantidadeComodos: ['', Validators.compose([Validators.required])],
+      acessaCras: ['', Validators.compose([Validators.required])],
+      acessaCreas: ['', Validators.compose([Validators.required])],
+      acessaServConvivenciaCriancaAdolescente: ['', Validators.compose([Validators.required])],
+      acessaServConvivenciaCriancaIdoso: ['', Validators.compose([Validators.required])],
+      tipoMoradia: ['', Validators.compose([Validators.required])],
+      quantidadeBanheiro: ['', Validators.compose([Validators.required])],
+      quantidadeComodo: ['', Validators.compose([Validators.required])],
       tipoMoradiaOcupada: ['', Validators.compose([Validators.required])],
-      caracteristicasCasa: ['', Validators.compose([Validators.required])],
+      caracteristicaMoradia: ['', Validators.compose([Validators.required])],
       acessoEnergiaEletrica: ['', Validators.compose([Validators.required])],
       acessoAbastecimentoAgua: ['', Validators.compose([Validators.required])],
       acessoSaneamentoSanitario: ['', Validators.compose([Validators.required])],
-      possuiAutomoveis: ['', Validators.compose([Validators.required])],
+      possuiAutomovel: ['', Validators.compose([Validators.required])],
       moradiaSofreuDesastre: ['', Validators.compose([Validators.required])],
       usoMoradia: ['', Validators.compose([Validators.required])],
-      cachorro: [''],
-      gato: [''],
-      passaro: [''],
-      outroAnimal: [''],
-      energiaEletrica: ['', Validators.compose([Validators.required])],
-      aguaEsgoto: ['', Validators.compose([Validators.required])],
-      gastoAlimentacao: [''],
-      gastoMedicamentos: [''],
-      totalDespesas: [''],
-      observacoes: [''],
+      cachorro: [0],
+      gato: [0],
+      passaro: [0],
+      outroAnimais: [0],
+      gastoComAluguel:[0],
+      gastoComEnergiaEletrica: [0],
+      gastoComAguaEsgoto: [0],
+      gastoComGas:[0],
+      gastoComAlimentacaoHigieneLimpeza: [0],
+      gastoComMedicamento: [0],
+      totalDeDespesasMensais: [0],
+      observacao: [''],
 
     });
 
@@ -134,12 +144,56 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
     // , Validators.compose([Validators.required])
   }
 
+  montaFormularioEdicao(moradia:Moradia): void {
+    this.formularioMoradia.patchValue({
+      assentamento: moradia.assentamento,
+      numeroSelagemAtual: moradia.numeroSelagemAtual,
+      numeroSelagemAntiga: moradia.numeroSelagemAntiga,
+      endereco: moradia.endereco,
+      numero: moradia.numero,
+      complemento: moradia.complemento,
+      bairro: moradia.bairro,
+      cadastroUnicoFamilia: moradia.cadastroUnicoFamilia,
+      acessaUnidBasicaSaude: moradia.acessaUnidBasicaSaude,
+      qualUnidBasicaSaude: moradia.qualUnidBasicaSaude,
+      temAcessoEscolaCreche: moradia.temAcessoEscolaCreche,
+      utilizaTransporteEscolar: moradia.utilizaTransporteEscolar,
+      acessaCras: moradia.acessaCras,
+      acessaCreas: moradia.acessaCreas,
+      acessaServConvivenciaCriancaAdolescente: moradia.acessaServConvivenciaCriancaAdolescente,
+      acessaServConvivenciaCriancaIdoso: moradia.acessaServConvivenciaCriancaIdoso,
+      tipoMoradia: moradia.tipoMoradia,
+      quantidadeBanheiro: moradia.quantidadeBanheiro,
+      quantidadeComodo: moradia.quantidadeComodo,
+      tipoMoradiaOcupada: moradia.tipoMoradiaOcupada,
+      caracteristicaMoradia: moradia.caracteristicaMoradia,
+      acessoEnergiaEletrica: moradia.acessoEnergiaEletrica,
+      acessoAbastecimentoAgua: moradia.acessoAbastecimentoAgua,
+      acessoSaneamentoSanitario: moradia.acessoSaneamentoSanitario,
+      possuiAutomovel: moradia.possuiAutomovel,
+      moradiaSofreuDesastre: moradia.moradiaSofreuDesastre,
+      usoMoradia: moradia.usoMoradia,
+      cachorro: moradia.cachorro,
+      gato: moradia.gato,
+      passaro: moradia.passaro,
+      outroAnimais: moradia.outroAnimais,
+      gastoComAluguel:moradia.gastoComAluguel,
+      gastoComEnergiaEletrica: moradia.gastoComEnergiaEletrica,
+      gastoComAguaEsgoto: moradia.gastoComAguaEsgoto,
+      gastoComGas:moradia.gastoComGas,
+      gastoComAlimentacaoHigieneLimpeza: moradia.gastoComAlimentacaoHigieneLimpeza,
+      gastoComMedicamento: moradia.gastoComMedicamento,
+      totalDeDespesasMensais: moradia.totalDeDespesasMensais,
+      observacao: moradia.observacao,
+    });
+  }
+
   familiaAcessaUnidadeBasicaSaudeSelecionado(selecionado: number) {
     if (selecionado === 1) {
       this.familiaAcessaUnidadeBasicaSaude = true;
     } else {
       this.familiaAcessaUnidadeBasicaSaude = false;
-      this.formularioMoradia.patchValue({ qualUnidadeBasicaSaude: "" })
+      this.formularioMoradia.patchValue({ qualUnidBasicaSaude: "" })
     }
   }
 

@@ -26,6 +26,8 @@ export class LoginService extends BaseResourceService {
 
   realizaLogin(usuario: login): Observable<any> {
     if (this.isInternet) {
+      sessionStorage.removeItem('idTitular');
+      sessionStorage.removeItem('moradiaID');
       return this.http.post(this.apiPath, usuario, this.httpOptions).pipe(
         mergeMap(login => this.retornaDadosCartaoCidadao(login)),
       );

@@ -158,7 +158,9 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   incluiMoradia(res: Titular): void {
-    this.moradiaService.postMoradia(res).subscribe();
+    this.moradiaService.postMoradia(res).subscribe(res =>
+      sessionStorage.setItem('moradiaID', res.id)
+    );
   }
 
   incluiDependentes(listaDeDepententes: string[], titular: Titular): void {
@@ -192,6 +194,10 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   formularioMoradiaValido(formularioMoradia: FormGroup): void {
     if (formularioMoradia.valid) {
+      this.moradiaService.putMoradia(formularioMoradia.value, String(sessionStorage.getItem('moradiaID'))).subscribe(
+        res => console.log(res),
+        error => console.error(error)
+      )
       console.log(formularioMoradia)
     }
   }

@@ -308,53 +308,53 @@ export class OpcoesComboService {
 
   familiaTemCadastroUnicoOpcoes = [
     {
-      value: 1,
+      value: 'DoMunicipio',
       label: 'Sim, no Município'
     },
     {
-      value: 2,
+      value: 'OutroMunicipio',
       label: 'Sim, em outro Município'
     },
     {
-      value: 3,
+      value: 'Nao',
       label: 'Não possuo'
     }
   ]
 
   moradiaOpcoes = [
     {
-      value: 1,
+      value: 'Propria',
       label: 'Própria'
     },
     {
-      value: 2,
+      value: 'Cedida',
       label: 'Cedida'
     },
     {
-      value: 3,
+      value: 'Alugada',
       label: 'Alugada'
     },
     {
-      value: 4,
+      value: 'Ocupacao',
       label: 'Ocupação de áreas públicas ou particulares'
     }
   ]
 
   quantidadeBanheirosOpcoes = [
     {
-      value: 1,
+      value: 'Um',
       label: 'Um'
     },
     {
-      value: 2,
+      value: 'Dois',
       label: 'Dois'
     },
     {
-      value: 3,
+      value: 'Tres',
       label: 'TrÊs'
     },
     {
-      value: 4,
+      value: 'AcimaDeTres',
       label: 'Acima de Três'
     }
   ];
@@ -362,238 +362,238 @@ export class OpcoesComboService {
 
   quantidadeComodosOpcoes = [
     {
-      value: 1,
+      value: 'Um',
       label: 'Um'
     },
     {
-      value: 2,
+      value: 'Dois',
       label: 'Dois'
     },
     {
-      value: 3,
+      value: 'Tres',
       label: 'Três'
     },
     {
-      value: 4,
+      value: 'Quatro',
       label: 'Quatro'
     },
     {
-      value: 5,
+      value: 'AcimaDeQuatro',
       label: 'Acima de Quatro'
     }
   ];
 
   tipoMoradiaOpcoes = [
     {
-      value: 1,
+      value: 'Casa',
       label: 'Casa'
     },
     {
-      value: 2,
+      value: 'CasaDeVila',
       label: 'Casa de vila ou condomínio'
     },
     {
-      value: 3,
+      value: 'Condominio',
       label: 'Condominio'
     },
     {
-      value: 4,
+      value: 'Apartamento',
       label: 'Apartamento'
     },
     {
-      value: 5,
+      value: 'ComodoCompartilhado',
       label: 'Cômodos compartilhados'
     },
     {
-      value: 6,
+      value: 'Cortico',
       label: 'Cortiço'
     },
     {
-      value: 7,
+      value: 'Outro',
       label: 'Outro'
     }
   ]
 
   caracteristicasCasaOpcoes = [
     {
-      value: 1,
+      value: 'AlvenariaRevestimento',
       label: 'Alvenaria/tijolo com revestimento'
     },
     {
-      value: 2,
+      value: 'AlvenariaSemRevestimento',
       label: 'Alvenaria/tijolo sem revestimento '
     },
     {
-      value: 3,
+      value: 'Madeira',
       label: 'Madeira'
     },
     {
-      value: 4,
+      value: 'TaipaRevestida',
       label: 'Taipa revestida'
     },
     {
-      value: 5,
+      value: 'TaipaNaoRevestida',
       label: 'Taipa não revestida'
     },
     {
-      value: 6,
+      value: 'CoberturaComLaje',
       label: 'Cobertura com Laje'
     },
     {
-      value: 7,
+      value: 'CoberturaSemLaje',
       label: 'Cobertura sem Laje'
     },
     {
-      value: 8,
+      value: 'MistoMadeiraAlvenaria',
       label: 'Misto madeira e alvenaria'
     }
   ]
 
   acessoEnergiaOpcoes = [
     {
-      value: 1,
+      value: 'SimComMedidorProprio',
       label: 'Sim, com medidor próprio'
     },
     {
-      value: 2,
+      value: 'SimComMedidorCompartilhado',
       label: 'Sim, com medidor compartilhado'
     },
     {
-      value: 3,
+      value: 'SimSemMedidor',
       label: 'Sim, sem medidor'
     },
     {
-      value: 4,
+      value: 'NaoPossuiEnergiaEletricaNoDomicilio',
       label: 'Não possui energia elétrica no domicílio'
     }
   ]
 
   acessoAguaOpcoes = [
     {
-      value: 1,
+      value: 'RedeGeralDeDistribuicao',
       label: 'Rede geral de distribuição'
     },
     {
-      value: 2,
+      value: 'PocoOuNascente',
       label: 'Poço ou nascente'
     },
     {
-      value: 3,
+      value: 'Cisterna',
       label: 'Cisterna de captação de águas de chuva '
     },
     {
-      value: 4,
+      value: 'CarroPipa',
       label: 'Carro pipa'
     },
     {
-      value: 5,
+      value: 'NaoPossuiAcessoAgua',
       label: 'Não possui acesso a água'
     }
   ]
 
   acessoSaneamentoOpcoes = [
     {
-      value: 1,
+      value: 'RedeDeEsgoto',
       label: 'Rede esgoto'
     },
     {
-      value: 2,
+      value: 'FossaSeptica',
       label: 'Fossa séptica'
     },
     {
-      value: 3,
+      value: 'FossaRudimentar',
       label: 'Fossa Rudimentar'
     },
     {
-      value: 4,
+      value: 'CeuAberto',
       label: 'Céu Aberto'
     },
     {
-      value: 5,
+      value: 'DomicilioSemBanheira',
       label: 'Domicílio sem banheiro'
     }
   ]
 
   acessoColetaOpcoes = [
     {
-      value: 1,
+      value: 'DomicilioSemBanheira',
       label: 'Sim, coleta direta (na porta de casa)'
     },
     {
-      value: 2,
+      value: 'SimColetaIndireta',
       label: 'Sim, coleta indireta'
     },
     {
-      value: 3,
+      value: 'NaoPossuiColeta',
       label: 'Não possui coleta'
     }
   ]
 
   numeroAutomoveiOpcoes = [
     {
-      value: 1,
+      value: 'Um',
       label: 'Um'
     },
     {
-      value: 2,
+      value: 'Dois',
       label: 'Dois'
     },
     {
-      value: 3,
+      value: 'AcimaDeDois',
       label: 'Acima de Dois'
     },
     {
-      value: 4,
+      value: 'NaoPossui',
       label: 'Não possui'
     }
   ]
 
   desastresOpcoes = [
     {
-      value: 1,
+      value: 'Alagamento',
       label: 'Alagamento'
     },
     {
-      value: 2,
+      value: 'DeslizamentoDeTerra',
       label: 'Deslizamento de Terra'
     },
     {
-      value: 3,
+      value: 'DesabamentoDaEstrutura',
       label: 'Desabamento de Estrutura'
     },
     {
-      value: 4,
+      value: 'Incendio',
       label: 'Incêndio'
     },
     {
-      value: 5,
+      value: 'NaoSofreu',
       label: 'Não Sofreu'
     }
   ]
 
   usoMoradiaOpcoes = [
     {
-      value: 1,
+      value: 'Habitacional',
       label: 'Habitacional'
     },
     {
-      value: 2,
+      value: 'Comercial',
       label: 'Comercial'
     },
     {
-      value: 3,
+      value: 'MistoResidenciaComercio',
       label: 'Misto Habitacional e Comercial'
     },
     {
-      value: 4,
+      value: 'Igreja',
       label: 'Igreja'
     },
     {
-      value: 5,
+      value: 'MistoResidenciaIgreja',
       label: 'Misto Residencial e Igreja'
     },
     {
-      value: 6,
+      value: 'OutroUso',
       label: 'Outro'
     }
   ]
