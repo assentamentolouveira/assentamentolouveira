@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-titulares-form',
   templateUrl: './titulares-form.component.html',
-  styles: [],
+  styleUrls: ['./titulares-form.component.css'],
 })
 export class TitularesFormComponent extends BaseResourceFormComponent<Titulares> implements OnDestroy {
   private formularioPreenchido = false;
@@ -189,6 +189,13 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       qualRegFundOuUsocapiao: this.dadosTitular.qualRegFundOuUsocapiao,
       aondeRegFundOuUsocapiao: this.dadosTitular.aondeRegFundOuUsocapiao
     });
+
+    this.dadosTitular.qualLocalDoImovel.length > 0 ? this.localDoImovelAtivo = true : this.localDoImovelAtivo = false;
+    this.dadosTitular.qualProgHabitacional.length > 0 ? this.programaContempladoAtivo = true : this.programaContempladoAtivo = false;
+    this.dadosTitular.qualRegFundOuUsocapiao.length > 0 ? this.programaContempladoPaisAtivo = true : this.programaContempladoPaisAtivo = false;
+    this.dadosTitular.aondeRegFundOuUsocapiao.length > 0 ? this.programaContempladoPaisAtivo = true : this.programaContempladoPaisAtivo = false;
+
+    this.formularioTitularValido.emit(this.formularioTitular)
   }
 
   adicionaRenda(): void {

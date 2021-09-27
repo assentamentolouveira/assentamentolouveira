@@ -1,3 +1,4 @@
+import { OpcoesComboService } from './../../../shared/services/opcoes-combo.service';
 import { MoradiaService } from './../../moradia/shared/moradia.service';
 import { DependentesService } from './../../dependentes/shared/dependentes.service';
 import { Dependente } from './../../dependentes/shared/dependente.model';
@@ -10,9 +11,10 @@ import { Assentamento } from './../shared/assentamento.model';
 import { Component, Injector, OnInit } from '@angular/core';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { Titular } from '../../titulares/shared/titular.model';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { take, finalize, retry } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
+import { DocumentPipe } from 'src/app/shared/pipes/document.pipe';
 
 @Component({
   selector: 'app-assentamento-form',
@@ -21,18 +23,21 @@ import { forkJoin } from 'rxjs';
 })
 export class AssentamentoFormComponent extends BaseResourceFormComponent<Assentamento> {
   public readonly actions: Array<PoPageAction> = [
-    { label: 'Salvar', action: () => alert('Salvar'), icon: 'po-icon-ok' }
+    { label: 'Salvar Solicitação de Moradia', action: () => alert('Salvar'), icon: 'po-icon-ok' },
   ];
 
   public isTitular = true;
   public isDependente = false;
   public isMoradia = false;
+  public isRenda = false;
   public carregando = true;
   public mensagemLoading = ''
   public habilitaRenda = false;
   public titularValido = false;
   public edicao = false;
   public atualizaDepentente = false;
+  public formularioTitular: FormGroup;
+  public formularioMoradia: FormGroup;
 
 
   private titular: Titular;
@@ -43,20 +48,29 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   botoes: Array<PoButtonGroupItem> = [
     {
       label: 'Titular',
-      action: () => this.action(true, false, false, 1),
+      action: () => this.defineFormulario(true, false, false, false, 1),
       selected: true,
       icon: 'po-icon-user'
     },
     {
       label: 'Dependente',
-      action: () => this.action(false, true, false, 2),
+      action: () => this.defineFormulario(false, true, false, false, 2),
       selected: false,
+      disabled: !this.edicao,
       icon: 'po-icon-users'
     },
     {
       label: 'Moradia',
-      action: () => this.action(false, false, true, 3),
+      action: () => this.defineFormulario(false, false, true, false, 3),
       selected: false,
+      disabled: !this.edicao,
+      icon: 'po-icon-warehouse'
+    },
+    {
+      label: 'Renda',
+      action: () => this.defineFormulario(false, false, false, true, 4),
+      selected: false,
+      disabled: !this.edicao,
       icon: 'po-icon-warehouse'
     },
   ];
@@ -67,8 +81,9 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     private poNotificationService: PoNotificationService,
     private loginService: LoginService,
     private titularService: TitularesService,
-    private depentendesService: DependentesService,
-    private moradiaService: MoradiaService
+    private dependentesService: DependentesService,
+    private moradiaService: MoradiaService,
+    private opcoesComboService:OpcoesComboService
   ) {
     super(injector, new Assentamento(), assentamentoService);
     if (this.loginService.isInternet) {
@@ -80,18 +95,24 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     }
     this.edicao = this.router.url.includes('editar')
     this.titularValido = this.edicao;
+    this.botoes.map((botao, indice) => {
+      this.botoes[indice].disabled = !this.edicao;
+    });
     this.poNotificationService.setDefaultDuration(3000);
+    this.buscaDependentesPorTitular();
   }
 
-  action(
+  defineFormulario(
     isTitular: boolean,
     isDependente: boolean,
     isMoradia: boolean,
+    isRenda: boolean,
     opcaoSelecionada: number
   ) {
     this.isTitular = isTitular;
     this.isDependente = isDependente;
     this.isMoradia = isMoradia;
+    this.isRenda = isRenda;
     this.botoes.map((botao, indice) => {
       indice + 1 === opcaoSelecionada
         ? (this.botoes[indice].selected = true)
@@ -101,19 +122,23 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   dependenteValido(): boolean {
     if (!this.titularValido) {
-      this.poNotificationService.error("Informe os campos obrigatórios do Titular")
+      this.poNotificationService.error("Salva os Dados do Titular para Habilitar os Dependentes")
     }
     return this.titularValido
   }
 
-  formularioTitularValido(formularioValido: FormGroup): boolean {
+  formularioTitularValido(formularioValido: FormGroup): void {
+    this.formularioTitular = formularioValido;
+  }
+
+  salvarEdicaoTitular(): boolean {
     this.titular = JSON.parse(this.titularService.getTitularInfo());
-    if (formularioValido.valid) {
+    if (this.formularioTitular.valid) {
       this.carregando = false;
-      this.edicao ? this.editaTitular(formularioValido.value) : this.incluiTitular(formularioValido.value)
+      this.edicao ? this.editaTitular(this.formularioTitular.value) : this.incluiTitular(this.formularioTitular.value)
     }
-    this.titular = formularioValido.value;
-    return formularioValido.valid
+    this.titular = this.formularioTitular.value;
+    return this.formularioTitular.valid
   }
 
   editaTitular(formulario: Titular): void {
@@ -130,6 +155,11 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       take(1),
     ).subscribe(res => {
       this.titularService.setTitularInfo(res)
+      this.botoes.map((botao, indice) => {
+        this.botoes[indice].disabled = false;
+      });
+
+      this.edicao = true;
 
       this.incluiMoradia(res);
 
@@ -140,12 +170,12 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         this.incluiDependentes(listaDeDepententes, res);
       } else {
         this.carregando = true;
-        this.titularValido = true
+        this.titularValido = true;
       }
     }
       , error => {
         this.carregando = true;
-        this.titularValido = true;
+        this.titularValido = false;
         this.poNotificationService.error(error.message)
         console.error(error)
       })
@@ -169,18 +199,39 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     this.mensagemLoading = "Incluindo Dependentes...";
     this.titularValido = false;
     listaDeDepententes.forEach((dependente) => {
-      Object.assign(observablesDependentes, { [dependente]: this.depentendesService.incluiDependente(titular.id, dependente).pipe(retry(3)) })
+      Object.assign(observablesDependentes, { [dependente]: this.dependentesService.incluiDependente(titular.id, dependente).pipe(retry(3)) })
     })
 
     forkJoin(observablesDependentes).pipe(
       finalize(() => this.carregando = true)
     ).subscribe(
       res => {
+        this.buscaDependentesPorTitular();
         this.titularValido = true;
       }
       , erro => console.error(`erro ao cadastrar dependente ${erro}`)
     )
   }
+
+  buscaDependentesPorTitular() {
+    this.dependentesService.getDepentendesPorTitular(sessionStorage.getItem('idTitular')).pipe(
+      retry(3),
+      take(1),
+    ).subscribe(resposta => {
+      const pipeCPF = new DocumentPipe()
+      resposta.map(res => { res.parentesco = this.converteParentesco(res), res.cpfFormatado = pipeCPF.transform(res.numeroCpf) })
+      this.recebeDependentes(resposta);
+    }, error => {
+      if (error.status != 404) {
+        this.poNotificationService.error("Erro ao buscar a Renda")
+      }
+    })
+  }
+
+  converteParentesco(dependente: Dependente): string {
+    return this.opcoesComboService.retornaLabelOpcoes(dependente.parentesco, this.opcoesComboService.parentescoOpcoes)
+  }
+
 
   montaComboRenda(): void {
     const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
@@ -193,12 +244,22 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   formularioMoradiaValido(formularioMoradia: FormGroup): void {
-    if (formularioMoradia.valid) {
-      this.moradiaService.putMoradia(formularioMoradia.value, String(sessionStorage.getItem('moradiaID'))).subscribe(
-        res => console.log(res),
-        error => console.error(error)
+    this.formularioMoradia = formularioMoradia;
+  }
+
+  salvarEdicaoMoradia():void {
+    if (this.formularioMoradia.valid) {
+      const formularioMoradia = this.formularioMoradia.value
+      this.mensagemLoading = "Alterando Moradia...";
+      this.carregando = false;
+
+      this.moradiaService.putMoradia(JSON.parse(JSON.stringify(formularioMoradia)), String(sessionStorage.getItem('moradiaID'))).pipe(
+        finalize(()=> this.carregando = true)
+      ).subscribe(
+        res => this.poNotificationService.success("Moradia Editada com Sucesso"),
+        error => this.poNotificationService.error("Erro ao Editar a Moradia"),
       )
-      console.log(formularioMoradia)
+      console.log(this.formularioMoradia)
     }
   }
 
@@ -211,6 +272,6 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   protected editionPageTitle(): string {
     const informacoesAssentamento =
       `${this.route.snapshot.paramMap.get('id')}` || '';
-    return 'Editando Usuário: ' + informacoesAssentamento;
+    return 'Editando Assentamento'
   }
 }

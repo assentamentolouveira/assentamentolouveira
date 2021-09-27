@@ -67,27 +67,23 @@
   <po-divider p-label="Acesso a Serviços"></po-divider>
 
   <div class="po-row">
-    <po-combo
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Família tem cadastro único?"
       formControlName="cadastroUnicoFamilia"
       [p-options]="familiaTemCadastroUnicoOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Família acessa a unidade básica de saúde?"
       formControlName="acessaUnidBasicaSaude"
       [p-options]="boleanoOpcoes"
       (p-change)="familiaAcessaUnidadeBasicaSaudeSelecionado($event)"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
+    </po-select>
     <po-input
       class="po-lg-6"
       p-label="Qual?"
@@ -100,114 +96,94 @@
     </po-input>
   </div>
   <div class="po-row">
-    <po-combo
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Família tem acesso à escolas, creches?"
       formControlName="temAcessoEscolaCreche"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Utiliza transporte escolar?"
       formControlName="utilizaTransporteEscolar"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Família acessa CRAS?"
       formControlName="acessaCras"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Família acessa CREAS? "
       formControlName="acessaCreas"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
+    </po-select>
   </div>
 
   <div class="po-row">
-    <po-combo
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Família acessa serviços de convivência para crianças ou adolescentes?"
       formControlName="acessaServConvivenciaCriancaAdolescente"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Família acessa serviços de convivência para Idosos?"
       formControlName="acessaServConvivenciaCriancaIdoso"
       [p-options]="boleanoOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
+    </po-select>
   </div>
 
   <po-divider p-label="Identificação da Moradia"></po-divider>
 
   <div class="po-row">
-    <po-combo
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Moradia"
       formControlName="tipoMoradia"
       [p-options]="moradiaOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Quantidade de Banheiros"
       formControlName="quantidadeBanheiro"
       [p-options]="quantidadeBanheirosOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Quantidade de cômodos"
       formControlName="quantidadeComodo"
       [p-options]="quantidadeComodosOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Tipo de Moradia Ocupada"
       formControlName="tipoMoradiaOcupada"
       [p-options]="tipoMoradiaOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
+    </po-select>
     <po-multiselect
       class="po-lg-3"
       name="multiselect"
@@ -220,68 +196,56 @@
   </div>
 
   <div class="po-row">
-    <po-combo
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Acesso à energia elétrica"
       formControlName="acessoEnergiaEletrica"
       [p-options]="acessoEnergiaOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Acesso à abastecimento de água"
       formControlName="acessoAbastecimentoAgua"
       [p-options]="acessoAguaOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Acesso a saneamento sanitário"
       formControlName="acessoSaneamentoSanitario"
       [p-options]="acessoSaneamentoOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Possui Automóveis?"
       formControlName="possuiAutomovel"
       [p-options]="numeroAutomoveiOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
+    </po-select>
   </div>
   <div class="po-row">
-    <po-combo
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="A sua moradia atual já sofreu algum tipo de desastre?"
       formControlName="moradiaSofreuDesastre"
       [p-options]="desastresOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
-    <po-combo
+    </po-select>
+    <po-select
       class="po-lg-3"
-      [p-clean]="true"
       p-label="Uso da Moradia"
       formControlName="usoMoradia"
       [p-options]="usoMoradiaOpcoes"
       p-placeholder="Selecione uma opção"
-      [p-clean]="true"
     >
-    </po-combo>
+    </po-select>
   </div>
 
   <po-divider p-label="Animais de Estimação"></po-divider>
@@ -290,44 +254,46 @@
     <po-number
       class="po-lg-3"
       p-label="Cachorro"
-      formControlName="cachorro"
+      formControlName="cao"
       p-placeholder="Infome o número de cachorros"
-      p-clean
     ></po-number>
     <po-number
       class="po-lg-3"
       p-label="Gato"
       formControlName="gato"
       p-placeholder="Infome o número de gatos"
-      p-clean
     ></po-number>
     <po-number
       class="po-lg-3"
       p-label="Pássaro"
       formControlName="passaro"
       p-placeholder="Infome o número de pássaros"
-      p-clean
     ></po-number>
     <po-number
       class="po-lg-3"
       p-label="Outros"
       formControlName="outroAnimais"
       p-placeholder="Infome o número de outros animais"
-      p-clean
     ></po-number>
   </div>
 
   <po-divider p-label="Animais de Estimação"></po-divider>
 
   <div class="po-row">
-    <po-decimal class="po-lg-3" p-label="Aluguel" formControlName="gastoComAluguel" p-placeholder="0,00" p-clean>
+    <po-decimal
+      class="po-lg-3"
+      p-label="Aluguel"
+      formControlName="gastoComAluguel"
+      p-placeholder="0,00"
+      (p-change)="atualizaTotalDeDespesas($event)"
+    >
     </po-decimal>
     <po-decimal
       class="po-lg-3"
       p-label="Energia Elétrica"
       formControlName="gastoComEnergiaEletrica"
       p-placeholder="0,00"
-      p-clean
+      (p-change)="atualizaTotalDeDespesas($event)"
     >
     </po-decimal>
     <po-decimal
@@ -335,10 +301,16 @@
       p-label="Água/Esgoto"
       formControlName="gastoComAguaEsgoto"
       p-placeholder="0,00"
-      p-clean
+      (p-change)="atualizaTotalDeDespesas($event)"
     >
     </po-decimal>
-    <po-decimal class="po-lg-3" p-label="Gás"       formControlName="gastoComGas" p-placeholder="0,00" p-clean>
+    <po-decimal
+      class="po-lg-3"
+      p-label="Gás"
+      formControlName="gastoComGas"
+      p-placeholder="0,00"
+      (p-change)="atualizaTotalDeDespesas($event)"
+    >
     </po-decimal>
   </div>
 
@@ -348,7 +320,7 @@
       p-label="Alimentação, higiene e limpeza"
       formControlName="gastoComAlimentacaoHigieneLimpeza"
       p-placeholder="0,00"
-      p-clean
+      (p-change)="atualizaTotalDeDespesas($event)"
     >
     </po-decimal>
     <po-decimal
@@ -356,7 +328,7 @@
       p-label="Medicmentos"
       formControlName="gastoComMedicamento"
       p-placeholder="0,00"
-      p-clean
+      (p-change)="atualizaTotalDeDespesas($event)"
     >
     </po-decimal>
     <po-decimal
@@ -364,7 +336,7 @@
       p-label="Total de Despesas"
       formControlName="totalDeDespesasMensais"
       p-placeholder="0,00"
-      p-clean
+      p-readonly="true;"
     >
     </po-decimal>
   </div>

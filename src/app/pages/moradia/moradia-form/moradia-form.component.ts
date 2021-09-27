@@ -87,7 +87,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
     this.moradiaService.getMoradiabyTitular(String(sessionStorage.getItem('idTitular'))).pipe(
       take(1)
     ).subscribe(
-      res => {sessionStorage.setItem('moradiaID', res.id), this.montaFormularioEdicao(res)},
+      res => { sessionStorage.setItem('moradiaID', res.id), this.montaFormularioEdicao(res) },
       error => console.log(error)
     )
   }
@@ -122,14 +122,14 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       possuiAutomovel: ['', Validators.compose([Validators.required])],
       moradiaSofreuDesastre: ['', Validators.compose([Validators.required])],
       usoMoradia: ['', Validators.compose([Validators.required])],
-      cachorro: [0],
-      gato: [0],
-      passaro: [0],
+      cao: [],
+      gato: [],
+      passaro: [],
       outroAnimais: [0],
-      gastoComAluguel:[0],
+      gastoComAluguel: [0],
       gastoComEnergiaEletrica: [0],
       gastoComAguaEsgoto: [0],
-      gastoComGas:[0],
+      gastoComGas: [0],
       gastoComAlimentacaoHigieneLimpeza: [0],
       gastoComMedicamento: [0],
       totalDeDespesasMensais: [0],
@@ -144,7 +144,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
     // , Validators.compose([Validators.required])
   }
 
-  montaFormularioEdicao(moradia:Moradia): void {
+  montaFormularioEdicao(moradia: Moradia): void {
     this.formularioMoradia.patchValue({
       assentamento: moradia.assentamento,
       numeroSelagemAtual: moradia.numeroSelagemAtual,
@@ -173,19 +173,23 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       possuiAutomovel: moradia.possuiAutomovel,
       moradiaSofreuDesastre: moradia.moradiaSofreuDesastre,
       usoMoradia: moradia.usoMoradia,
-      cachorro: moradia.cachorro,
+      cao: moradia.cao,
       gato: moradia.gato,
       passaro: moradia.passaro,
       outroAnimais: moradia.outroAnimais,
-      gastoComAluguel:moradia.gastoComAluguel,
+      gastoComAluguel: moradia.gastoComAluguel,
       gastoComEnergiaEletrica: moradia.gastoComEnergiaEletrica,
       gastoComAguaEsgoto: moradia.gastoComAguaEsgoto,
-      gastoComGas:moradia.gastoComGas,
+      gastoComGas: moradia.gastoComGas,
       gastoComAlimentacaoHigieneLimpeza: moradia.gastoComAlimentacaoHigieneLimpeza,
       gastoComMedicamento: moradia.gastoComMedicamento,
       totalDeDespesasMensais: moradia.totalDeDespesasMensais,
       observacao: moradia.observacao,
     });
+
+    moradia.qualUnidBasicaSaude.length > 0 ? this.familiaAcessaUnidadeBasicaSaude = true : this.familiaAcessaUnidadeBasicaSaude = false;
+
+    this.formularioMoradiaValido.emit(this.formularioMoradia)
   }
 
   familiaAcessaUnidadeBasicaSaudeSelecionado(selecionado: number) {
@@ -203,6 +207,24 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
     } else {
       return 'false'
     }
+  }
+
+  atualizaTotalDeDespesas(valorInfomado: string | number): void {
+    if(typeof valorInfomado === 'string'){
+      valorInfomado = Number(valorInfomado.replace(',', '.'))
+    }
+    const total =  this.retornaValorNumerico(this.formularioMoradia.value.gastoComAluguel)
+    + this.retornaValorNumerico(this.formularioMoradia.value.gastoComEnergiaEletrica)
+    + this.retornaValorNumerico(this.formularioMoradia.value.gastoComAguaEsgoto)
+    + this.retornaValorNumerico(this.formularioMoradia.value.gastoComGas)
+    + this.retornaValorNumerico(this.formularioMoradia.value.gastoComAlimentacaoHigieneLimpeza)
+    + this.retornaValorNumerico(this.formularioMoradia.value.gastoComMedicamento)
+    this.formularioMoradia.patchValue({ totalDeDespesasMensais: total })
+  }
+
+  retornaValorNumerico(valorRecebido: undefined | number): number {
+    const valor = !!valorRecebido ? valorRecebido : 0
+    return valor
   }
 
   ngOnDestroy() {

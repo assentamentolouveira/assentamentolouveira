@@ -1,3 +1,4 @@
+import { PoNotificationService } from '@po-ui/ng-components';
 import { LoginService } from './../../core/login/shared/login.service';
 import { Injectable } from '@angular/core';
 import {
@@ -13,7 +14,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class AuthTokenInterceptor implements HttpInterceptor {
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private poNotificationService:PoNotificationService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const authToken = this.loginService.getToken();
@@ -27,6 +28,10 @@ export class AuthTokenInterceptor implements HttpInterceptor {
           errorMsg = `Error: ${error.error.message}`;
         }
         else {
+          if (error.status === 401){
+            this.loginService.realizaLogout();
+            this.poNotificationService.error("Usuário não autorizado. Realize o login novamente.")
+          }
           console.log('this is server side error');
           errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
         }

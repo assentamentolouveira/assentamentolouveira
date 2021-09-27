@@ -67,18 +67,17 @@
     </div>
 
     <div class="po-row">
-      <po-combo
+      <po-select
         formControlName="parentesco"
         class="po-lg-3"
         p-label="Parentesco com o Responsável'"
         [p-options]="parentescoResponsavelOpcoes"
         p-placeholder="Não informado"
         [p-disabled]="true"
-        [p-clean]="true"
       >
-      </po-combo>
+      </po-select>
 
-      <po-combo
+      <po-select
         formControlName="estadoCivil"
         class="po-lg-3"
         p-label="Estado Civil"
@@ -86,19 +85,17 @@
         p-placeholder="Selecione o estado civil"
         [p-disabled]="true"
       >
-      </po-combo>
+      </po-select>
 
-      <po-combo
+      <po-select
         formControlName="escolaridade"
         class="po-lg-3"
         p-label="Escolaridade"
         [p-options]="escolaridadeOpcoes"
         p-placeholder="Selecione o Grau de Escolaridade"
-        [p-clean]="true"
-        [p-disabled-init-filter]="true"
       >
-      </po-combo>
-      <po-combo
+      </po-select>
+      <po-select
         formControlName="deficiencia"
         class="po-lg-3"
         p-label="Possui Deficiencia"
@@ -106,7 +103,7 @@
         p-placeholder="Selecione a defiencia"
         [p-disabled]="true"
       >
-      </po-combo>
+      </po-select>
     </div>
   </form>
   <po-button

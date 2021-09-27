@@ -42,6 +42,8 @@ export class MoradiaService extends BaseResourceService {
 
   putMoradia(moradia: Moradia, moradiaId: string): Observable<Moradia> {
     const moradiaTratada = this.trataMoradia(moradia)
+    // const camposMoradiaPreenchidos:any = moradiaTratada;
+    // Object.keys(camposMoradiaPreenchidos).forEach((key) => (camposMoradiaPreenchidos[key] == null) && delete camposMoradiaPreenchidos[key])
     return this.http.put<Moradia>(`${this.apiPath}/${moradiaId}`, moradiaTratada, this.httpOptions).pipe()
   }
 
@@ -54,6 +56,7 @@ export class MoradiaService extends BaseResourceService {
   }
 
   trataMoradia(moradia : Moradia): Moradia{
+    let moradiaTratada = moradia;
     moradia.caracteristicaMoradia = this.montaObjetoCaracterísticasDaMoradia(moradia.caracteristicaMoradia, moradia.id);
     moradia.acessaUnidBasicaSaude = this.converterParaBoleano(moradia.acessaUnidBasicaSaude);
     moradia.temAcessoEscolaCreche = this.converterParaBoleano(moradia.temAcessoEscolaCreche);
@@ -63,6 +66,7 @@ export class MoradiaService extends BaseResourceService {
     moradia.acessaServConvivenciaCriancaAdolescente = this.converterParaBoleano(moradia.acessaServConvivenciaCriancaAdolescente);
     moradia.acessaServConvivenciaCriancaIdoso = this.converterParaBoleano(moradia.acessaServConvivenciaCriancaIdoso);
     moradia.titularId = String(sessionStorage.getItem('idTitular'));
+    delete moradia.totalDeDespesasMensais;
     return moradia
   }
 

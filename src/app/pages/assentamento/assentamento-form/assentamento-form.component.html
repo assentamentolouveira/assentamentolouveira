@@ -1,7 +1,58 @@
 <po-page-default [p-title]="pageTitle" [p-actions]="actions">
-  <!-- <div class="po-row">
-    <po-button-group class="po-md-12" [p-buttons]="botoes"> </po-button-group>
-  </div> -->
+  <div class="po-row">
+    <po-button-group class="po-md-12 po-mb-2" [p-buttons]="botoes"> </po-button-group>
+  </div>
+
+  <po-loading-overlay
+    [p-screen-lock]="true"
+    [hidden]="carregando"
+    [p-text]="mensagemLoading" >
+  </po-loading-overlay>
+
+    <div *ngIf="isTitular">
+      <app-titulares-form [edicao]="edicao" (formularioTitularValido)="formularioTitularValido($event)"></app-titulares-form>
+      <div class="po-row">
+        <po-button
+        class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1"
+        p-label="Salvar Titular"
+        p-icon="po-icon-ok"
+        [p-disabled]="!formularioTitular?.valid"
+        (p-click)="salvarEdicaoTitular()"
+      >
+      </po-button>
+      </div>
+    </div>
+    <div *ngIf="isDependente">
+      <div *ngIf="titularValido">
+        <app-dependentes-form [isDependente]="isDependente" (enviaDependentes)="recebeDependentes($event)" ></app-dependentes-form>
+      </div>
+    </div>
+    <div *ngIf="isMoradia">
+      <app-moradia-form (formularioMoradiaValido)="formularioMoradiaValido($event)"></app-moradia-form>
+      <div class="po-row">
+        <po-button
+        class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1"
+        p-label="Salvar Moradia"
+        p-icon="po-icon-ok"
+        [p-disabled]="!formularioMoradia?.valid"
+        (p-click)="salvarEdicaoMoradia()"
+      >
+      </po-button>
+      </div>
+    </div>
+    <div *ngIf="isRenda">
+      <div *ngIf="habilitaRenda">
+        <app-rendas [comboRenda]=comboRenda></app-rendas>
+      </div>
+    </div>
+
+
+
+</po-page-default>
+
+
+
+<!-- <po-page-default [p-title]="pageTitle" [p-actions]="actions">
 
 
   <po-loading-overlay
@@ -11,8 +62,18 @@
   </po-loading-overlay>
 
   <po-stepper [p-step-icons]=true>
-    <po-step p-label="Titulare" [p-can-active-next-step]="dependenteValido.bind(this)">
+    <po-step p-label="Titular" [p-can-active-next-step]="dependenteValido.bind(this)">
       <app-titulares-form [edicao]="edicao" (formularioTitularValido)="formularioTitularValido($event)"></app-titulares-form>
+      <div class="po-row">
+        <po-button
+        class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1"
+        p-label="Salvar Titular"
+        p-icon="po-icon-ok"
+        [p-disabled]="!formularioTitular?.valid"
+        (p-click)="salvarEdicaoTitular()"
+      >
+      </po-button>
+      </div>
     </po-step>
     <po-step p-label="Dependentes">
       <div *ngIf="titularValido">
@@ -31,4 +92,4 @@
 
 
 
-</po-page-default>
+</po-page-default> -->

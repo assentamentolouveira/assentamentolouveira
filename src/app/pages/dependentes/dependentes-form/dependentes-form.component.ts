@@ -7,7 +7,7 @@ import { Component, Injector, OnDestroy, OnInit, Output, EventEmitter, Input, Si
 import { Dependentes } from '../shared/dependentes.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
-import { take, finalize } from 'rxjs/operators';
+import { take, finalize, retry } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -17,7 +17,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   styles: [
   ]
 })
-export class DependentesFormComponent extends BaseResourceFormComponent<Dependentes> implements OnDestroy  {
+export class DependentesFormComponent extends BaseResourceFormComponent<Dependentes> implements OnDestroy {
   public colunas: PoTableColumn[];
   public listaDependentes: Array<any> = []
   public acoes: Array<PoTableAction> = [
@@ -41,6 +41,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
 
   private subscriptionFormularioDependente: Subscription;
 
+  @Input() isDependente:boolean = false;
   @Output() enviaDependentes = new EventEmitter()
 
   constructor(private dependentesService: DependentesService
@@ -89,6 +90,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     this.carregandoTabela = true;
     this.realizandoAlteracao = true;
     this.dependentesService.getDepentendesPorTitular(sessionStorage.getItem('idTitular')).pipe(
+      retry(3),
       take(1),
       finalize(() => { this.carregandoTabela = false; this.realizandoAlteracao = false })
     ).subscribe(resposta => {

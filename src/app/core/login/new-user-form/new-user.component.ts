@@ -32,7 +32,7 @@ export class NewUserComponent implements OnInit {
     this.reactiveForm = this.fb.group({
       cpf: ['', Validators.compose([Validators.required, Validacoes.ValidaCpf])],
       senha: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(50)])],
-      dataNascimento: ['', Validators.compose([Validators.required])],
+      dataNascimento: [new Date('01/01/1990'), Validators.compose([Validators.required])],
       nomePai: ['', Validators.required],
       nomeMae: ['', Validators.required],
     });

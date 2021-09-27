@@ -28,7 +28,7 @@ export interface Moradia {
   possuiAutomovel: string,
   moradiaSofreuDesastre: number,
   usoMoradia: number,
-  cachorro: number,
+  cao: number,
   gato: number,
   passaro: number,
   outroAnimais: number,
@@ -38,7 +38,7 @@ export interface Moradia {
   gastoComGas: number,
   gastoComAlimentacaoHigieneLimpeza: number,
   gastoComMedicamento: number,
-  totalDeDespesasMensais: number,
+  totalDeDespesasMensais?: number,
   observacoes: number,
   observacao: string
 }

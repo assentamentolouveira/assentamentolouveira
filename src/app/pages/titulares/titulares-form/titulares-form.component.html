@@ -1,4 +1,5 @@
-<form [formGroup]="formularioTitular">
+
+<form [formGroup]="formularioTitular" class='zeramargem'>
     <po-divider p-label="Informações Assentamento"></po-divider>
     <div class="po-row">
       <po-input
@@ -68,59 +69,50 @@
     </div>
 
     <div class="po-row">
-      <po-combo
+      <po-select
         formControlName="genero"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Gênero"
         [p-options]="generoOpcoes"
         p-placeholder="Selecione o Gênero"
-        [p-clean]="true"
       >
-      </po-combo>
-      <po-combo
+      </po-select>
+      <po-select
         formControlName="etnia"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Raça/Etinia"
         [p-options]="etniaOpcoes"
         p-placeholder="Selecione a Etinia"
-        [p-clean]="true"
       >
-      </po-combo>
-      <po-combo
+      </po-select>
+      <po-select
         formControlName="escolaridade"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Escolaridade"
         [p-options]="escolaridadeOpcoes"
         p-placeholder="Selecione o Grau de Escolaridade"
-        [p-clean]="true"
       >
-      </po-combo>
-      <po-combo
+      </po-select>
+      <po-select
         formControlName="deficiencia"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Possui Deficiencia"
         [p-options]="deficienciaOpcoes"
         p-placeholder="Selecione a defiencia"
         [p-disabled]="true"
-        [p-clean]="true"
       >
-      </po-combo>
+      </po-select>
     </div>
     <div class="po-row">
-      <po-combo
+      <po-select
         formControlName="estadoCivil"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Estado Civil"
         [p-options]="estadoCivilOpcoes"
         p-placeholder="Selecione o estado civil"
         [p-disabled]="true"
       >
-      </po-combo>
+      </po-select>
       <!-- <po-input
         formControlName="rendaTotal"
         class="po-lg-3"
@@ -134,54 +126,49 @@
 
     <po-divider p-label="Informações Sobre Moradia"></po-divider>
     <div class="po-row">
-      <po-combo
+      <po-select
         formControlName="familiaIncProcHabit"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Família Incluída no Programa Habitacional"
         [p-options]="boleanoOpcoes"
         p-placeholder="Sim ou não?"
       >
-      </po-combo>
-      <po-combo
+      </po-select>
+      <po-select
         formControlName="quantidadeFamilia"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Familia por Domícíio"
         [p-options]="familiaDomicilioOpcoes"
         p-placeholder="Quantas Famílias existem no Domicílio"
       >
-      </po-combo>
-      <po-combo
+      </po-select>
+      <po-select
         formControlName="tempoMoradiaBairro"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Tempo de Moradia no Bairro"
         [p-options]="tempoDeMoradiaOpcoes"
         p-placeholder="Tempo de Moradia no Bairro Atual"
       >
-      </po-combo>
-      <po-combo
+      </po-select>
+      <po-select
         formControlName="tempoMoradiaLouveira"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Tempo de Moradia em Louveira"
         [p-options]="tempoDeMoradiaOpcoes"
         p-placeholder="Tempo de Moradia em Louveira/SP"
       >
-      </po-combo>
+      </po-select>
     </div>
     <div class="po-row">
-      <po-combo
+      <po-select
         formControlName="possuiImovel"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Possui Imóvel"
         (p-change)="possuiImovelSelecionado($event)"
         [p-options]="boleanoOpcoes"
         p-placeholder="Possui algum imóvel no país?"
       >
-      </po-combo>
+      </po-select>
       <po-input
         formControlName="qualLocalDoImovel"
         class="po-lg-9"
@@ -194,16 +181,15 @@
       </po-input>
     </div>
     <div class="po-row">
-      <po-combo
+      <po-select
         formControlName="programaHabitacional"
         class="po-lg-3"
-        [p-clean]="true"
         p-label="Já Contemplado"
         (p-change)="jaContempladoSelecionado($event)"
         [p-options]="boleanoOpcoes"
         p-placeholder="Já foi contemplado em algum programa?"
       >
-      </po-combo>
+      </po-select>
       <po-input
         formControlName="qualProgHabitacional"
         [p-disabled]="converterBooleanString(!programaContempladoAtivo)"
@@ -216,16 +202,15 @@
       </po-input>
     </div>
     <div class="po-row">
-      <po-combo
+      <po-select
         formControlName="regFundOuUsocapiao"
         (p-change)="jaContempladoPaisSelecionado($event)"
         class="po-lg-4"
-        [p-clean]="true"
         p-label="Já Contemplado no País"
         [p-options]="boleanoOpcoes"
         p-placeholder="Já foi contemplado em algum programa no país?"
       >
-      </po-combo>
+      </po-select>
       <po-input
         formControlName="qualRegFundOuUsocapiao"
         class="po-lg-4"
@@ -294,14 +279,14 @@
   <div *ngIf="isDependente">
     <po-divider p-label="Parentesco"></po-divider>
     <div class="po-row">
-      <po-combo
+      <po-select
         class="po-lg-12"
         [p-clean]="true"
         p-label="Grau de Parentesco"
         [p-options]="parentescoOpcoes"
         p-placeholder="Selecione o Grau de Parentesco"
       >
-      </po-combo>
+      </po-select>
     </div>
   </div>
   <div>
@@ -343,14 +328,14 @@
     </div>
 
     <div class="po-row">
-      <po-combo
+      <po-select
         class="po-lg-3"
         [p-clean]="true"
         p-label="Estado Civil"
         [p-options]="estadoCivilOpcoes"
         p-placeholder="Selecione o estado civil"
       >
-      </po-combo>
+      </po-select>
       <po-datepicker
         class="po-lg-3"
         p-label="Data de Nascimento"
@@ -358,14 +343,14 @@
         p-clean
       >
       </po-datepicker>
-      <po-combo
+      <po-select
         class="po-lg-3"
         [p-clean]="true"
         p-label="Gênero"
         [p-options]="generoOpcoes"
         p-placeholder="Selecione o Gênero"
       >
-      </po-combo>
+      </po-select>
       <po-input
         class="po-lg-3"
         p-label="Naturalidade"
