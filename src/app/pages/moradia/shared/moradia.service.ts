@@ -32,12 +32,9 @@ export class MoradiaService extends BaseResourceService {
   }
 
 
-  postMoradia(titular: Titular): Observable<Moradia> {
-    const moradia = {
-      titularId: titular.id,
-      caracteristicaMoradia:[{tipo:1}]
-    }
-    return this.http.post<Moradia>(this.apiPath, moradia, this.httpOptions).pipe()
+  postMoradia(moradia: Moradia): Observable<Moradia> {
+    const moradiaTratada = this.trataMoradia(moradia)
+    return this.http.post<Moradia>(this.apiPath, moradiaTratada, this.httpOptions).pipe()
   }
 
   putMoradia(moradia: Moradia, moradiaId: string): Observable<Moradia> {

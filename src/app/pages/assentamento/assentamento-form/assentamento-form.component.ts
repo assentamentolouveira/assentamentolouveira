@@ -15,6 +15,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { take, finalize, retry } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 import { DocumentPipe } from 'src/app/shared/pipes/document.pipe';
+import { Moradia } from '../../moradia/shared/moradia.model';
 
 @Component({
   selector: 'app-assentamento-form',
@@ -83,7 +84,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     private titularService: TitularesService,
     private dependentesService: DependentesService,
     private moradiaService: MoradiaService,
-    private opcoesComboService:OpcoesComboService
+    private opcoesComboService: OpcoesComboService
   ) {
     super(injector, new Assentamento(), assentamentoService);
     if (this.loginService.isInternet) {
@@ -161,8 +162,6 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
       this.edicao = true;
 
-      this.incluiMoradia(res);
-
       const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
       const listaDeDepententes = dadosTitular.dependentes.split(',');
 
@@ -187,11 +186,6 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     this.montaComboRenda();
   }
 
-  incluiMoradia(res: Titular): void {
-    this.moradiaService.postMoradia(res).subscribe(res =>
-      sessionStorage.setItem('moradiaID', res.id)
-    );
-  }
 
   incluiDependentes(listaDeDepententes: string[], titular: Titular): void {
     let observablesDependentes = {};
@@ -209,23 +203,25 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         this.buscaDependentesPorTitular();
         this.titularValido = true;
       }
-      , erro => console.error(`erro ao cadastrar dependente ${erro}`)
+      , erro => console.error(`erro ao cadastrar dependente. Tente novamente ${erro}`)
     )
   }
 
   buscaDependentesPorTitular() {
-    this.dependentesService.getDepentendesPorTitular(sessionStorage.getItem('idTitular')).pipe(
-      retry(3),
-      take(1),
-    ).subscribe(resposta => {
-      const pipeCPF = new DocumentPipe()
-      resposta.map(res => { res.parentesco = this.converteParentesco(res), res.cpfFormatado = pipeCPF.transform(res.numeroCpf) })
-      this.recebeDependentes(resposta);
-    }, error => {
-      if (error.status != 404) {
-        this.poNotificationService.error("Erro ao buscar a Renda")
-      }
-    })
+    if (String(sessionStorage.getItem('idTitular'))?.length > 0) {
+      this.dependentesService.getDepentendesPorTitular(sessionStorage.getItem('idTitular')).pipe(
+        retry(3),
+        take(1),
+      ).subscribe(resposta => {
+        const pipeCPF = new DocumentPipe()
+        resposta.map(res => { res.parentesco = this.converteParentesco(res), res.cpfFormatado = pipeCPF.transform(res.numeroCpf) })
+        this.recebeDependentes(resposta);
+      }, error => {
+        if (error.status != 404) {
+          this.poNotificationService.error("Erro ao buscar a dependentes")
+        }
+      })
+    }
   }
 
   converteParentesco(dependente: Dependente): string {
@@ -247,20 +243,39 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     this.formularioMoradia = formularioMoradia;
   }
 
-  salvarEdicaoMoradia():void {
+  salvarEdicaoMoradia(): void {
     if (this.formularioMoradia.valid) {
       const formularioMoradia = this.formularioMoradia.value
       this.mensagemLoading = "Alterando Moradia...";
       this.carregando = false;
 
-      this.moradiaService.putMoradia(JSON.parse(JSON.stringify(formularioMoradia)), String(sessionStorage.getItem('moradiaID'))).pipe(
-        finalize(()=> this.carregando = true)
-      ).subscribe(
-        res => this.poNotificationService.success("Moradia Editada com Sucesso"),
-        error => this.poNotificationService.error("Erro ao Editar a Moradia"),
-      )
+      if (sessionStorage.getItem('moradiaID') && String(sessionStorage.getItem('moradiaID'))?.length > 0) {
+        this.editaMoradia(formularioMoradia);
+      } else {
+        this.incluiMoradia(formularioMoradia);
+      }
       console.log(this.formularioMoradia)
     }
+  }
+
+  editaMoradia(formularioMoradia: Moradia): void {
+    this.moradiaService.putMoradia(JSON.parse(JSON.stringify(formularioMoradia)), String(sessionStorage.getItem('moradiaID'))).pipe(
+      finalize(() => this.carregando = true)
+    ).subscribe(
+      res => this.poNotificationService.success("Moradia Editada com Sucesso"),
+      error => this.poNotificationService.error("Erro ao Editar a Moradia"),
+    )
+  }
+
+  incluiMoradia(formularioMoradia: Moradia): void {
+    this.moradiaService.postMoradia(JSON.parse(JSON.stringify(formularioMoradia))).pipe(
+      finalize(() => this.carregando = true)
+    ).subscribe(
+      res => {
+        this.poNotificationService.success("Moradia Incluída com Sucesso"), sessionStorage.setItem('moradiaID', res.id)
+      },
+      error => this.poNotificationService.error("Erro ao Editar a Moradia"),
+    )
   }
 
   protected buildResourceForm(): void { }

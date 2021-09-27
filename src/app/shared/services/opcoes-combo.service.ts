@@ -351,7 +351,7 @@ export class OpcoesComboService {
     },
     {
       value: 'Tres',
-      label: 'TrÊs'
+      label: 'Três'
     },
     {
       value: 'AcimaDeTres',
