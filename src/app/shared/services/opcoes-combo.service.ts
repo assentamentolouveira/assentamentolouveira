@@ -7,20 +7,32 @@ export class OpcoesComboService {
 
   estadoCivilOpcoes = [
     {
-      value: 'C',
+      value: '2',
       label: 'Casado(a)',
     },
     {
-      value: 'D',
+      value: '3',
       label: 'Divorciado(a)',
     },
     {
-      value: 'S',
+      value: '1',
       label: 'Solteiro(a)',
     },
     {
-      value: 'V',
+      value: '5',
       label: 'Viúvo(a)',
+    },
+    {
+      value: '4',
+      label: 'Separado(a)',
+    },
+    {
+      value: '6',
+      label: 'União Estável',
+    },
+    {
+      value: '',
+      label: 'Não Informado',
     },
   ];
 
@@ -228,18 +240,18 @@ export class OpcoesComboService {
     },
     {
       value: 'UmACincoAnos',
-      label: 'De 1 à 5 anos'
+      label: 'De 1 até 5 anos'
     },
     {
       value: 'DeCincoADezAnos',
-      label: 'De 5 à 10 anos'
+      label: 'Mais de 5 até 10 anos'
     },
     {
       value: 'DeDezAVinteAnos',
-      label: 'De 10 à 20 anos'
+      label: 'Mais de 10 até 20 anos'
     }, {
       value: 'DeVinteATrintaAnos',
-      label: 'De 20 à 30 anos'
+      label: 'Mais de 20 até 30 anos'
     },
     {
       value: 'AcimaDeTrintaAnos ',
@@ -249,59 +261,59 @@ export class OpcoesComboService {
 
   parentescoResponsavelOpcoes = [
     {
-      value: 1,
+      value: 'PessoaDeReferencia',
       label: 'Pessoa de Referência'
     },
     {
-      value: 2,
+      value: 'ConjugeCompanheiro',
       label: 'Cônjuge/Companheiro(a)'
     },
     {
-      value: 3,
+      value: 'Filho',
       label: 'Filho(a)'
     },
     {
-      value: 4,
+      value: 'Enteado',
       label: 'Enteado(a)'
     },
     {
-      value: 5,
+      value: 'Neto',
       label: 'Neto(a)'
     },
     {
-      value: 6,
+      value: 'Pai',
       label: 'Pai'
     },
     {
-      value: 7,
+      value: 'Mae',
       label: 'Mãe'
     },
     {
-      value: 8,
+      value: 'Sogro',
       label: 'Sogro(a)'
     },
     {
-      value: 9,
+      value: 'Irmao',
       label: 'Irmão/Irmã'
     },
     {
-      value: 10,
+      value: 'Genro',
       label: 'Genro'
     },
     {
-      value: 11,
+      value: 'Nora',
       label: 'Nora'
     },
     {
-      value: 12,
+      value: 'Bisneto',
       label: 'Bisneto(a)'
     },
     {
-      value: 13,
+      value: 'OutroParente',
       label: 'Outro Parente'
     },
     {
-      value: 14,
+      value: 'NaoParente',
       label: 'Não Parente'
     }
   ]

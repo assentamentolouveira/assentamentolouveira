@@ -16,7 +16,7 @@
         class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1"
         p-label="Salvar Titular"
         p-icon="po-icon-ok"
-        [p-disabled]="!formularioTitular?.valid"
+        [p-disabled]="!formularioValido"
         (p-click)="salvarEdicaoTitular()"
       >
       </po-button>
@@ -41,9 +41,9 @@
       </div>
     </div>
     <div *ngIf="isRenda">
-      <div *ngIf="habilitaRenda">
-        <app-rendas [comboRenda]=comboRenda></app-rendas>
-      </div>
+      <!-- <div *ngIf="habilitaRenda"> -->
+        <app-rendas></app-rendas>
+      <!-- </div> -->
     </div>
 
 

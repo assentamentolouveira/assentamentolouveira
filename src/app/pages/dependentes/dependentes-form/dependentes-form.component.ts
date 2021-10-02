@@ -1,3 +1,4 @@
+import { Titular } from './../../titulares/shared/titular.model';
 import { DocumentPipe } from './../../../shared/pipes/document.pipe';
 import { Dependente } from './../shared/dependente.model';
 import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service';
@@ -5,11 +6,13 @@ import { DependentesService } from './../shared/dependentes.service';
 import { PoTableAction, PoTableColumn, PoNotificationService, PoSelectOption } from '@po-ui/ng-components';
 import { Component, Injector, OnDestroy, OnInit, Output, EventEmitter, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Dependentes } from '../shared/dependentes.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { take, finalize, retry } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { TitularesService } from '../../titulares/shared/titulares.service';
+import { CartaoCidadao } from 'src/app/shared/models/cartao-cidadao.model';
 
 @Component({
   selector: 'app-dependentes-form',
@@ -23,7 +26,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   public acoes: Array<PoTableAction> = [
     {
       icon: 'po-icon-edit',
-      label: 'Editar',
+      label: 'Adicionar/Editar',
       action: this.editarDependente.bind(this)
     }
 
@@ -31,7 +34,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
 
   public dependenteSelecionado: string = '';
   public carregandoTabela = false;
-  public habilitaConfirmacao = false;
+  public habilitaConfirmacao = true;
   public realizandoAlteracao = false;
   public parentescoResponsavelOpcoes: Array<PoSelectOption>;
   public estadoCivilOpcoes: Array<PoSelectOption>;
@@ -40,8 +43,13 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   public isDesktop = false;
 
   private subscriptionFormularioDependente: Subscription;
+  private buscaCartaoCidadaoFinalizada = false;
+  private buscaLocalFinalizada = false;
+  private listaDependentesCartaoCidadao: Dependente[] = [];
+  private listaDependentesLocal: Dependente[] = [];
+  private dependentesTratados: Dependente[] = [];
 
-  @Input() isDependente:boolean = false;
+  @Input() isDependente: boolean = false;
   @Output() enviaDependentes = new EventEmitter()
 
   constructor(private dependentesService: DependentesService
@@ -50,6 +58,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     , private documentPipe: DocumentPipe
     , private opcoesComboService: OpcoesComboService
     , protected injector: Injector
+    , private titularService: TitularesService
     , private deviceService: DeviceDetectorService) {
     super(injector, new Dependentes(), dependentesService);
     this.parentescoResponsavelOpcoes = this.opcoesComboService.parentescoResponsavelOpcoes;
@@ -74,9 +83,9 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       numeroCartaoCidadao: [''],
       numeroCPF: [''],
       dataNascimento: [''],
-      parentesco: [''],
+      grauParentesco: ['', Validators.required],
       estadoCivil: [''],
-      escolaridade: [''],
+      escolaridade: ['', Validators.required],
       deficiencia: [''],
     });
 
@@ -89,29 +98,120 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   carregaDados(): void {
     this.carregandoTabela = true;
     this.realizandoAlteracao = true;
-    this.dependentesService.getDepentendesPorTitular(sessionStorage.getItem('idTitular')).pipe(
-      retry(3),
-      take(1),
-      finalize(() => { this.carregandoTabela = false; this.realizandoAlteracao = false })
-    ).subscribe(resposta => {
-      // resposta = resposta.map((dependente: any) => {
-      //   return { ...dependente, nome: 'teste' }
-      // })
-      const pipeCPF = new DocumentPipe()
-      resposta.map(res => { res.parentesco = this.converteParentesco(res), res.cpfFormatado = pipeCPF.transform(res.numeroCpf) })
-      this.enviaDependentes.emit(resposta);
-      this.listaDependentes = resposta;
-    }, error => {
-      if (error.status != 404) {
-        this.poNotificationService.error("Erro ao buscar a Renda")
-      }
-      this.enviaDependentes.emit([])
+    this.dependentesTratados = [];
+    this.listaDependentesCartaoCidadao = [];
+    this.listaDependentesLocal = [];
+
+    const dadosTitular: Titular = JSON.parse(this.titularService.getTitularInfo());
+    let listaDeDepententes: string[] = String(dadosTitular.dependentes).split(',');
+    if (String(sessionStorage.getItem('idTitular'))?.length > 0 && listaDeDepententes.length > 0) {
+      this.retornaDadosdoCartaoCidadao(listaDeDepententes, dadosTitular.nomeResponsavel);
+      this.retornaDependentesCadastrados(dadosTitular);
     }
+  }
+
+  retornaDadosdoCartaoCidadao(listaDeDepententes: string[], nomeResponsavel: string): void {
+    let count = 0
+    listaDeDepententes.forEach(dependente => {
+      this.dependentesService.getDependenteCartaoCidadao(dependente).pipe(
+        finalize(() => {
+          this.buscaCartaoCidadaoFinalizada = true;
+          this.unificaDependentes()
+        })
+      ).subscribe(
+        res => {
+          const pipeCPF = new DocumentPipe()
+          this.listaDependentesCartaoCidadao.push({
+            id: '',
+            cpfFormatado: pipeCPF.transform(res.CPF),
+            nomeResponsavel: nomeResponsavel,
+            numeroCartaoCidadao: res.Numero,
+            numeroCpf: res.CPF,
+            dataNascimento: new Date(res.Nascimento),
+            grauParentesco: 'Não relacionado ao titular',
+            estadoCivil: res.Estado_Civil,
+            escolaridade: '',
+            deficiencia: res.PCD,
+            nome: res.Nome,
+            cpfCartaoCidadao: res.CPF,
+            grauParentescoTratado: 'Não relacionado ao Titular'
+          })
+        }
+      )
+    })
+  }
+
+  retornaDependentesCadastrados(dadosTitular: any): void {
+    this.dependentesService.getDepentendesPorTitular(dadosTitular.id).pipe(
+      finalize(() => {
+        this.buscaLocalFinalizada = true;
+        this.unificaDependentes()
+      })
+    ).subscribe(
+      res => {
+        res.map(cartao => {
+          this.listaDependentesLocal.push({
+            id: cartao.id,
+            cpfFormatado: cartao.cpfFormatado,
+            nomeResponsavel: cartao.cpfFormatado,
+            numeroCartaoCidadao: cartao.numeroCartaoCidadao,
+            numeroCpf: cartao.numeroCpf,
+            dataNascimento: cartao.dataNascimento,
+            grauParentesco: cartao.grauParentesco,
+            estadoCivil: cartao.estadoCivil,
+            escolaridade: cartao.escolaridade,
+            deficiencia: cartao.deficiencia,
+            nome: cartao.nome,
+            cpfCartaoCidadao: cartao.cpfCartaoCidadao,
+            grauParentescoTratado: this.converteParentesco(cartao.grauParentesco)
+          })
+
+        })
+      }
     );
   }
 
-  converteParentesco(dependente: Dependente): string {
-    return this.opcoesComboService.retornaLabelOpcoes(dependente.parentesco, this.opcoesComboService.parentescoOpcoes)
+  unificaDependentes(): void {
+    if (this.buscaCartaoCidadaoFinalizada && this.buscaLocalFinalizada) {
+      console.log("FINALIZEI 100%")
+      this.dependentesTratados = this.listaDependentesCartaoCidadao;
+
+      this.listaDependentesLocal.map(cartao => {
+        this.dependentesTratados.filter(
+          (dependente, indice) => {
+            if (dependente.numeroCartaoCidadao == cartao.numeroCartaoCidadao) {
+              this.dependentesTratados[indice].id = cartao.id;
+              this.dependentesTratados[indice].grauParentesco = cartao.grauParentesco;
+              this.dependentesTratados[indice].grauParentescoTratado = cartao.grauParentescoTratado;
+              this.dependentesTratados[indice].escolaridade = cartao.escolaridade;
+            }
+          }
+        )
+      })
+
+      this.listaDependentes = this.dependentesTratados;
+      this.enviaDependentes.emit(this.dependentesTratados)
+      this.carregandoTabela = false;
+      this.realizandoAlteracao = false
+    }
+  }
+
+  excluiDependente(): void {
+    this.realizandoAlteracao = true;
+    this.dependentesService.excluirDependente(this.dependenteSelecionado).pipe(
+      finalize(() => this.realizandoAlteracao = false)
+    ).subscribe(
+      res => {
+        this.poNotificationService.success("Dependente Excluído com Sucesso");
+        this.carregaDados()
+      }
+      ,
+      error => this.poNotificationService.error(error)
+    );
+  }
+
+  converteParentesco(grauParentesco: string): string {
+    return this.opcoesComboService.retornaLabelOpcoes(grauParentesco, this.opcoesComboService.parentescoResponsavelOpcoes)
   }
 
   carregarMais(): void {
@@ -119,13 +219,13 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   }
 
   editarDependente(dependenteSelecionado: Dependente): void {
-    this.dependenteSelecionado = dependenteSelecionado.id;
+    this.dependenteSelecionado = dependenteSelecionado.id === '' ? 'novo' : dependenteSelecionado.id;
     this.formularioDependente.patchValue({
       nomeResponsavel: dependenteSelecionado.nomeResponsavel,
       numeroCartaoCidadao: dependenteSelecionado.numeroCartaoCidadao,
-      numeroCPF: '39096485888',
+      numeroCPF: dependenteSelecionado.cpfCartaoCidadao,
       dataNascimento: dependenteSelecionado.dataNascimento,
-      parentesco: dependenteSelecionado.parentesco,
+      grauParentesco: dependenteSelecionado.grauParentesco,
       estadoCivil: dependenteSelecionado.estadoCivil,
       escolaridade: dependenteSelecionado.escolaridade,
       deficiencia: dependenteSelecionado.deficiencia,
@@ -140,17 +240,31 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   salvarEdicao(): void {
     if (this.formularioDependente.valid) {
       this.realizandoAlteracao = true;
-      const dependente = { ...this.formularioDependente.value, id: this.dependenteSelecionado, titularId: sessionStorage.getItem('idTitular') }
-      this.dependentesService.alteraDependente(dependente).pipe(
-        take(1),
-        finalize(() => this.carregaDados())
-      ).subscribe(
-        res => {
-          this.poNotificationService.success('Registro Alterado com Sucesso')
-          this.dependenteSelecionado = '';
-        },
-        error => this.poNotificationService.error(error)
-      )
+      if (this.dependenteSelecionado === 'novo') {
+        const dependente = { ...this.formularioDependente.value, titularId: sessionStorage.getItem('idTitular') }
+        this.dependentesService.incluiDependente(dependente).pipe(
+          take(1),
+          finalize(() => this.carregaDados())
+        ).subscribe(
+          res => {
+            this.poNotificationService.success('Registro Alterado com Sucesso')
+            this.dependenteSelecionado = '';
+          },
+          error => this.poNotificationService.error(error)
+        )
+      } else {
+        const dependente = { ...this.formularioDependente.value, id: this.dependenteSelecionado, titularId: sessionStorage.getItem('idTitular') }
+        this.dependentesService.alteraDependente(dependente).pipe(
+          take(1),
+          finalize(() => this.carregaDados())
+        ).subscribe(
+          res => {
+            this.poNotificationService.success('Registro Alterado com Sucesso')
+            this.dependenteSelecionado = '';
+          },
+          error => this.poNotificationService.error(error)
+        )
+      }
     }
 
   }

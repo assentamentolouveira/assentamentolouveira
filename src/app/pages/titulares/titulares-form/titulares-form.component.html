@@ -1,5 +1,5 @@
-
-<form [formGroup]="formularioTitular" class='zeramargem'>
+<form [formGroup]="formularioTitular" class="zeramargem">
+  <div *ngIf="!acessoInternet">
     <po-divider p-label="Informações Assentamento"></po-divider>
     <div class="po-row">
       <po-input
@@ -28,92 +28,114 @@
         p-clean
       ></po-input>
     </div>
+  </div>
 
-    <po-divider p-label="Informações Gerais"></po-divider>
-    <div class="po-row">
-      <po-input
-        formControlName="nomeResponsavel"
-        class="po-lg-3"
-        p-label="Nome Responsável"
-        p-placeholder="Nome do Responsável"
-        p-disabled="true"
-        p-clean
-      >
-      </po-input>
-      <po-number
-        formControlName="numeroCartaoCidadao"
-        class="po-lg-3"
-        p-label="Cartão Cidadão"
-        p-placeholder="Número do Cartão Cidadão"
-        p-disabled="true"
-        p-clean
-      ></po-number>
-      <po-input
-        formControlName="numeroCpf"
-        class="po-lg-3"
-        p-label="CPF"
-        p-placeholder="Número do CPF"
-        p-mask="999.999.999-99"
-        p-disabled="true"
-        p-clean
-      ></po-input>
-      <po-datepicker
-        formControlName="dataNascimento"
-        class="po-lg-3"
-        p-label="Data de Nascimento"
-        p-placeholder="dd/mm/aaaa"
-        p-disabled="true"
-        p-clean
-      >
-      </po-datepicker>
-    </div>
+  <po-divider p-label="Informações Gerais"></po-divider>
+  <div class="po-row">
+    <po-input
+      formControlName="nomeResponsavel"
+      class="po-lg-3"
+      p-label="Nome Responsável"
+      p-placeholder="Nome do Responsável"
+      p-disabled="true"
+      p-clean
+    >
+    </po-input>
+    <po-number
+      formControlName="numeroCartaoCidadao"
+      class="po-lg-3"
+      p-label="Cartão Cidadão"
+      p-placeholder="Número do Cartão Cidadão"
+      p-disabled="true"
+      p-clean
+    ></po-number>
+    <po-input
+      formControlName="numeroCpf"
+      class="po-lg-3"
+      p-label="CPF"
+      p-placeholder="Número do CPF"
+      p-mask="999.999.999-99"
+      p-disabled="true"
+      p-clean
+    ></po-input>
+    <po-datepicker
+      formControlName="dataNascimento"
+      class="po-lg-3"
+      p-label="Data de Nascimento"
+      p-placeholder="dd/mm/aaaa"
+      p-disabled="true"
+      p-clean
+    >
+    </po-datepicker>
+  </div>
 
-    <div class="po-row">
-      <po-select
-        formControlName="genero"
-        class="po-lg-3"
-        p-label="Gênero"
-        [p-options]="generoOpcoes"
-        p-placeholder="Selecione o Gênero"
-      >
-      </po-select>
-      <po-select
-        formControlName="etnia"
-        class="po-lg-3"
-        p-label="Raça/Etinia"
-        [p-options]="etniaOpcoes"
-        p-placeholder="Selecione a Etinia"
-      >
-      </po-select>
-      <po-select
-        formControlName="escolaridade"
-        class="po-lg-3"
-        p-label="Escolaridade"
-        [p-options]="escolaridadeOpcoes"
-        p-placeholder="Selecione o Grau de Escolaridade"
-      >
-      </po-select>
-      <po-select
-        formControlName="deficiencia"
-        class="po-lg-3"
-        p-label="Possui Deficiencia"
-        [p-options]="deficienciaOpcoes"
-        p-placeholder="Selecione a defiencia"
-        [p-disabled]="true"
-      >
-      </po-select>
-    </div>
-    <div class="po-row">
-      <po-select
-        formControlName="estadoCivil"
-        class="po-lg-3"
-        p-label="Estado Civil"
-        [p-options]="estadoCivilOpcoes"
-        p-placeholder="Selecione o estado civil"
-        [p-disabled]="true"
-      >
-      </po-select>
-      <!-- <po-input
+  <div class="po-row">
+    <po-select
+      formControlName="genero"
+      class="po-lg-3"
+      p-label="Gênero"
+      [p-options]="generoOpcoes"
+      p-placeholder="Selecione o Gênero"
+    >
+    </po-select>
+    <po-select
+      formControlName="etnia"
+      class="po-lg-3"
+      p-label="Raça/Etinia"
+      [p-options]="etniaOpcoes"
+      p-placeholder="Selecione a Etinia"
+    >
+    </po-select>
+    <po-select
+      formControlName="escolaridade"
+      class="po-lg-3"
+      p-label="Escolaridade"
+      [p-options]="escolaridadeOpcoes"
+      p-placeholder="Selecione o Grau de Escolaridade"
+    >
+    </po-select>
+    <po-select
+      formControlName="deficiencia"
+      class="po-lg-3"
+      p-label="PCD"
+      [p-options]="deficienciaOpcoes"
+      p-placeholder="Não Possui"
+      [p-disabled]="true"
+    >
+    </po-select>
+  </div>
+  <div class="po-row">
+    <po-select
+      formControlName="estadoCivil"
+      class="po-lg-3"
+      p-label="Estado Civil"
+      [p-options]="estadoCivilOpcoes"
+      p-placeholder="Selecione o estado civil"
+      [p-disabled]="true"
+    >
+    </po-select>
+    <po-email
+      formControlName="email"
+      class="po-lg-3"
+      p-label="E-mail"
+      p-placeholder="E-mail do Titular"
+    >
+    </po-email>
+    <po-input
+      formControlName="telefoneTitular"
+      class="po-lg-3"
+      p-mask='(999) 99999?-9999'
+      p-label="Telefone Titular"
+      p-placeholder="Número do Telefone do Titular"
+    ></po-input>
+    <po-input
+      formControlName="telefoneContato"
+      p-mask='(999) 99999?-9999'
+      class="po-lg-3"
+      p-label="Telefone Contato"
+      p-placeholder="Número do Telefone do Contato"
+    ></po-input>
+    <!-- <po-input
         formControlName="rendaTotal"
         class="po-lg-3"
         p-label="Renda Total"
@@ -122,121 +144,120 @@
         p-clean
       >
       </po-input> -->
-    </div>
+  </div>
 
-    <po-divider p-label="Informações Sobre Moradia"></po-divider>
-    <div class="po-row">
-      <po-select
-        formControlName="familiaIncProcHabit"
-        class="po-lg-3"
-        p-label="Família Incluída no Programa Habitacional"
-        [p-options]="boleanoOpcoes"
-        p-placeholder="Sim ou não?"
-      >
-      </po-select>
-      <po-select
-        formControlName="quantidadeFamilia"
-        class="po-lg-3"
-        p-label="Familia por Domícíio"
-        [p-options]="familiaDomicilioOpcoes"
-        p-placeholder="Quantas Famílias existem no Domicílio"
-      >
-      </po-select>
-      <po-select
-        formControlName="tempoMoradiaBairro"
-        class="po-lg-3"
-        p-label="Tempo de Moradia no Bairro"
-        [p-options]="tempoDeMoradiaOpcoes"
-        p-placeholder="Tempo de Moradia no Bairro Atual"
-      >
-      </po-select>
-      <po-select
-        formControlName="tempoMoradiaLouveira"
-        class="po-lg-3"
-        p-label="Tempo de Moradia em Louveira"
-        [p-options]="tempoDeMoradiaOpcoes"
-        p-placeholder="Tempo de Moradia em Louveira/SP"
-      >
-      </po-select>
-    </div>
-    <div class="po-row">
-      <po-select
-        formControlName="possuiImovel"
-        class="po-lg-3"
-        p-label="Possui Imóvel"
-        (p-change)="possuiImovelSelecionado($event)"
-        [p-options]="boleanoOpcoes"
-        p-placeholder="Possui algum imóvel no país?"
-      >
-      </po-select>
-      <po-input
-        formControlName="qualLocalDoImovel"
-        class="po-lg-9"
-        p-label="Onde"
-        [p-disabled]="converterBooleanString(!localDoImovelAtivo)"
-        [p-required]="converterBooleanString(localDoImovelAtivo)"
-        p-placeholder="Local do Imóvel"
-        p-clean
-      >
-      </po-input>
-    </div>
-    <div class="po-row">
-      <po-select
-        formControlName="programaHabitacional"
-        class="po-lg-3"
-        p-label="Já Contemplado"
-        (p-change)="jaContempladoSelecionado($event)"
-        [p-options]="boleanoOpcoes"
-        p-placeholder="Já foi contemplado em algum programa?"
-      >
-      </po-select>
-      <po-input
-        formControlName="qualProgHabitacional"
-        [p-disabled]="converterBooleanString(!programaContempladoAtivo)"
-        [p-required]="converterBooleanString(programaContempladoAtivo)"
-        class="po-lg-9"
-        p-label="Qual?"
-        p-placeholder="Qual programa você já foi beneficiado?"
-        p-clean
-      >
-      </po-input>
-    </div>
-    <div class="po-row">
-      <po-select
-        formControlName="regFundOuUsocapiao"
-        (p-change)="jaContempladoPaisSelecionado($event)"
-        class="po-lg-4"
-        p-label="Já Contemplado no País"
-        [p-options]="boleanoOpcoes"
-        p-placeholder="Já foi contemplado em algum programa no país?"
-      >
-      </po-select>
-      <po-input
-        formControlName="qualRegFundOuUsocapiao"
-        class="po-lg-4"
-        [p-disabled]="converterBooleanString(!programaContempladoPaisAtivo)"
-        [p-required]="converterBooleanString(programaContempladoPaisAtivo)"
-        p-label="Qual?"
-        p-placeholder="Qual programa você já foi beneficiado?"
-        p-clean
-      >
-      </po-input>
-      <po-input
-        formControlName="aondeRegFundOuUsocapiao"
-        class="po-lg-4"
-        [p-disabled]="converterBooleanString(!programaContempladoPaisAtivo)"
-        [p-required]="converterBooleanString(programaContempladoPaisAtivo)"
-        p-label="Onde?"
-        p-placeholder="Onde fica o ímóvel que você já foi beneficiado?"
-        p-clean
-      >
-      </po-input>
-    </div>
+  <po-divider p-label="Informações Sobre Moradia"></po-divider>
+  <div class="po-row">
+    <po-select
+      formControlName="familiaIncProcHabit"
+      class="po-lg-3"
+      p-label="Família Incluída no Programa Habitacional"
+      [p-options]="boleanoOpcoes"
+      p-placeholder="Sim ou não?"
+    >
+    </po-select>
+    <po-select
+      formControlName="quantidadeFamilia"
+      class="po-lg-3"
+      p-label="Familia por Domícíio"
+      [p-options]="familiaDomicilioOpcoes"
+      p-placeholder="Quantas Famílias existem no Domicílio"
+    >
+    </po-select>
+    <po-select
+      formControlName="tempoMoradiaBairro"
+      class="po-lg-3"
+      p-label="Tempo de Moradia no Bairro"
+      [p-options]="tempoDeMoradiaOpcoes"
+      p-placeholder="Tempo de Moradia no Bairro Atual"
+    >
+    </po-select>
+    <po-select
+      formControlName="tempoMoradiaLouveira"
+      class="po-lg-3"
+      p-label="Tempo de Moradia em Louveira"
+      [p-options]="tempoDeMoradiaOpcoes"
+      p-placeholder="Tempo de Moradia em Louveira/SP"
+    >
+    </po-select>
+  </div>
+  <div class="po-row">
+    <po-select
+      formControlName="possuiImovel"
+      class="po-lg-3"
+      p-label="Possui algum imóvel em seu nome"
+      (p-change)="possuiImovelSelecionado($event)"
+      [p-options]="boleanoOpcoes"
+      p-placeholder="Possui algum imóvel no país?"
+    >
+    </po-select>
+    <po-input
+      formControlName="qualLocalDoImovel"
+      class="po-lg-9"
+      p-label="Onde"
+      [p-disabled]="converterBooleanString(!localDoImovelAtivo)"
+      [p-required]="converterBooleanString(localDoImovelAtivo)"
+      p-placeholder="Local do Imóvel"
+      p-clean
+    >
+    </po-input>
+  </div>
+  <div class="po-row">
+    <po-select
+      formControlName="programaHabitacional"
+      class="po-lg-3"
+      p-label="Já foi Contemplado em Algum Programa Habitacional?"
+      (p-change)="jaContempladoSelecionado($event)"
+      [p-options]="boleanoOpcoes"
+      p-placeholder="Já foi contemplado em algum programa?"
+    >
+    </po-select>
+    <po-input
+      formControlName="qualProgHabitacional"
+      [p-disabled]="converterBooleanString(!programaContempladoAtivo)"
+      [p-required]="converterBooleanString(programaContempladoAtivo)"
+      class="po-lg-9"
+      p-label="Qual?"
+      p-placeholder="Qual programa você já foi beneficiado?"
+      p-clean
+    >
+    </po-input>
+  </div>
+  <div class="po-row">
+    <po-select
+      formControlName="regFundOuUsocapiao"
+      (p-change)="jaContempladoPaisSelecionado($event)"
+      class="po-lg-6"
+      p-label="Já foi beneficiário(a) em Programa de Regularização Fundiária ou Ação de Usucapião em qualquer lugar do país?"
+      [p-options]="boleanoOpcoes"
+      p-placeholder="Já foi contemplado em algum programa no país?"
+    >
+    </po-select>
+    <po-input
+      formControlName="qualRegFundOuUsocapiao"
+      class="po-lg-3"
+      [p-disabled]="converterBooleanString(!programaContempladoPaisAtivo)"
+      [p-required]="converterBooleanString(programaContempladoPaisAtivo)"
+      p-label="Qual?"
+      p-placeholder="Qual programa você já foi beneficiado?"
+      p-clean
+    >
+    </po-input>
+    <po-input
+      formControlName="aondeRegFundOuUsocapiao"
+      class="po-lg-3"
+      [p-disabled]="converterBooleanString(!programaContempladoPaisAtivo)"
+      [p-required]="converterBooleanString(programaContempladoPaisAtivo)"
+      p-label="Onde?"
+      p-placeholder="Onde fica o ímóvel que você já foi beneficiado?"
+      p-clean
+    >
+    </po-input>
+  </div>
 </form>
 
-
-    <!-- ALTERAÇÃO DE TABELA DE RENDA -->
-    <!-- <po-divider p-label="Rendas"></po-divider>
+<!-- ALTERAÇÃO DE TABELA DE RENDA -->
+<!-- <po-divider p-label="Rendas"></po-divider>
 
     <po-table
       [p-columns]="colunasRenda"

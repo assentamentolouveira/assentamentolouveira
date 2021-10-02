@@ -33,6 +33,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   public programaContempladoAtivo = false;
   public programaContempladoPaisAtivo = false;
   public localDoImovelAtivo = false;
+  public acessoInternet = true;
 
 
   public estadoCivilOpcoes: Array<PoSelectOption>;
@@ -137,7 +138,10 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       qualProgHabitacional: [''],
       regFundOuUsocapiao: ['', Validators.compose([Validators.required])],
       qualRegFundOuUsocapiao: [''],
-      aondeRegFundOuUsocapiao: ['']
+      aondeRegFundOuUsocapiao: [''],
+      telefoneTitular: [''],
+      telefoneContato: [''],
+      email: [''],
     });
 
     if (this.edicao) {
@@ -187,7 +191,10 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       qualProgHabitacional: this.dadosTitular.qualProgHabitacional,
       regFundOuUsocapiao: this.dadosTitular.regFundOuUsocapiao,
       qualRegFundOuUsocapiao: this.dadosTitular.qualRegFundOuUsocapiao,
-      aondeRegFundOuUsocapiao: this.dadosTitular.aondeRegFundOuUsocapiao
+      aondeRegFundOuUsocapiao: this.dadosTitular.aondeRegFundOuUsocapiao,
+      telefoneTitular: this.dadosTitular.telefoneTitular,
+      telefoneContato: this.dadosTitular.telefoneContato,
+      email: this.dadosTitular.email,
     });
 
     this.dadosTitular.qualLocalDoImovel.length > 0 ? this.localDoImovelAtivo = true : this.localDoImovelAtivo = false;

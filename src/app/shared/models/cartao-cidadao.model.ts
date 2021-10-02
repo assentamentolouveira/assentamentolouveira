@@ -1,0 +1,21 @@
+export interface CartaoCidadao {
+  Status?: string,
+  Numero: string | number,
+  CPF: string,
+  Nome: string,
+  Nascimento: string,
+  Sexo?: string,
+  Cor?: string,
+  Escolaridade?: string,
+  Escolaridade_Situacao?: string,
+  Estado_Civil: string,
+  Status_Cadastro?: string,
+  Logradouro?: string,
+  NumeroLogradouro?: string,
+  Complemento?: string,
+  Bairro?: string,
+  TipoResidencia?: string,
+  SituacaoImovel?: string,
+  PCD: string,
+  CCMesmoEndereco?: string
+}

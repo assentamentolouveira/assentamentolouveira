@@ -33,25 +33,36 @@ export class NewUserComponent implements OnInit {
       cpf: ['', Validators.compose([Validators.required, Validacoes.ValidaCpf])],
       senha: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(50)])],
       dataNascimento: [new Date('01/01/1990'), Validators.compose([Validators.required])],
-      nomePai: ['', Validators.required],
-      nomeMae: ['', Validators.required],
+      cartaoCidadao: ['', Validators.required],
     });
   }
 
   gravaUsuario(): void {
     if (this.reactiveForm.valid) {
-      this.botaoAtivado = false;
-      this.botaoCarregando = true;
-      const teste: newUser = this.reactiveForm.value;
-      this.newUserService.criarUsuario(teste).
-      pipe(
-          finalize(() => {this.botaoAtivado = true, this.botaoCarregando = false})
-          ).subscribe((res) => {
-        this.poNotificationService.success('Usuário Criado com Sucesso!');
-        this.router.navigate(['/internet/login'])
-      }
-      , error =>  this.poNotificationService.error("Erro ao cadastrar usuário: " +  error.message)
-)
+      this.newUserService.validUsuario(this.reactiveForm.value.cartaoCidadao).subscribe(
+        res => {
+          if (this.reactiveForm.value.dataNascimento !== res.Nascimento) {
+            this.poNotificationService.error("Os dados informados não conferem com o cadastro do Cartão Cidadão")
+          } else {
+            this.botaoAtivado = false;
+            this.botaoCarregando = true;
+            const teste: newUser = this.reactiveForm.value;
+            this.newUserService.criarUsuario(teste).
+              pipe(
+                finalize(() => { this.botaoAtivado = true, this.botaoCarregando = false })
+              ).subscribe((res) => {
+                this.poNotificationService.success('Usuário Criado com Sucesso!');
+                this.router.navigate(['/internet/login'])
+              }
+                , error => this.poNotificationService.error("Erro ao cadastrar usuário: " + error.message)
+              )
+          }
+
+        }
+        , erro => {
+          this.poNotificationService.error("O número do Cartão Cidadão não foi encontrado.")
+        }
+      )
     } else {
       this.poNotificationService.warning('Preeencha todos os campos do formulário.')
     }

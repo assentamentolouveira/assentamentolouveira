@@ -1,3 +1,4 @@
+import { CartaoCidadao } from 'src/app/shared/models/cartao-cidadao.model';
 import { TitularCartaoCidadao } from './../../../pages/titulares/shared/titular-cartao-cidadao.model';
 import { TitularesService } from './../../../pages/titulares/shared/titulares.service';
 import { login } from './login.model';
@@ -28,7 +29,7 @@ export class LoginService extends BaseResourceService {
     if (this.isInternet) {
       sessionStorage.removeItem('idTitular');
       sessionStorage.removeItem('moradiaID');
-      return this.http.post(this.apiPath, usuario, this.httpOptions).pipe(
+      return this.http.post<login>(this.apiPath, usuario, this.httpOptions).pipe(
         mergeMap(login => this.retornaDadosCartaoCidadao(login)),
       );
     } else {
@@ -36,7 +37,7 @@ export class LoginService extends BaseResourceService {
     }
   }
 
-  retornaDadosCartaoCidadao(login: Object): Observable<any> {
+  retornaDadosCartaoCidadao(login: login): Observable<any> {
     const cartaoCidadao: TitularCartaoCidadao = {
       nomeResponsavel: "TESTE",
       numeroCartaoCidadao: "123",
@@ -45,6 +46,7 @@ export class LoginService extends BaseResourceService {
       estadoCivil: 1,
       dependentes: "123,345,567,789",
     }
+    const filter = `&cond=CPF&value=${login.idUsuario}`
     // return this.http.get<TitularCartaoCidadao>(`https://webservice.assistsistemas.com.br/blank_ws_exporta/?user=incidade&pass=NZwdRiQR&cond=CPF&value=27946384831`).
     //   pipe(
     //     mergeMap((res) => {
@@ -52,7 +54,7 @@ export class LoginService extends BaseResourceService {
     //       return of(login)
     //     }
     //     ))
-    return of(cartaoCidadao).pipe(mergeMap((res) => {
+    return this.http.get<CartaoCidadao>(`${environment.URLCartaoCidadao}${filter}`).pipe(mergeMap((res) => {
       this.titularesService.gravaDadosTitularCartaoCidadao(res);
       return of(login)
     }

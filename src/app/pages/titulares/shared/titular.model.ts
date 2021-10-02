@@ -4,17 +4,17 @@ export interface Titular {
   numeroSelagemAtual: string,
   numeroSelagemAntiga: string,
   nomeResponsavel: string,
-  numeroCartaoCidadao: string,
+  numeroCartaoCidadao: string | number,
   numeroCpf: string,
   dataNascimento: string,
   genero: number,
   etnia: number,
   escolaridade: number,
   deficiencia: string,
-  estadoCivil: number,
+  estadoCivil: number | string,
   rendaTotal: number,
   familiaIncProcHabit: number | boolean,
-  quantidadeFamilia : number,
+  quantidadeFamilia: number,
   tempoMoradiaBairro: number,
   tempoMoradiaLouveira: number,
   possuiImovel: number | boolean,
@@ -25,4 +25,7 @@ export interface Titular {
   qualRegFundOuUsocapiao: string,
   aondeRegFundOuUsocapiao: string,
   dependentes?: string;
+  telefoneTitular?: string;
+  telefoneContato?: string;
+  email?: string;
 }

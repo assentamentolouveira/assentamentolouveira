@@ -1,3 +1,4 @@
+import { CartaoCidadao } from 'src/app/shared/models/cartao-cidadao.model';
 import { DependentesService } from './../../dependentes/shared/dependentes.service';
 import { TitularCartaoCidadao } from './titular-cartao-cidadao.model';
 import { Titular } from './titular.model';
@@ -49,6 +50,9 @@ export class TitularesService extends BaseResourceService {
     this.dadosTitular.regFundOuUsocapiao = titular.regFundOuUsocapiao;
     this.dadosTitular.tempoMoradiaBairro = titular.tempoMoradiaBairro;
     this.dadosTitular.tempoMoradiaLouveira = titular.tempoMoradiaLouveira;
+    this.dadosTitular.telefoneTitular = titular.telefoneTitular,
+    this.dadosTitular.telefoneContato = titular.telefoneContato,
+    this.dadosTitular.email = titular.email
 
     sessionStorage.removeItem('titular');
     sessionStorage.removeItem('idTitular');
@@ -65,13 +69,13 @@ export class TitularesService extends BaseResourceService {
     return this.http.post(this.apiPath, titular, this.httpOptions).pipe()
   }
 
-  gravaDadosTitularCartaoCidadao(dadosCartaoCidade: TitularCartaoCidadao): void {
-    this.dadosTitular.nomeResponsavel = dadosCartaoCidade.nomeResponsavel;
-    this.dadosTitular.numeroCartaoCidadao = dadosCartaoCidade.numeroCartaoCidadao;
-    this.dadosTitular.deficiencia = dadosCartaoCidade.deficiencia;
-    this.dadosTitular.estadoCivil = dadosCartaoCidade.estadoCivil;
-    this.dadosTitular.dependentes = dadosCartaoCidade.dependentes;
-    this.dadosTitular.dataNascimento = dadosCartaoCidade.dataNascimento;
+  gravaDadosTitularCartaoCidadao(dadosCartaoCidade: CartaoCidadao): void {
+    this.dadosTitular.nomeResponsavel = dadosCartaoCidade.Nome;
+    this.dadosTitular.numeroCartaoCidadao = dadosCartaoCidade.Numero;
+    this.dadosTitular.deficiencia = dadosCartaoCidade.PCD;
+    this.dadosTitular.estadoCivil = dadosCartaoCidade.Estado_Civil;
+    this.dadosTitular.dependentes = dadosCartaoCidade.CCMesmoEndereco;
+    this.dadosTitular.dataNascimento = dadosCartaoCidade.Nascimento;
   }
 
   alterarTitular(titular: Titular): Observable<any> {

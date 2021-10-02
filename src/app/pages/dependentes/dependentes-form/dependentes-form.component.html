@@ -68,12 +68,11 @@
 
     <div class="po-row">
       <po-select
-        formControlName="parentesco"
+        formControlName="grauParentesco"
         class="po-lg-3"
-        p-label="Parentesco com o Responsável'"
+        p-label="Parentesco com o Responsável"
         [p-options]="parentescoResponsavelOpcoes"
-        p-placeholder="Não informado"
-        [p-disabled]="true"
+        p-placeholder="Selecione o Grau de Parentesco"
       >
       </po-select>
 
@@ -98,26 +97,35 @@
       <po-select
         formControlName="deficiencia"
         class="po-lg-3"
-        p-label="Possui Deficiencia"
+        p-label="PCD"
         [p-options]="deficienciaOpcoes"
-        p-placeholder="Selecione a defiencia"
+        p-placeholder="Não Possui"
         [p-disabled]="true"
       >
       </po-select>
     </div>
   </form>
   <po-button
-    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-8 po-offset-xl-8 po-mb-1"
+    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-6 po-offset-xl-6 po-mb-1"
     p-label="Cancelar"
     p-icon="po-icon-close"
-    [p-disabled]="!habilitaConfirmacao"
     [p-loading]="realizandoAlteracao"
     (p-click)="cancelarEdicao()"
   >
   </po-button>
+
+    <po-button
+      class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
+      p-label="Excluir"
+      p-icon="po-icon-delete"
+      [p-disabled]="dependenteSelecionado === 'novo'"
+      [p-loading]="realizandoAlteracao"
+      (p-click)="excluiDependente()"
+    >
+    </po-button>
   <po-button
     class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
-    p-label="Salvar Edição"
+    p-label="Salvar Dependente"
     p-icon="po-icon-ok"
     [p-disabled]="!habilitaConfirmacao"
     [p-loading]="realizandoAlteracao"
@@ -127,7 +135,7 @@
 </ng-template>
 
 <br />
-<po-divider p-label="Lista de Dependentes"></po-divider>
+<po-divider p-label="Moradores da Mesma Residência"></po-divider>
 <div *ngIf="isDesktop; else dependente">
   <po-table
     [p-columns]="colunas"
@@ -149,6 +157,9 @@
     >
       <div class="po-font-text-large-bold">
         Nome: {{ listaDependente.nome }}
+      </div>
+      <div class="po-font-text-large-bold">
+        Parentesco: {{ listaDependente.grauParentesco }}
       </div>
       <div class="po-font-subtitle po-text-center">
         {{ listaDependente.cpfFormatado }}

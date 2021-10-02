@@ -1,354 +1,364 @@
-<form [formGroup]="formularioMoradia">
-  <po-divider p-label="Informações Assentamento"></po-divider>
-  <div class="po-row">
-    <po-input
-      class="po-lg-4"
-      p-label="Assentamento"
-      formControlName="assentamento"
-      p-placeholder="Assentamento"
-      p-disabled="true"
-      p-clean
-    >
-    </po-input>
-    <po-input
-      class="po-lg-4"
-      p-label="Selagem Atual"
-      formControlName="numeroSelagemAtual"
-      p-placeholder="Selagem Atual"
-      p-disabled="true"
-      p-clean
-    ></po-input>
-    <po-input
-      class="po-lg-4"
-      p-label="Selagem Antiga"
-      formControlName="numeroSelagemAntiga"
-      p-placeholder="Selagem FUMHAB"
-      p-disabled="true"
-      p-clean
-    ></po-input>
-  </div>
+<po-loading-overlay
+  [p-screen-lock]="true"
+  [hidden]="carregando"
+  p-text="Buscando Dados da Moradia"
+>
+</po-loading-overlay>
+<div *ngIf="carregando">
+  <form [formGroup]="formularioMoradia">
+    <div *ngIf="!acessoInternet">
+      <po-divider p-label="Informações Assentamento"></po-divider>
+      <div class="po-row">
+        <po-input
+          class="po-lg-4"
+          p-label="Assentamento"
+          formControlName="assentamento"
+          p-placeholder="Assentamento"
+          p-disabled="true"
+          p-clean
+        >
+        </po-input>
+        <po-input
+          class="po-lg-4"
+          p-label="Selagem Atual"
+          formControlName="numeroSelagemAtual"
+          p-placeholder="Selagem Atual"
+          p-disabled="true"
+          p-clean
+        ></po-input>
+        <po-input
+          class="po-lg-4"
+          p-label="Selagem Antiga"
+          formControlName="numeroSelagemAntiga"
+          p-placeholder="Selagem FUMHAB"
+          p-disabled="true"
+          p-clean
+        ></po-input>
+      </div>
 
-  <div class="po-row">
-    <po-input
-      class="po-lg-4"
-      p-label="Endereço"
-      formControlName="endereco"
-      p-placeholder="Endereço"
-      p-disabled="true"
-      p-clean
-    >
-    </po-input>
-    <po-input
-      class="po-lg-1"
-      p-label="Número"
-      formControlName="numero"
-      p-placeholder="Número"
-      p-disabled="true"
-      p-clean
-    ></po-input>
-    <po-input
-      class="po-lg-3"
-      p-label="Complemento"
-      formControlName="complemento"
-      p-placeholder="Complemento"
-      p-disabled="true"
-      p-clean
-    ></po-input>
-    <po-input
-      class="po-lg-4"
-      p-label="Bairro"
-      formControlName="bairro"
-      p-placeholder="Bairro"
-      p-disabled="true"
-      p-clean
-    ></po-input>
-  </div>
+      <div class="po-row">
+        <po-input
+          class="po-lg-4"
+          p-label="Endereço"
+          formControlName="endereco"
+          p-placeholder="Endereço"
+          p-disabled="true"
+          p-clean
+        >
+        </po-input>
+        <po-input
+          class="po-lg-1"
+          p-label="Número"
+          formControlName="numero"
+          p-placeholder="Número"
+          p-disabled="true"
+          p-clean
+        ></po-input>
+        <po-input
+          class="po-lg-3"
+          p-label="Complemento"
+          formControlName="complemento"
+          p-placeholder="Complemento"
+          p-disabled="true"
+          p-clean
+        ></po-input>
+        <po-input
+          class="po-lg-4"
+          p-label="Bairro"
+          formControlName="bairro"
+          p-placeholder="Bairro"
+          p-disabled="true"
+          p-clean
+        ></po-input>
+      </div>
+    </div>
 
-  <po-divider p-label="Acesso a Serviços"></po-divider>
+    <po-divider p-label="Acesso a Serviços"></po-divider>
 
-  <div class="po-row">
-    <po-select
-      class="po-lg-3"
-      p-label="Família tem cadastro único?"
-      formControlName="cadastroUnicoFamilia"
-      [p-options]="familiaTemCadastroUnicoOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Família acessa a unidade básica de saúde?"
-      formControlName="acessaUnidBasicaSaude"
-      [p-options]="boleanoOpcoes"
-      (p-change)="familiaAcessaUnidadeBasicaSaudeSelecionado($event)"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-input
-      class="po-lg-6"
-      p-label="Qual?"
-      formControlName="qualUnidBasicaSaude"
-      p-placeholder="Infome o recurso"
-      [p-disabled]="converterBooleanString(!familiaAcessaUnidadeBasicaSaude)"
-      [p-required]="converterBooleanString(familiaAcessaUnidadeBasicaSaude)"
-      p-clean
-    >
-    </po-input>
-  </div>
-  <div class="po-row">
-    <po-select
-      class="po-lg-3"
-      p-label="Família tem acesso à escolas, creches?"
-      formControlName="temAcessoEscolaCreche"
-      [p-options]="boleanoOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Utiliza transporte escolar?"
-      formControlName="utilizaTransporteEscolar"
-      [p-options]="boleanoOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Família acessa CRAS?"
-      formControlName="acessaCras"
-      [p-options]="boleanoOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Família acessa CREAS? "
-      formControlName="acessaCreas"
-      [p-options]="boleanoOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-  </div>
+    <div class="po-row">
+      <po-select
+        class="po-lg-3"
+        p-label="Família tem cadastro único?"
+        formControlName="cadastroUnicoFamilia"
+        [p-options]="familiaTemCadastroUnicoOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Família acessa a unidade básica de saúde?"
+        formControlName="acessaUnidBasicaSaude"
+        [p-options]="boleanoOpcoes"
+        (p-change)="familiaAcessaUnidadeBasicaSaudeSelecionado($event)"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-input
+        class="po-lg-6"
+        p-label="Qual?"
+        formControlName="qualUnidBasicaSaude"
+        p-placeholder="Infome o recurso"
+        [p-disabled]="converterBooleanString(!familiaAcessaUnidadeBasicaSaude)"
+        [p-required]="converterBooleanString(familiaAcessaUnidadeBasicaSaude)"
+        p-clean
+      >
+      </po-input>
+    </div>
+    <div class="po-row">
+      <po-select
+        class="po-lg-3"
+        p-label="Família tem acesso à escolas, creches?"
+        formControlName="temAcessoEscolaCreche"
+        [p-options]="boleanoOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Utiliza transporte escolar?"
+        formControlName="utilizaTransporteEscolar"
+        [p-options]="boleanoOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Família acessa CRAS?"
+        formControlName="acessaCras"
+        [p-options]="boleanoOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Família acessa CREAS? "
+        formControlName="acessaCreas"
+        [p-options]="boleanoOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+    </div>
 
-  <div class="po-row">
-    <po-select
-      class="po-lg-3"
-      p-label="Família acessa serviços de convivência para crianças ou adolescentes?"
-      formControlName="acessaServConvivenciaCriancaAdolescente"
-      [p-options]="boleanoOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Família acessa serviços de convivência para Idosos?"
-      formControlName="acessaServConvivenciaCriancaIdoso"
-      [p-options]="boleanoOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-  </div>
+    <div class="po-row">
+      <po-select
+        class="po-lg-3"
+        p-label="Família acessa serviços de convivência para crianças ou adolescentes?"
+        formControlName="acessaServConvivenciaCriancaAdolescente"
+        [p-options]="boleanoOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Família acessa serviços de convivência para Idosos?"
+        formControlName="acessaServConvivenciaCriancaIdoso"
+        [p-options]="boleanoOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+    </div>
 
-  <po-divider p-label="Identificação da Moradia"></po-divider>
+    <po-divider p-label="Identificação da Moradia"></po-divider>
 
-  <div class="po-row">
-    <po-select
-      class="po-lg-3"
-      p-label="Moradia"
-      formControlName="tipoMoradia"
-      [p-options]="moradiaOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Quantidade de Banheiros"
-      formControlName="quantidadeBanheiro"
-      [p-options]="quantidadeBanheirosOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Quantidade de cômodos"
-      formControlName="quantidadeComodo"
-      [p-options]="quantidadeComodosOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Tipo de Moradia Ocupada"
-      formControlName="tipoMoradiaOcupada"
-      [p-options]="tipoMoradiaOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-multiselect
-      class="po-lg-3"
-      name="multiselect"
-      p-label="Características que melhor descreve a sua casa"
-      formControlName="caracteristicaMoradia"
-      p-placeholder="Selecione todas as opções necessárias"
-      [p-options]="caracteristicasCasaOpcoes"
-    >
-    </po-multiselect>
-  </div>
+    <div class="po-row">
+      <po-select
+        class="po-lg-3"
+        p-label="Moradia"
+        formControlName="tipoMoradia"
+        [p-options]="moradiaOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Quantidade de Banheiros"
+        formControlName="quantidadeBanheiro"
+        [p-options]="quantidadeBanheirosOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Quantidade de cômodos"
+        formControlName="quantidadeComodo"
+        [p-options]="quantidadeComodosOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Tipo de Moradia Ocupada"
+        formControlName="tipoMoradiaOcupada"
+        [p-options]="tipoMoradiaOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-multiselect
+        class="po-lg-3"
+        name="multiselect"
+        p-label="Características que melhor descreve a sua casa"
+        formControlName="caracteristicaMoradia"
+        p-placeholder="Selecione todas as opções necessárias"
+        [p-options]="caracteristicasCasaOpcoes"
+      >
+      </po-multiselect>
+    </div>
 
-  <div class="po-row">
-    <po-select
-      class="po-lg-3"
-      p-label="Acesso à energia elétrica"
-      formControlName="acessoEnergiaEletrica"
-      [p-options]="acessoEnergiaOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Acesso à abastecimento de água"
-      formControlName="acessoAbastecimentoAgua"
-      [p-options]="acessoAguaOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Acesso a saneamento sanitário"
-      formControlName="acessoSaneamentoSanitario"
-      [p-options]="acessoSaneamentoOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Possui Automóveis?"
-      formControlName="possuiAutomovel"
-      [p-options]="numeroAutomoveiOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-  </div>
-  <div class="po-row">
-    <po-select
-      class="po-lg-3"
-      p-label="A sua moradia atual já sofreu algum tipo de desastre?"
-      formControlName="moradiaSofreuDesastre"
-      [p-options]="desastresOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-    <po-select
-      class="po-lg-3"
-      p-label="Uso da Moradia"
-      formControlName="usoMoradia"
-      [p-options]="usoMoradiaOpcoes"
-      p-placeholder="Selecione uma opção"
-    >
-    </po-select>
-  </div>
+    <div class="po-row">
+      <po-select
+        class="po-lg-3"
+        p-label="Acesso à energia elétrica"
+        formControlName="acessoEnergiaEletrica"
+        [p-options]="acessoEnergiaOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Acesso à abastecimento de água"
+        formControlName="acessoAbastecimentoAgua"
+        [p-options]="acessoAguaOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Acesso a saneamento sanitário"
+        formControlName="acessoSaneamentoSanitario"
+        [p-options]="acessoSaneamentoOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Possui Automóveis?"
+        formControlName="possuiAutomovel"
+        [p-options]="numeroAutomoveiOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+    </div>
+    <div class="po-row">
+      <po-select
+        class="po-lg-3"
+        p-label="A sua moradia atual já sofreu algum tipo de desastre?"
+        formControlName="moradiaSofreuDesastre"
+        [p-options]="desastresOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
+        p-label="Uso da Moradia"
+        formControlName="usoMoradia"
+        [p-options]="usoMoradiaOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+    </div>
 
-  <po-divider p-label="Animais de Estimação"></po-divider>
+    <po-divider p-label="Animais de Estimação"></po-divider>
 
-  <div class="po-row">
-    <po-number
-      class="po-lg-3"
-      p-label="Cachorro"
-      formControlName="cao"
-      p-placeholder="Infome o número de cachorros"
-    ></po-number>
-    <po-number
-      class="po-lg-3"
-      p-label="Gato"
-      formControlName="gato"
-      p-placeholder="Infome o número de gatos"
-    ></po-number>
-    <po-number
-      class="po-lg-3"
-      p-label="Pássaro"
-      formControlName="passaro"
-      p-placeholder="Infome o número de pássaros"
-    ></po-number>
-    <po-number
-      class="po-lg-3"
-      p-label="Outros"
-      formControlName="outroAnimais"
-      p-placeholder="Infome o número de outros animais"
-    ></po-number>
-  </div>
+    <div class="po-row">
+      <po-number
+        class="po-lg-3"
+        p-label="Cachorro"
+        formControlName="cao"
+        p-placeholder="Infome o número de cachorros"
+      ></po-number>
+      <po-number
+        class="po-lg-3"
+        p-label="Gato"
+        formControlName="gato"
+        p-placeholder="Infome o número de gatos"
+      ></po-number>
+      <po-number
+        class="po-lg-3"
+        p-label="Pássaro"
+        formControlName="passaro"
+        p-placeholder="Infome o número de pássaros"
+      ></po-number>
+      <po-number
+        class="po-lg-3"
+        p-label="Outros"
+        formControlName="outroAnimais"
+        p-placeholder="Infome o número de outros animais"
+      ></po-number>
+    </div>
 
-  <po-divider p-label="Animais de Estimação"></po-divider>
+    <po-divider p-label="Animais de Estimação"></po-divider>
 
-  <div class="po-row">
-    <po-decimal
-      class="po-lg-3"
-      p-label="Aluguel"
-      formControlName="gastoComAluguel"
-      p-placeholder="0,00"
-      (p-change)="atualizaTotalDeDespesas($event)"
-    >
-    </po-decimal>
-    <po-decimal
-      class="po-lg-3"
-      p-label="Energia Elétrica"
-      formControlName="gastoComEnergiaEletrica"
-      p-placeholder="0,00"
-      (p-change)="atualizaTotalDeDespesas($event)"
-    >
-    </po-decimal>
-    <po-decimal
-      class="po-lg-3"
-      p-label="Água/Esgoto"
-      formControlName="gastoComAguaEsgoto"
-      p-placeholder="0,00"
-      (p-change)="atualizaTotalDeDespesas($event)"
-    >
-    </po-decimal>
-    <po-decimal
-      class="po-lg-3"
-      p-label="Gás"
-      formControlName="gastoComGas"
-      p-placeholder="0,00"
-      (p-change)="atualizaTotalDeDespesas($event)"
-    >
-    </po-decimal>
-  </div>
+    <div class="po-row">
+      <po-decimal
+        class="po-lg-3"
+        p-label="Aluguel"
+        formControlName="gastoComAluguel"
+        p-placeholder="0,00"
+        (p-change)="atualizaTotalDeDespesas($event)"
+      >
+      </po-decimal>
+      <po-decimal
+        class="po-lg-3"
+        p-label="Energia Elétrica"
+        formControlName="gastoComEnergiaEletrica"
+        p-placeholder="0,00"
+        (p-change)="atualizaTotalDeDespesas($event)"
+      >
+      </po-decimal>
+      <po-decimal
+        class="po-lg-3"
+        p-label="Água/Esgoto"
+        formControlName="gastoComAguaEsgoto"
+        p-placeholder="0,00"
+        (p-change)="atualizaTotalDeDespesas($event)"
+      >
+      </po-decimal>
+      <po-decimal
+        class="po-lg-3"
+        p-label="Gás"
+        formControlName="gastoComGas"
+        p-placeholder="0,00"
+        (p-change)="atualizaTotalDeDespesas($event)"
+      >
+      </po-decimal>
+    </div>
 
-  <div class="po-row">
-    <po-decimal
-      class="po-lg-3"
-      p-label="Alimentação, higiene e limpeza"
-      formControlName="gastoComAlimentacaoHigieneLimpeza"
-      p-placeholder="0,00"
-      (p-change)="atualizaTotalDeDespesas($event)"
-    >
-    </po-decimal>
-    <po-decimal
-      class="po-lg-3"
-      p-label="Medicmentos"
-      formControlName="gastoComMedicamento"
-      p-placeholder="0,00"
-      (p-change)="atualizaTotalDeDespesas($event)"
-    >
-    </po-decimal>
-    <po-decimal
-      class="po-lg-3"
-      p-label="Total de Despesas"
-      formControlName="totalDeDespesasMensais"
-      p-placeholder="0,00"
-      p-readonly="true;"
-    >
-    </po-decimal>
-  </div>
+    <div class="po-row">
+      <po-decimal
+        class="po-lg-3"
+        p-label="Alimentação, higiene e limpeza"
+        formControlName="gastoComAlimentacaoHigieneLimpeza"
+        p-placeholder="0,00"
+        (p-change)="atualizaTotalDeDespesas($event)"
+      >
+      </po-decimal>
+      <po-decimal
+        class="po-lg-3"
+        p-label="Medicmentos"
+        formControlName="gastoComMedicamento"
+        p-placeholder="0,00"
+        (p-change)="atualizaTotalDeDespesas($event)"
+      >
+      </po-decimal>
+      <po-decimal
+        class="po-lg-3"
+        p-label="Total de Despesas"
+        formControlName="totalDeDespesasMensais"
+        p-placeholder="0,00"
+        p-readonly="true;"
+      >
+      </po-decimal>
+    </div>
 
-  <div class="po-row">
-    <po-input
-      class="po-lg-12"
-      p-label="Observações"
-      formControlName="observacao"
-      p-placeholder="Observações"
-      p-clean
-    >
-    </po-input>
-  </div>
-</form>
+    <div class="po-row">
+      <po-input
+        class="po-lg-12"
+        p-label="Observações"
+        formControlName="observacao"
+        p-placeholder="Observações"
+        p-clean
+      >
+      </po-input>
+    </div>
+  </form>
+</div>

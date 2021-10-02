@@ -8,7 +8,7 @@ import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service
 import { MoradiaService } from '../shared/moradia.service';
 import { Moradias } from '../shared/moradias.model';
 import { Subscription } from 'rxjs';
-import { debounceTime, take } from 'rxjs/operators';
+import { debounceTime, take, finalize } from 'rxjs/operators';
 import { Moradia } from '../shared/moradia.model';
 
 @Component({
@@ -39,6 +39,8 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
   public desastresOpcoes: Array<PoSelectOption>;
   public usoMoradiaOpcoes: Array<PoSelectOption>;
   public familiaAcessaUnidadeBasicaSaude = false;
+  public acessoInternet = true;
+  public carregando = false;
 
   @Output() formularioMoradiaValido: EventEmitter<FormGroup> = new EventEmitter()
 
@@ -85,7 +87,8 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
     this.usoMoradiaOpcoes = this.opcoesComboService.usoMoradiaOpcoes;
 
     this.moradiaService.getMoradiabyTitular(String(sessionStorage.getItem('idTitular'))).pipe(
-      take(1)
+      take(1),
+  finalize(() => this.carregando = true)
     ).subscribe(
       res => { sessionStorage.setItem('moradiaID', res.id), this.montaFormularioEdicao(res) },
       error => console.log(error)

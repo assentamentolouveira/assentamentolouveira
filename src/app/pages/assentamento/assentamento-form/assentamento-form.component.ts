@@ -39,6 +39,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   public atualizaDepentente = false;
   public formularioTitular: FormGroup;
   public formularioMoradia: FormGroup;
+  public formularioValido = false;
 
 
   private titular: Titular;
@@ -130,6 +131,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   formularioTitularValido(formularioValido: FormGroup): void {
     this.formularioTitular = formularioValido;
+    this.formularioValido = formularioValido.valid;
   }
 
   salvarEdicaoTitular(): boolean {
@@ -147,7 +149,10 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     this.titularService.alterarTitular(formulario).pipe(
       take(1),
       finalize(() => { this.carregando = true })
-    ).subscribe(res => this.titularValido = true, error => console.error(error))
+    ).subscribe(res => {
+      this.titularValido = true;
+      this.titularService.setTitularInfo(res)
+    }, error => console.error(error))
   }
 
   incluiTitular(formulario: Titular): void {
@@ -160,17 +165,18 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         this.botoes[indice].disabled = false;
       });
 
-      this.edicao = true;
+      this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/editar`]);
+      // this.edicao = true;
 
-      const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
-      const listaDeDepententes = dadosTitular.dependentes.split(',');
+      // const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
+      // const listaDeDepententes = dadosTitular.dependentes.split(',');
 
-      if (listaDeDepententes.length > 0) {
-        this.incluiDependentes(listaDeDepententes, res);
-      } else {
-        this.carregando = true;
-        this.titularValido = true;
-      }
+      // if (listaDeDepententes.length > 0) {
+      //   this.incluiDependentes(listaDeDepententes, res);
+      // } else {
+      //   this.carregando = true;
+      //   this.titularValido = true;
+      // }
     }
       , error => {
         this.carregando = true;
@@ -187,45 +193,36 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
 
-  incluiDependentes(listaDeDepententes: string[], titular: Titular): void {
+  incluiDependentes(listaDeDepententes: number[], titular: Titular): void {
     let observablesDependentes = {};
 
     this.mensagemLoading = "Incluindo Dependentes...";
-    this.titularValido = false;
-    listaDeDepententes.forEach((dependente) => {
-      Object.assign(observablesDependentes, { [dependente]: this.dependentesService.incluiDependente(titular.id, dependente).pipe(retry(3)) })
-    })
+    this.carregando = true;
+    this.titularValido=true;
+    // this.titularValido = false;
 
-    forkJoin(observablesDependentes).pipe(
-      finalize(() => this.carregando = true)
-    ).subscribe(
-      res => {
-        this.buscaDependentesPorTitular();
-        this.titularValido = true;
-      }
-      , erro => console.error(`erro ao cadastrar dependente. Tente novamente ${erro}`)
-    )
+    // Função para inclusão de Dependentes
+    // listaDeDepententes.forEach((dependente) => {
+    //   Object.assign(observablesDependentes, { [dependente]: this.dependentesService.incluiDependente(titular.id, dependente).pipe(retry(3)) })
+    // })
+
+    // forkJoin(observablesDependentes).pipe(
+    //   finalize(() => this.carregando = true)
+    // ).subscribe(
+    //   res => {
+    //     this.buscaDependentesPorTitular();
+    //     this.titularValido = true;
+    //   }
+    //   , erro => console.error(`erro ao cadastrar dependente. Tente novamente ${erro}`)
+    // )
+    this.buscaDependentesPorTitular();
   }
 
   buscaDependentesPorTitular() {
-    if (String(sessionStorage.getItem('idTitular'))?.length > 0) {
-      this.dependentesService.getDepentendesPorTitular(sessionStorage.getItem('idTitular')).pipe(
-        retry(3),
-        take(1),
-      ).subscribe(resposta => {
-        const pipeCPF = new DocumentPipe()
-        resposta.map(res => { res.parentesco = this.converteParentesco(res), res.cpfFormatado = pipeCPF.transform(res.numeroCpf) })
-        this.recebeDependentes(resposta);
-      }, error => {
-        if (error.status != 404) {
-          this.poNotificationService.error("Erro ao buscar a dependentes")
-        }
-      })
-    }
   }
 
   converteParentesco(dependente: Dependente): string {
-    return this.opcoesComboService.retornaLabelOpcoes(dependente.parentesco, this.opcoesComboService.parentescoOpcoes)
+    return this.opcoesComboService.retornaLabelOpcoes(dependente.grauParentesco, this.opcoesComboService.parentescoOpcoes)
   }
 
 

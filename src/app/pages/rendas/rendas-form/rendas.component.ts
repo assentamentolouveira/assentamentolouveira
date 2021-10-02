@@ -1,20 +1,22 @@
+import { TitularesService } from './../../titulares/shared/titulares.service';
 import { RendasService } from './../shared/rendas.service';
 import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service';
 import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PoComboOption, PoSelectOption, PoTableColumn, PoNotificationService, PoTableAction, PoDialogService, PoInfoOrientation } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators'
 import { Renda } from '../shared/renda.model';
-import { take } from 'rxjs/operators';
+import { take, finalize } from 'rxjs/operators';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { DependentesService } from '../../dependentes/shared/dependentes.service';
+import { Titular } from '../../titulares/shared/titular.model';
 
 @Component({
   selector: 'app-rendas',
   templateUrl: './rendas.component.html',
   styleUrls: ['./rendas.component.css']
 })
-export class RendasComponent implements OnInit, OnDestroy, OnChanges {
+export class RendasComponent implements OnInit, OnDestroy {
   public formularioRendas: FormGroup;
   public rendaOpcoes: Array<PoSelectOption>;
   public iconeBotao = "po-icon-plus-circle"
@@ -29,6 +31,8 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
   public realizandoAlteracaoAlteracao = false;
   public habilitaConfirmacao = false;
   public isDesktop = true;
+  public carregando = false
+  public comboRenda: PoComboOption[]
 
   public acoes: Array<PoTableAction> = [
     {
@@ -47,7 +51,6 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
 
   private subscription: Subscription;
 
-  @Input() comboRenda: any
 
   @Input() valorRenda: number;
   @Input() tipoRenda: string;
@@ -59,6 +62,8 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
     private rendasService: RendasService,
     private poNotificationService: PoNotificationService,
     private poAlert: PoDialogService,
+    private dependentesService: DependentesService,
+    private titularesService: TitularesService,
     private deviceService: DeviceDetectorService) {
     this.initialize();
     this.colunas = this.rendasService.getColunas()
@@ -89,13 +94,30 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   initialize(): void {
+    const dadosTitular: Titular = JSON.parse(this.titularesService.getTitularInfo());
     this.somaRenda = 0;
     this.edicao = false;
     this.defineClasseBotaoSalvar(true);
     this.formularioRendas?.reset();
     this.rendaOpcoes = this.opcoesComboService.rendaOpcoes;
+
+    this.comboRenda = [{ label: dadosTitular.nomeResponsavel, value: dadosTitular.id }]
+    this.dependentesService.getDepentendesPorTitularComCartaoCidadao(String(sessionStorage.getItem('idTitular'))).pipe(
+      finalize(() => this.buscaRendaPorTitular())
+    ).subscribe(
+      res => {
+        res.map(dependente => {
+          this.comboRenda.push({ label: dependente.Nome, value: dependente.id })
+        });
+      },
+      error => this.carregando = true
+    )
+  }
+
+  buscaRendaPorTitular(): void {
     this.rendasService.getRendasById(String(sessionStorage.getItem('idTitular'))).pipe(
-      take(1)
+      take(1),
+      finalize(() => this.carregando = true)
     ).subscribe(rendas => {
       rendas.map(renda => {
         this.somaRenda += renda.valor;
@@ -108,7 +130,7 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
         if (error.status != 404) {
           this.poNotificationService.error("Erro ao buscar a Renda")
         }
-
+        this.carregando = true
       })
   }
 
@@ -125,7 +147,6 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
     this.iconeBotao = "po-icon-edit"
     this.defineClasseBotaoSalvar(false);
 
-    console.log(rendaSelecionada)
     this.edicao = true;
     this.formularioRendas.patchValue({
       id: rendaSelecionada.id,
@@ -156,12 +177,6 @@ export class RendasComponent implements OnInit, OnDestroy, OnChanges {
         this.poNotificationService.error("Erro ao excluir a renda");
       }
     );
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.comboRenda) {
-      this.comboRenda = changes.comboRenda.currentValue;
-    }
   }
 
   cancelaEdicao(): void {

@@ -1,3 +1,4 @@
+import { DependentesService } from './../../../pages/dependentes/shared/dependentes.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotfoundComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dependentesService:DependentesService) { }
 
   ngOnInit() {
+    this.dependentesService.getDependenteCartaoCidadao('345').subscribe();
   }
 
 }

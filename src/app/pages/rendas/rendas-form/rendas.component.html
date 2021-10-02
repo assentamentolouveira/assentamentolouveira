@@ -1,113 +1,124 @@
-<form [formGroup]="formularioRendas">
-  <po-divider p-label="Rendas"></po-divider>
-  <div class="po-mt-2 po-xl-12 po-lg-12">
-    <div class="po-row">
-      <po-combo
-        class="po-lg-4"
-        [p-clean]="true"
-        p-label="Titular da Renda"
-        [p-options]="comboRenda"
-        p-placeholder="Selecione o Responsável pela Renda"
-        [p-clean]="true"
-        formControlName="responsavelRenda"
-        [p-required]="true"
-      >
-        <ng-template p-combo-option-template let-option>
-          <div class="po-row">
-            <po-avatar class="po-sm-2 po-md-3 po-lg-1" p-size="sm"></po-avatar>
+<po-loading-overlay
+  [p-screen-lock]="true"
+  [hidden]="carregando"
+  p-text="Buscando Rendas"
+>
+</po-loading-overlay>
+<div *ngIf="carregando">
+  <form [formGroup]="formularioRendas">
+    <po-divider p-label="Rendas"></po-divider>
+    <div class="po-mt-2 po-xl-12 po-lg-12">
+      <div class="po-row">
+        <po-combo
+          class="po-lg-4"
+          [p-clean]="true"
+          p-label="Titular da Renda"
+          [p-options]="comboRenda"
+          p-placeholder="Selecione o Responsável pela Renda"
+          [p-clean]="true"
+          formControlName="responsavelRenda"
+          [p-required]="true"
+        >
+          <ng-template p-combo-option-template let-option>
+            <div class="po-row">
+              <po-avatar
+                class="po-sm-2 po-md-3 po-lg-1"
+                p-size="sm"
+              ></po-avatar>
 
-            <div class="po-sm-10 po-md-9 po-lg-11">
-              <div class="po-font-text-large-bold">
-                Nome: {{ option.label }}
+              <div class="po-sm-10 po-md-9 po-lg-11">
+                <div class="po-font-text-large-bold">
+                  Nome: {{ option.label }}
+                </div>
               </div>
             </div>
-          </div>
-        </ng-template>
-      </po-combo>
-      <po-decimal
-        class="po-lg-4"
-        p-label="Valor da Renda (R$)"
-        p-placeholder="Informe o valor da renda em Reais"
-        p-clean="true"
-        [p-decimals-length]="2"
-        formControlName="valor"
-        p-required="true"
-      ></po-decimal>
-      <po-combo
-        class="po-lg-4"
-        [p-clean]="true"
-        p-label="Tipo de Renda"
-        [p-options]="rendaOpcoes"
-        p-placeholder="Selecione o Tipo de Renda"
-        [p-clean]="true"
-        formControlName="tipo"
-        [p-required]="true"
-      >
-      </po-combo>
+          </ng-template>
+        </po-combo>
+        <po-decimal
+          class="po-lg-4"
+          p-label="Valor da Renda (R$)"
+          p-placeholder="Informe o valor da renda em Reais"
+          p-clean="true"
+          [p-decimals-length]="2"
+          formControlName="valor"
+          p-required="true"
+        ></po-decimal>
+        <po-combo
+          class="po-lg-4"
+          [p-clean]="true"
+          p-label="Tipo de Renda"
+          [p-options]="rendaOpcoes"
+          p-placeholder="Selecione o Tipo de Renda"
+          [p-clean]="true"
+          formControlName="tipo"
+          [p-required]="true"
+        >
+        </po-combo>
+      </div>
+      <div class="po-row">
+        <po-button
+          *ngIf="edicao"
+          class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-8 po-offset-xl-8 po-mb-1"
+          p-label="Cancelar"
+          p-icon="po-icon-close"
+          (p-click)="cancelaEdicao()"
+          [p-disabled]="!habilitaConfirmacao"
+          [p-loading]="realizandoAlteracaoAlteracao"
+        >
+        </po-button>
+        <po-button
+          [ngClass]="classSalvar"
+          [p-label]="legendaBotao"
+          [p-icon]="iconeBotao"
+          (p-click)="incluirEditarRenda()"
+          [p-disabled]="!habilitaConfirmacao"
+          [p-loading]="realizandoAlteracaoAlteracao"
+        >
+        </po-button>
+      </div>
     </div>
-    <div class="po-row">
-      <po-button
-        *ngIf="edicao"
-        class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-8 po-offset-xl-8 po-mb-1"
-        p-label="Cancelar"
-        p-icon="po-icon-close"
-        (p-click)="cancelaEdicao()"
-        [p-disabled]="!habilitaConfirmacao"
-        [p-loading]="realizandoAlteracaoAlteracao"
-      >
-      </po-button>
-      <po-button
-        [ngClass]="classSalvar"
-        [p-label]="legendaBotao"
-        [p-icon]="iconeBotao"
-        (p-click)="incluirEditarRenda()"
-        [p-disabled]="!habilitaConfirmacao"
-        [p-loading]="realizandoAlteracaoAlteracao"
-      >
-      </po-button>
-    </div>
+  </form>
+
+  <po-divider p-label="Lista de Dependentes"></po-divider>
+  <div *ngIf="isDesktop; else cardsRenda">
+    <po-table
+      [p-columns]="colunas"
+      [p-hide-columns-manager]="true"
+      [p-items]="listaRendas"
+      [p-actions]="acoes"
+      [p-height]="300"
+      [p-loading]="realizandoAlteracaoAlteracao"
+      [p-infinite-scroll]="true"
+    ></po-table>
   </div>
-</form>
 
-<po-divider p-label="Lista de Dependentes"></po-divider>
-<div *ngIf="isDesktop else cardsRenda">
-  <po-table
-    [p-columns]="colunas"
-    [p-hide-columns-manager]="true"
-    [p-items]="listaRendas"
-    [p-actions]="acoes"
-    [p-height]="300"
-    [p-loading]="realizandoAlteracaoAlteracao"
-    [p-infinite-scroll]="true"
-  ></po-table>
-</div>
+  <ng-template #cardsRenda>
+    <div class="po-row po-mt-1" *ngFor="let listaRenda of listaRendas">
+      <po-widget
+        class="po-md-12 po-lg-12 po-xl-12"
+        p-primary-label="Editar"
+        (p-primary-action)="editarRendas(listaRenda)"
+        p-secondary-label="Excluir"
+        (p-secondary-action)="confirmaExclusao(listaRenda)"
+      >
+        <div class="po-font-text-large-bold">
+          Responsável: {{ listaRenda.responsavelRenda }}
+        </div>
+        <div class="po-font-subtitle po-text-center">
+          {{ listaRenda?.valor | currency: "BRL":true }}
+        </div>
+        <div class="po-text-center">{{ listaRenda.descricaoRenda }}</div>
+      </po-widget>
+    </div>
+  </ng-template>
 
-<ng-template #cardsRenda>
-  <div class="po-row po-mt-1" *ngFor="let listaRenda of listaRendas">
-    <po-widget
-      class="po-md-12 po-lg-12 po-xl-12"
-      p-primary-label="Editar"
-      (p-primary-action)="editarRendas(listaRenda)"
-      p-secondary-label="Excluir"
-      (p-secondary-action)="confirmaExclusao(listaRenda)"
+  <div class="po-row">
+    <po-info
+      class="po-md-6 po-mt-3 po-mb-sm-2 po-mb-md-2 po-lb-lg-2"
+      p-label="Total da Renda"
+      p-value="{{ somaRenda | currency: 'BRL' }}"
+      [p-orientation]="poInfoOrientation"
     >
-      <div class="po-font-text-large-bold">
-        Responsável: {{ listaRenda.responsavelRenda }}
-      </div>
-      <div class="po-font-subtitle po-text-center">
-        {{ listaRenda?.valor | currency: "BRL":true }}
-      </div>
-      <div class="po-text-center">{{ listaRenda.descricaoRenda }}</div>
-    </po-widget>
+    </po-info>
   </div>
-</ng-template>
-
-<div class="po-row">
-  <po-info
-    class="po-md-6 po-mt-3 po-mb-sm-2 po-mb-md-2 po-lb-lg-2"
-    p-label="Total da Renda"
-    p-value="{{ somaRenda | currency: 'BRL' }}"
-    [p-orientation]="poInfoOrientation"
-  >
-  </po-info>
 </div>

@@ -4,9 +4,10 @@ import { PoTableColumn } from '@po-ui/ng-components';
 
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { Dependentes } from './dependentes.model';
-import { map, mergeMap, switchMap, toArray } from 'rxjs/operators';
+import { map, mergeMap, retry, switchMap, toArray, debounce, delay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Dependente } from './dependente.model';
+import { CartaoCidadao } from 'src/app/shared/models/cartao-cidadao.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,8 +34,8 @@ export class DependentesService extends BaseResourceService {
         visible: true,
       },
       {
-        property: 'parentesco',
-        width: '25%',
+        property: 'grauParentescoTratado',
+        width: '10%',
         label: 'Parentesco',
         type: 'string',
         visible: true,
@@ -47,18 +48,52 @@ export class DependentesService extends BaseResourceService {
   }
 
   getDepentendesPorTitular(idTitular: string | null): Observable<Dependente[]> {
+    return this.http.get<Dependente[]>(`${this.apiPath}/titular/${idTitular}`).pipe()
+  }
+
+  getDepentendesPorTitularComCartaoCidadao(idTitular: string | null): Observable<Dependente[]> {
     return this.http.get<Dependente[]>(`${this.apiPath}/titular/${idTitular}`).pipe(
       switchMap((dependentes) => dependentes),
-      mergeMap((a, index) => {
-        return this.getDetalhesDependentesCartaoCidadao(a, index).pipe(
-          map(dependente => dependente)
+      mergeMap((dependente) => {
+        return this.getDependenteCartaoCidadao(dependente.numeroCartaoCidadao).pipe(
+          map(a => Object.assign(dependente, a) )
         );
       })
       , toArray())
   }
 
   getDetalhesDependentesCartaoCidadao(dependente: Dependente, index: number): Observable<Dependente> {
-    return of<Dependente>({ ...dependente, nome: 'desenvolvimento' + index, parentesco: 'filho', cpfCartaoCidadao: "" })
+    return of<Dependente>({ ...dependente, nome: 'desenvolvimento' + index, grauParentesco: 'filho', cpfCartaoCidadao: "" })
+  }
+
+  getDependentesDoCartaoCidadao(cartaoDependentes: string[]): Observable<any> {
+    let observablesDependentes = {}
+    cartaoDependentes.forEach((dependente) => {
+      const filter = `&cond=Numero&value=${dependente}`
+      Object.assign(observablesDependentes, { [dependente]: this.http.get(`${environment.URLCartaoCidadao}${filter}`).pipe(retry(3)) })
+    })
+    return of([
+      { 123: { Nome: "Dependente Cartao Cidadão 1", Numero: 123, CPF: "39096485844", Estado_Civil: "5", PCD: "3,4", Nascimento:"1956-03-30" }},
+      { 345: { Nome: "Dependente Cartao Cidadão 2", Numero: 345, CPF: "25931568908", Estado_Civil: "5", PCD: "null", Nascimento:"1956-03-30"}},
+      { 567: { Nome: "Dependente Cartao Cidadão 2", Numero: 567, CPF: "25931568908", Estado_Civil: "5", PCD: "null", Nascimento:"1956-03-30"}},
+      { 789: { Nome: "Dependente Cartao Cidadão 2", Numero: 789, CPF: "25931568908", Estado_Civil: "5", PCD: "null", Nascimento:"1956-03-30"},
+
+    }])
+
+    //forkJoin(observablesDependentes)
+  }
+
+  getDependenteCartaoCidadao(cartaoCidadao: string | number): Observable<any> {
+    const filter = `&cond=Numero&value=${cartaoCidadao}`
+    return this.http.get<CartaoCidadao>(`${environment.URLCartaoCidadao}${filter}`).pipe(retry(3))
+    // return of({ Nome: "Dependente Cartao Cidadão " + cartaoCidadao, Numero: cartaoCidadao, CPF: "39096488" + new Date().getMilliseconds(), Estado_Civil: "5", PCD: "3,4", Nascimento:"1956-03-30" }).pipe(delay(2000))
+
+  }
+
+  getAllCartaoCidadaoETitular(idTitular: string | null, cartaoDependentes: string[]): Observable<any> {
+    let listaTodosOsDependentes = { cartaoCidadao: this.getDependentesDoCartaoCidadao(cartaoDependentes).pipe(retry(3)), assentamento: this.getDepentendesPorTitular(idTitular) }
+    return forkJoin(listaTodosOsDependentes).pipe(
+    )
   }
 
   alteraDependente(dependente: Dependente): Observable<any> {
@@ -84,11 +119,11 @@ export class DependentesService extends BaseResourceService {
     ];
   }
 
-  incluiDependente(idTitular: string, cartaoCidadao: string): Observable<Dependente> {
-    const formularioDependente = {
-      titularId: idTitular,
-      numeroCartaoCidadao: cartaoCidadao
-    }
-    return this.http.post<Dependente>(this.apiPath, formularioDependente, this.httpOptions);
+  incluiDependente(dependente: string): Observable<Dependente> {
+    return this.http.post<Dependente>(this.apiPath, dependente, this.httpOptions);
+  }
+
+  excluirDependente(idDependente:string): Observable<any>{
+    return this.http.delete(`${this.apiPath}/${idDependente}`)
   }
 }
