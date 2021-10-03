@@ -38,6 +38,7 @@
       p-label="Nome Responsável"
       p-placeholder="Nome do Responsável"
       p-readonly="true"
+      p-tooltip="Dados obtidos através do Cartão Cidadão"
       p-clean
     >
     </po-input>
@@ -47,6 +48,7 @@
       p-label="Cartão Cidadão"
       p-placeholder="Número do Cartão Cidadão"
       p-readonly="true"
+      p-tooltip="Dados obtidos através do Cartão Cidadão"
       p-clean
     ></po-number>
     <po-input
@@ -56,6 +58,7 @@
       p-placeholder="Número do CPF"
       p-mask="999.999.999-99"
       p-readonly="true"
+      p-tooltip="Dados obtidos através do Cartão Cidadão"
       p-clean
     ></po-input>
     <po-datepicker
@@ -64,12 +67,33 @@
       p-label="Data de Nascimento"
       p-placeholder="dd/mm/aaaa"
       p-readonly="true"
+      p-tooltip="Dados obtidos através do Cartão Cidadão"
       p-clean
     >
     </po-datepicker>
   </div>
 
   <div class="po-row">
+    <po-select
+      formControlName="deficiencia"
+      class="po-lg-3"
+      p-label="PCD"
+      [p-options]="deficienciaOpcoes"
+      p-placeholder="Não Possui"
+      [p-readonly]="true"
+      p-tooltip="Dados obtidos através do Cartão Cidadão"
+    >
+    </po-select>
+    <po-select
+      formControlName="estadoCivil"
+      class="po-lg-3"
+      p-label="Estado Civil"
+      [p-options]="estadoCivilOpcoes"
+      p-placeholder="Selecione o estado civil"
+      [p-readonly]="true"
+      p-tooltip="Dados obtidos através do Cartão Cidadão"
+    >
+    </po-select>
     <po-select
       formControlName="genero"
       class="po-lg-3"
@@ -86,32 +110,14 @@
       p-placeholder="Selecione a Etinia"
     >
     </po-select>
+  </div>
+  <div class="po-row">
     <po-select
       formControlName="escolaridade"
       class="po-lg-3"
       p-label="Escolaridade"
       [p-options]="escolaridadeOpcoes"
       p-placeholder="Selecione o Grau de Escolaridade"
-    >
-    </po-select>
-    <po-select
-      formControlName="deficiencia"
-      class="po-lg-3"
-      p-label="PCD"
-      [p-options]="deficienciaOpcoes"
-      p-placeholder="Não Possui"
-      [p-readonly]="true"
-    >
-    </po-select>
-  </div>
-  <div class="po-row">
-    <po-select
-      formControlName="estadoCivil"
-      class="po-lg-3"
-      p-label="Estado Civil"
-      [p-options]="estadoCivilOpcoes"
-      p-placeholder="Selecione o estado civil"
-      [p-readonly]="true"
     >
     </po-select>
     <po-email
@@ -125,20 +131,22 @@
     <po-input
       formControlName="telefoneTitular"
       class="po-lg-3"
-      p-mask='(999) 99999?-9999'
+      p-mask="(999) 99999?-9999"
       p-label="Telefone Titular"
-      p-pattern='\d{11,12}'
+      p-pattern="\d{11,12}"
       p-error-pattern="Telefone Inválido"
       p-placeholder="Número do Telefone do Titular"
+      p-icon="po-icon-telephone"
     ></po-input>
     <po-input
       formControlName="telefoneContato"
-      p-mask='(999) 99999?-9999'
-      p-pattern='\d{11,12}'
+      p-mask="(999) 99999?-9999"
+      p-pattern="\d{11,12}"
       p-error-pattern="Telefone Inválido"
       class="po-lg-3"
       p-label="Telefone Contato"
       p-placeholder="Número do Telefone do Contato"
+      p-icon="po-icon-telephone"
     ></po-input>
     <!-- <po-input
         formControlName="rendaTotal"

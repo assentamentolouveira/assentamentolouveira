@@ -136,7 +136,8 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
             cpfCartaoCidadao: res.CPF,
             grauParentescoTratado: 'Não relacionado ao Titular'
           })
-        }
+        },
+        error => this.poNotificationService.error(`Erro ao Retornar os dados do Dependente. Número do Cartão Cidadão: ${dependente}.`)
       )
     })
   }
@@ -167,6 +168,11 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
           })
 
         })
+      },
+      error => {
+        if (error.status != 404) {
+          this.poNotificationService.error(`Erro ao buscar dependentes: ${error.message}`)
+        }
       }
     );
   }
@@ -189,7 +195,9 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
         )
       })
 
-      this.listaDependentes = this.dependentesTratados;
+      this.listaDependentes = this.dependentesTratados.sort((a, b) => {
+        return a.nome < b.nome ? -1 : a.nome > b.nome ? 1 : 0;
+      });
       this.enviaDependentes.emit(this.dependentesTratados)
       this.carregandoTabela = false;
       this.realizandoAlteracao = false

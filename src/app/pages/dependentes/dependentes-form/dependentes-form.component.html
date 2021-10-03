@@ -35,6 +35,7 @@
         p-label="Nome Responsável"
         p-placeholder="Nome do Responsável"
         p-readonly="true"
+        p-tooltip="Dados obtidos através do Cartão Cidadão"
         p-clean
       >
       </po-input>
@@ -44,6 +45,7 @@
         p-label="Cartão Cidadão"
         p-placeholder="Número do Cartão Cidadão"
         p-readonly="true"
+        p-tooltip="Dados obtidos através do Cartão Cidadão"
         p-clean
       ></po-number>
       <po-input
@@ -53,6 +55,7 @@
         p-placeholder="Número do CPF"
         p-mask="999.999.999-99"
         p-readonly="true"
+        p-tooltip="Dados obtidos através do Cartão Cidadão"
         p-clean
       ></po-input>
       <po-datepicker
@@ -61,6 +64,7 @@
         p-label="Data de Nascimento"
         p-placeholder="dd/mm/aaaa"
         p-readonly="true"
+        p-tooltip="Dados obtidos através do Cartão Cidadão"
         p-clean
       >
       </po-datepicker>
@@ -68,30 +72,13 @@
 
     <div class="po-row">
       <po-select
-        formControlName="grauParentesco"
-        class="po-lg-3"
-        p-label="Parentesco com o Responsável"
-        [p-options]="parentescoResponsavelOpcoes"
-        p-placeholder="Selecione o Grau de Parentesco"
-      >
-      </po-select>
-
-      <po-select
         formControlName="estadoCivil"
         class="po-lg-3"
         p-label="Estado Civil"
         [p-options]="estadoCivilOpcoes"
         p-placeholder="Selecione o estado civil"
         [p-readonly]="true"
-      >
-      </po-select>
-
-      <po-select
-        formControlName="escolaridade"
-        class="po-lg-3"
-        p-label="Escolaridade"
-        [p-options]="escolaridadeOpcoes"
-        p-placeholder="Selecione o Grau de Escolaridade"
+        p-tooltip="Dados obtidos através do Cartão Cidadão"
       >
       </po-select>
       <po-select
@@ -101,6 +88,23 @@
         [p-options]="deficienciaOpcoes"
         p-placeholder="Não Possui"
         [p-readonly]="true"
+        p-tooltip="Dados obtidos através do Cartão Cidadão"
+      >
+      </po-select>
+      <po-select
+        formControlName="grauParentesco"
+        class="po-lg-3"
+        p-label="Parentesco com o Responsável"
+        [p-options]="parentescoResponsavelOpcoes"
+        p-placeholder="Selecione o Grau de Parentesco"
+      >
+      </po-select>
+      <po-select
+        formControlName="escolaridade"
+        class="po-lg-3"
+        p-label="Escolaridade"
+        [p-options]="escolaridadeOpcoes"
+        p-placeholder="Selecione o Grau de Escolaridade"
       >
       </po-select>
     </div>
@@ -114,15 +118,15 @@
   >
   </po-button>
 
-    <po-button
-      class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
-      p-label="Excluir"
-      p-icon="po-icon-delete"
-      [p-disabled]="dependenteSelecionado === 'novo'"
-      [p-loading]="realizandoAlteracao"
-      (p-click)="excluiDependente()"
-    >
-    </po-button>
+  <po-button
+    class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
+    p-label="Excluir"
+    p-icon="po-icon-delete"
+    [p-disabled]="dependenteSelecionado === 'novo'"
+    [p-loading]="realizandoAlteracao"
+    (p-click)="excluiDependente()"
+  >
+  </po-button>
   <po-button
     class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
     p-label="Salvar Dependente"

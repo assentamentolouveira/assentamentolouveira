@@ -74,7 +74,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       action: () => this.defineFormulario(false, false, false, true, 4),
       selected: false,
       disabled: !this.edicao,
-      icon: 'po-icon-warehouse'
+      icon: 'po-icon-finance'
     },
   ];
 
@@ -153,7 +153,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       this.titularValido = true;
       this.titularService.setTitularInfo(res);
       this.poNotificationService.success("Titular editado com sucesso")
-    }, error => console.error(error))
+    }, error => this.poNotificationService.error(error.message))
   }
 
   incluiTitular(formulario: Titular): void {

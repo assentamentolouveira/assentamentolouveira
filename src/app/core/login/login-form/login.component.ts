@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   literaisPersonalizadas = {
     welcome: `Gerenciamento de Assentamentos - ${this.tituloDaPagina}`,
     loginPlaceholder: 'Informe o seu CPF',
+    loginHint: "Informe o CPF do Titular para realizar o login. Caso ainda não possua usuário criado, selecione a opção 'Novo Registro'",
     titlePopover: 'É novo por aqui? Crie o seu usuário através do botão Novo Usuário'
   }
   carregando = false;

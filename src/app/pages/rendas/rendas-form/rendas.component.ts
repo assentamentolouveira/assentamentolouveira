@@ -97,6 +97,7 @@ export class RendasComponent implements OnInit, OnDestroy {
     const dadosTitular: Titular = JSON.parse(this.titularesService.getTitularInfo());
     this.somaRenda = 0;
     this.edicao = false;
+    this.habilitaConfirmacao = false;
     this.defineClasseBotaoSalvar(true);
     this.formularioRendas?.reset();
     this.rendaOpcoes = this.opcoesComboService.rendaOpcoes;
@@ -125,7 +126,9 @@ export class RendasComponent implements OnInit, OnDestroy {
         renda.descricaoRenda = this.opcoesComboService.retornaLabelOpcoes(renda.tipo, this.rendaOpcoes)
         renda.responsavelRenda = this.opcoesComboService.retornaLabelOpcoes(renda.dependenteId ? renda.dependenteId : renda.titularId, this.comboRenda);
       });
-      this.listaRendas = rendas
+      this.listaRendas = rendas.sort((a,b) => {
+        return a.responsavelRenda < b.responsavelRenda ? -1 : a.responsavelRenda > b.responsavelRenda ? 1 : 0;
+      })
     }
       , error => {
         if (error.status != 404) {
@@ -195,7 +198,7 @@ export class RendasComponent implements OnInit, OnDestroy {
       if (this.edicao) {
         this.rendasService.alterarRenda(this.formularioRendas.value).
           pipe(
-            finalize(() => this.realizandoAlteracaoAlteracao = false)
+            finalize(() => '')
           ).subscribe(
             res => {
               this.poNotificationService.success("Renda Editada com Sucesso");
@@ -206,7 +209,7 @@ export class RendasComponent implements OnInit, OnDestroy {
       } else {
         this.rendasService.criarRenda(this.formularioRendas.value).
           pipe(
-            finalize(() => this.realizandoAlteracaoAlteracao = false)
+            finalize(() => '')
           ).subscribe((res) => {
             this.poNotificationService.success("Renda Incluida com Sucesso");
             this.initialize()
