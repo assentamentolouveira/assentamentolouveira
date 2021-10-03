@@ -203,7 +203,8 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     ).subscribe(
       res => {
         this.poNotificationService.success("Dependente Excluído com Sucesso");
-        this.carregaDados()
+        this.dependenteSelecionado = '';
+        this.carregaDados();
       }
       ,
       error => this.poNotificationService.error(error)
