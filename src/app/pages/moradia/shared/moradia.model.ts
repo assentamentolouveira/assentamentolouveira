@@ -28,7 +28,7 @@ export interface Moradia {
   possuiAutomovel: string,
   moradiaSofreuDesastre: number,
   usoMoradia: number,
-  cao: number,
+  cachorro: number,
   gato: number,
   passaro: number,
   outroAnimais: number,

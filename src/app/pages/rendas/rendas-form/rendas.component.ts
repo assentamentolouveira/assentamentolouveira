@@ -32,7 +32,7 @@ export class RendasComponent implements OnInit, OnDestroy {
   public habilitaConfirmacao = false;
   public isDesktop = true;
   public carregando = false
-  public comboRenda: PoComboOption[]
+  public comboRenda: PoSelectOption[]
 
   public acoes: Array<PoTableAction> = [
     {
@@ -100,14 +100,15 @@ export class RendasComponent implements OnInit, OnDestroy {
     this.defineClasseBotaoSalvar(true);
     this.formularioRendas?.reset();
     this.rendaOpcoes = this.opcoesComboService.rendaOpcoes;
-
+    this.realizandoAlteracaoAlteracao = true;
+    this.listaRendas = [];
     this.comboRenda = [{ label: dadosTitular.nomeResponsavel, value: dadosTitular.id }]
     this.dependentesService.getDepentendesPorTitularComCartaoCidadao(String(sessionStorage.getItem('idTitular'))).pipe(
       finalize(() => this.buscaRendaPorTitular())
     ).subscribe(
       res => {
         res.map(dependente => {
-          this.comboRenda.push({ label: dependente.Nome, value: dependente.id })
+          this.comboRenda.push({ label: String(dependente.Nome), value: dependente.id })
         });
       },
       error => this.carregando = true
@@ -117,7 +118,7 @@ export class RendasComponent implements OnInit, OnDestroy {
   buscaRendaPorTitular(): void {
     this.rendasService.getRendasById(String(sessionStorage.getItem('idTitular'))).pipe(
       take(1),
-      finalize(() => this.carregando = true)
+      finalize(() => {this.carregando = true; this.realizandoAlteracaoAlteracao = false})
     ).subscribe(rendas => {
       rendas.map(renda => {
         this.somaRenda += renda.valor;

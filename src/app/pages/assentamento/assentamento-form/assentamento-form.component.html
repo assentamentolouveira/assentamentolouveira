@@ -10,13 +10,13 @@
   </po-loading-overlay>
 
     <div *ngIf="isTitular">
-      <app-titulares-form [edicao]="edicao" (formularioTitularValido)="formularioTitularValido($event)"></app-titulares-form>
+      <app-titulares-form [edicao]="edicao" (formularioTitularValido)="recebeFormularioTitular($event)"></app-titulares-form>
       <div class="po-row">
         <po-button
         class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1"
         p-label="Salvar Titular"
         p-icon="po-icon-ok"
-        [p-disabled]="!formularioValido"
+        [p-disabled]="!formularioTitularValido"
         (p-click)="salvarEdicaoTitular()"
       >
       </po-button>
@@ -28,13 +28,13 @@
       </div>
     </div>
     <div *ngIf="isMoradia">
-      <app-moradia-form (formularioMoradiaValido)="formularioMoradiaValido($event)"></app-moradia-form>
+      <app-moradia-form (formularioMoradiaValido)="recebeFormularioMoradia($event)"></app-moradia-form>
       <div class="po-row">
         <po-button
         class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1"
         p-label="Salvar Moradia"
         p-icon="po-icon-ok"
-        [p-disabled]="!formularioMoradia?.valid"
+        [p-disabled]="!formularioMoradiaValido"
         (p-click)="salvarEdicaoMoradia()"
       >
       </po-button>

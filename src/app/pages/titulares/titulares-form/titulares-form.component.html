@@ -7,7 +7,7 @@
         class="po-lg-4"
         p-label="Assentamento"
         p-placeholder="Assentamento"
-        p-disabled="true"
+        p-readonly="true"
         p-clean
       >
       </po-input>
@@ -16,7 +16,7 @@
         class="po-lg-4"
         p-label="Selagem Atual"
         p-placeholder="Selagem Atual"
-        p-disabled="true"
+        p-readonly="true"
         p-clean
       ></po-input>
       <po-input
@@ -24,7 +24,7 @@
         class="po-lg-4"
         p-label="Selagem Antiga"
         p-placeholder="Selagem FUMHAB"
-        p-disabled="true"
+        p-readonly="true"
         p-clean
       ></po-input>
     </div>
@@ -37,7 +37,7 @@
       class="po-lg-3"
       p-label="Nome Responsável"
       p-placeholder="Nome do Responsável"
-      p-disabled="true"
+      p-readonly="true"
       p-clean
     >
     </po-input>
@@ -46,7 +46,7 @@
       class="po-lg-3"
       p-label="Cartão Cidadão"
       p-placeholder="Número do Cartão Cidadão"
-      p-disabled="true"
+      p-readonly="true"
       p-clean
     ></po-number>
     <po-input
@@ -55,7 +55,7 @@
       p-label="CPF"
       p-placeholder="Número do CPF"
       p-mask="999.999.999-99"
-      p-disabled="true"
+      p-readonly="true"
       p-clean
     ></po-input>
     <po-datepicker
@@ -63,7 +63,7 @@
       class="po-lg-3"
       p-label="Data de Nascimento"
       p-placeholder="dd/mm/aaaa"
-      p-disabled="true"
+      p-readonly="true"
       p-clean
     >
     </po-datepicker>
@@ -100,7 +100,7 @@
       p-label="PCD"
       [p-options]="deficienciaOpcoes"
       p-placeholder="Não Possui"
-      [p-disabled]="true"
+      [p-readonly]="true"
     >
     </po-select>
   </div>
@@ -111,13 +111,14 @@
       p-label="Estado Civil"
       [p-options]="estadoCivilOpcoes"
       p-placeholder="Selecione o estado civil"
-      [p-disabled]="true"
+      [p-readonly]="true"
     >
     </po-select>
     <po-email
       formControlName="email"
       class="po-lg-3"
       p-label="E-mail"
+      p-error-pattern="E-mail inválido"
       p-placeholder="E-mail do Titular"
     >
     </po-email>
@@ -126,11 +127,15 @@
       class="po-lg-3"
       p-mask='(999) 99999?-9999'
       p-label="Telefone Titular"
+      p-pattern='\d{11,12}'
+      p-error-pattern="Telefone Inválido"
       p-placeholder="Número do Telefone do Titular"
     ></po-input>
     <po-input
       formControlName="telefoneContato"
       p-mask='(999) 99999?-9999'
+      p-pattern='\d{11,12}'
+      p-error-pattern="Telefone Inválido"
       class="po-lg-3"
       p-label="Telefone Contato"
       p-placeholder="Número do Telefone do Contato"

@@ -34,7 +34,7 @@
         class="po-lg-3"
         p-label="Nome Responsável"
         p-placeholder="Nome do Responsável"
-        p-disabled="true"
+        p-readonly="true"
         p-clean
       >
       </po-input>
@@ -43,7 +43,7 @@
         class="po-lg-3"
         p-label="Cartão Cidadão"
         p-placeholder="Número do Cartão Cidadão"
-        p-disabled="true"
+        p-readonly="true"
         p-clean
       ></po-number>
       <po-input
@@ -52,7 +52,7 @@
         p-label="CPF"
         p-placeholder="Número do CPF"
         p-mask="999.999.999-99"
-        p-disabled="true"
+        p-readonly="true"
         p-clean
       ></po-input>
       <po-datepicker
@@ -60,7 +60,7 @@
         class="po-lg-3"
         p-label="Data de Nascimento"
         p-placeholder="dd/mm/aaaa"
-        p-disabled="true"
+        p-readonly="true"
         p-clean
       >
       </po-datepicker>
@@ -82,7 +82,7 @@
         p-label="Estado Civil"
         [p-options]="estadoCivilOpcoes"
         p-placeholder="Selecione o estado civil"
-        [p-disabled]="true"
+        [p-readonly]="true"
       >
       </po-select>
 
@@ -100,7 +100,7 @@
         p-label="PCD"
         [p-options]="deficienciaOpcoes"
         p-placeholder="Não Possui"
-        [p-disabled]="true"
+        [p-readonly]="true"
       >
       </po-select>
     </div>

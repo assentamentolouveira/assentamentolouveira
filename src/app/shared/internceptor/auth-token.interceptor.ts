@@ -38,7 +38,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
             this.poNotificationService.error("Usuário não autorizado. Realize o login novamente.")
           }
           console.log('this is server side error');
-          errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+          errorMsg = `Error Code: ${error.status},  Message: ${error.error.message}`;
         }
         console.log(errorMsg);
         return throwError({ message: errorMsg, status: error.status });

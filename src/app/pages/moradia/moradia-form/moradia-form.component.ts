@@ -125,23 +125,23 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       possuiAutomovel: ['', Validators.compose([Validators.required])],
       moradiaSofreuDesastre: ['', Validators.compose([Validators.required])],
       usoMoradia: ['', Validators.compose([Validators.required])],
-      cao: [],
+      cachorro: [],
       gato: [],
       passaro: [],
-      outroAnimais: [0],
-      gastoComAluguel: [0],
-      gastoComEnergiaEletrica: [0],
-      gastoComAguaEsgoto: [0],
-      gastoComGas: [0],
-      gastoComAlimentacaoHigieneLimpeza: [0],
-      gastoComMedicamento: [0],
-      totalDeDespesasMensais: [0],
+      outroAnimais: [],
+      gastoComAluguel: [],
+      gastoComEnergiaEletrica: [],
+      gastoComAguaEsgoto: [],
+      gastoComGas: [],
+      gastoComAlimentacaoHigieneLimpeza: [],
+      gastoComMedicamento: [],
+      totalDeDespesasMensais: [],
       observacao: [''],
 
     });
 
     this.subscriptionFormularioMoradia = this.formularioMoradia.valueChanges.pipe(
-      debounceTime(1000)
+      debounceTime(300)
     ).subscribe(res => this.telaIniciada ? this.formularioMoradiaValido.emit(this.formularioMoradia) : this.telaIniciada = true)
 
     // , Validators.compose([Validators.required])
@@ -176,7 +176,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       possuiAutomovel: moradia.possuiAutomovel,
       moradiaSofreuDesastre: moradia.moradiaSofreuDesastre,
       usoMoradia: moradia.usoMoradia,
-      cao: moradia.cao,
+      cachorro: moradia.cachorro,
       gato: moradia.gato,
       passaro: moradia.passaro,
       outroAnimais: moradia.outroAnimais,
@@ -190,7 +190,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       observacao: moradia.observacao,
     });
 
-    moradia.qualUnidBasicaSaude.length > 0 ? this.familiaAcessaUnidadeBasicaSaude = true : this.familiaAcessaUnidadeBasicaSaude = false;
+    !!moradia.qualUnidBasicaSaude ? this.familiaAcessaUnidadeBasicaSaude = true : this.familiaAcessaUnidadeBasicaSaude = false;
 
     this.formularioMoradiaValido.emit(this.formularioMoradia)
   }

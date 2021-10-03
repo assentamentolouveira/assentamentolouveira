@@ -14,7 +14,7 @@
           p-label="Assentamento"
           formControlName="assentamento"
           p-placeholder="Assentamento"
-          p-disabled="true"
+          p-readonly="true"
           p-clean
         >
         </po-input>
@@ -23,7 +23,7 @@
           p-label="Selagem Atual"
           formControlName="numeroSelagemAtual"
           p-placeholder="Selagem Atual"
-          p-disabled="true"
+          p-readonly="true"
           p-clean
         ></po-input>
         <po-input
@@ -31,7 +31,7 @@
           p-label="Selagem Antiga"
           formControlName="numeroSelagemAntiga"
           p-placeholder="Selagem FUMHAB"
-          p-disabled="true"
+          p-readonly="true"
           p-clean
         ></po-input>
       </div>
@@ -42,7 +42,7 @@
           p-label="Endereço"
           formControlName="endereco"
           p-placeholder="Endereço"
-          p-disabled="true"
+          p-readonly="true"
           p-clean
         >
         </po-input>
@@ -51,7 +51,7 @@
           p-label="Número"
           formControlName="numero"
           p-placeholder="Número"
-          p-disabled="true"
+          p-readonly="true"
           p-clean
         ></po-input>
         <po-input
@@ -59,7 +59,7 @@
           p-label="Complemento"
           formControlName="complemento"
           p-placeholder="Complemento"
-          p-disabled="true"
+          p-readonly="true"
           p-clean
         ></po-input>
         <po-input
@@ -67,7 +67,7 @@
           p-label="Bairro"
           formControlName="bairro"
           p-placeholder="Bairro"
-          p-disabled="true"
+          p-readonly="true"
           p-clean
         ></po-input>
       </div>
@@ -263,7 +263,7 @@
       <po-number
         class="po-lg-3"
         p-label="Cachorro"
-        formControlName="cao"
+        formControlName="cachorro"
         p-placeholder="Infome o número de cachorros"
       ></po-number>
       <po-number
@@ -334,7 +334,7 @@
       </po-decimal>
       <po-decimal
         class="po-lg-3"
-        p-label="Medicmentos"
+        p-label="Medicamentos"
         formControlName="gastoComMedicamento"
         p-placeholder="0,00"
         (p-change)="atualizaTotalDeDespesas($event)"
