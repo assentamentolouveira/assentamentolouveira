@@ -23,8 +23,10 @@ import { Moradia } from '../../moradia/shared/moradia.model';
   styleUrls: ['./assentamento-form.component.css'],
 })
 export class AssentamentoFormComponent extends BaseResourceFormComponent<Assentamento> {
-  public readonly actions: Array<PoPageAction> = [
-    { label: 'Salvar Solicitação de Moradia', action: () => alert('Salvar'), icon: 'po-icon-ok' },
+  public actions: Array<PoPageAction> = [
+    { label: 'Salvar Solicitação de Moradia',
+    action: () => this.salvaAssentamento(this),
+    icon: 'po-icon-ok'},
   ];
 
   public isTitular = true;
@@ -254,6 +256,11 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       },
       error => this.poNotificationService.error("Erro ao Editar a Moradia: " + error.message),
     )
+  }
+
+  salvaAssentamento(a:any): void {
+    console.log(a)
+    this.poNotificationService.success('Assentamento Salvo com Sucesso')
   }
 
   protected buildResourceForm(): void { }

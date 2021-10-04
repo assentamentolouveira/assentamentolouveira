@@ -1,10 +1,11 @@
-<po-page-login
-p-logo="./../../../assets/img/logo_louveira.png"
+<po-page-login #aaa
   [p-literals]="literaisPersonalizadas"
   [p-hide-remember-user]="true"
   p-product-name="Prefeitura de Louveira"
   (p-login-submit)="login($event)"
   [p-loading]="carregando"
   p-register-url="/internet/newuser"
-  p-login-pattern='^\d{3}\d{3}\d{3}\d{2}$'
+  [p-login]="loginFormatado"
+  p-login-pattern='(^\d{3}.\d{3}.\d{3}-\d{2}$)|(^\d{11}$)'
+  (p-login-change)="teste($event)"
 ></po-page-login>
