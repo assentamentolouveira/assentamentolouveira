@@ -120,7 +120,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       numeroSelagemAntiga: [''],
       nomeResponsavel: [this.dadosTitular.nomeResponsavel],
       numeroCartaoCidadao: [this.dadosTitular.numeroCartaoCidadao],
-      numeroCpf: [sessionStorage.getItem('usuario')],
+      numeroCpf: [this.dadosTitular.numeroCpf],
       dataNascimento: [new Date(this.dadosTitular.dataNascimento)],
       genero: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       etnia: ['', Validators.compose([Validators.required])],

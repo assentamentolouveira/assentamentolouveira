@@ -72,18 +72,8 @@
 
     <div class="po-row">
       <po-select
-        formControlName="estadoCivil"
-        class="po-lg-3"
-        p-label="Estado Civil"
-        [p-options]="estadoCivilOpcoes"
-        p-placeholder="Selecione o estado civil"
-        [p-readonly]="true"
-        p-tooltip="Dados obtidos através do Cartão Cidadão"
-      >
-      </po-select>
-      <po-select
         formControlName="deficiencia"
-        class="po-lg-3"
+        class="po-lg-4"
         p-label="PCD"
         [p-options]="deficienciaOpcoes"
         p-placeholder="Não Possui"
@@ -92,8 +82,18 @@
       >
       </po-select>
       <po-select
+        formControlName="estadoCivil"
+        class="po-lg-2"
+        p-label="Estado Civil"
+        [p-options]="estadoCivilOpcoes"
+        p-placeholder="Selecione o estado civil"
+        [p-readonly]="true"
+        p-tooltip="Dados obtidos através do Cartão Cidadão"
+      >
+      </po-select>
+      <po-select
         formControlName="grauParentesco"
-        class="po-lg-3"
+        class="po-lg-2"
         p-label="Parentesco com o Responsável"
         [p-options]="parentescoResponsavelOpcoes"
         p-placeholder="Selecione o Grau de Parentesco"
@@ -101,10 +101,18 @@
       </po-select>
       <po-select
         formControlName="escolaridade"
-        class="po-lg-3"
+        class="po-lg-2"
         p-label="Escolaridade"
         [p-options]="escolaridadeOpcoes"
         p-placeholder="Selecione o Grau de Escolaridade"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-2"
+        p-label="Mora na Residência?"
+        formControlName="naoResidente"
+        [p-options]="boleanoOpcoes"
+        p-placeholder="Selecione uma opção"
       >
       </po-select>
     </div>

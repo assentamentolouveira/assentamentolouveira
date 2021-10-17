@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { PoUiComponentsModule } from './shared/Modulos/po-ui-components.module';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthTokenInterceptor } from './shared/internceptor/auth-token.interceptor';
 import { LoginModule } from './core/login/shared/login.module';
 
@@ -16,6 +17,7 @@ import { LoginModule } from './core/login/shared/login.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     PoUiComponentsModule,
     RouterModule.forRoot([]),

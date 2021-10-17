@@ -40,6 +40,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   public estadoCivilOpcoes: Array<PoSelectOption>;
   public escolaridadeOpcoes: Array<PoSelectOption>;
   public deficienciaOpcoes: Array<PoSelectOption>;
+  public boleanoOpcoes: Array<PoSelectOption>;
   public isDesktop = false;
 
   private subscriptionFormularioDependente: Subscription;
@@ -65,6 +66,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     this.estadoCivilOpcoes = this.opcoesComboService.estadoCivilOpcoes;
     this.escolaridadeOpcoes = this.opcoesComboService.escolaridadeOpcoes;
     this.deficienciaOpcoes = this.opcoesComboService.deficienciaOpcoes;
+    this.boleanoOpcoes = this.opcoesComboService.boleanoOpcoes;
     this.poNotificationService.setDefaultDuration(3000);
     this.isDesktop = this.deviceService.isDesktop();
   }
@@ -87,6 +89,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       estadoCivil: [''],
       escolaridade: ['', Validators.required],
       deficiencia: [''],
+      naoResidente: ['', Validators.required],
     });
 
     this.subscriptionFormularioDependente = this.formularioDependente.valueChanges.subscribe(() => {
@@ -134,6 +137,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
             deficiencia: res.PCD,
             nome: res.Nome,
             cpfCartaoCidadao: res.CPF,
+            naoResidente:false,
             grauParentescoTratado: 'Não relacionado ao Titular'
           })
         },
@@ -164,6 +168,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
             deficiencia: cartao.deficiencia,
             nome: cartao.nome,
             cpfCartaoCidadao: cartao.cpfCartaoCidadao,
+            naoResidente: this.converterParaInteiro(cartao.naoResidente),
             grauParentescoTratado: this.converteParentesco(cartao.grauParentesco)
           })
 
@@ -190,6 +195,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
               this.dependentesTratados[indice].grauParentesco = cartao.grauParentesco;
               this.dependentesTratados[indice].grauParentescoTratado = cartao.grauParentescoTratado;
               this.dependentesTratados[indice].escolaridade = cartao.escolaridade;
+              this.dependentesTratados[indice].naoResidente = cartao.naoResidente;
             }
           }
         )
@@ -238,6 +244,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       estadoCivil: dependenteSelecionado.estadoCivil,
       escolaridade: dependenteSelecionado.escolaridade,
       deficiencia: dependenteSelecionado.deficiencia,
+      naoResidente: dependenteSelecionado.naoResidente,
     })
   }
 
@@ -276,6 +283,10 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       }
     }
 
+  }
+
+  converterParaInteiro(valor: number | boolean): number {
+    return valor ? 1 : 2
   }
 
   protected buildResourceForm(): void { }

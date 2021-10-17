@@ -1,0 +1,45 @@
+<po-page-default [p-title]="title" [p-actions]="actions">
+  <form [formGroup]="reactiveForm">
+    <div class="po-row">
+      <po-input
+        formControlName="pesquisa"
+        class="po-lg-3 po-xl-3 po-offset-lg-9 po-offset-xl-9"
+        p-icon="po-icon-search"
+        p-label="Informe parte do CPF"
+        p-placeholder="Pesquise pelo CPF"
+      ></po-input>
+    </div>
+  </form>
+  <po-table
+    [p-auto-collapse]="true"
+    [p-columns]="columns"
+    [p-hide-columns-manager]="true"
+    [p-items]="resources"
+    [p-sort]="true"
+    [p-height]="300"
+    (p-show-more)="carregarMais()"
+    [p-striped]="true"
+    [p-actions]="acoes"
+    [p-loading]="carregandoRegistros"
+    [p-show-more-disabled]="disativarShowMore"
+    [p-infinite-scroll]="true"
+  ></po-table>
+
+  <po-modal
+    p-title="Manutenção de Usuários"
+    [p-hide-close]="true"
+    p-click-out="false"
+    [p-primary-action]="confirm"
+    [p-secondary-action]="close"
+  >
+    <po-loading-overlay [p-screen-lock]="true" [hidden]="!carregando">
+    </po-loading-overlay>
+
+    <div *ngIf="abreModal">
+      <app-configuracoes-form
+        [edicao]="!inclusaoDeUsuario"
+        (formularioInclusaoDeUsuarioValido)="recebeFormularioUsuario($event)"
+      ></app-configuracoes-form>
+    </div>
+  </po-modal>
+</po-page-default>

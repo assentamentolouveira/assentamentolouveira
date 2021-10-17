@@ -4,11 +4,11 @@ import { PoPageAction, PoTableColumn } from '@po-ui/ng-components';
 import { BaseResourceModel } from '../../models/base-resource.model';
 import { BaseResourceService } from '../../services/base-resource.service';
 @Directive()
-export abstract class BaseResourceListComponent<T extends BaseResourceModel>
-  implements OnInit
+export abstract class BaseResourceListComponent
+  // implements OnInit
 {
   actions: Array<PoPageAction> = [];
-  resources: T[] = [];
+  resources: any[]= [];
   columns: Array<PoTableColumn>;
 
   constructor(
@@ -17,17 +17,18 @@ export abstract class BaseResourceListComponent<T extends BaseResourceModel>
     private resourceService: BaseResourceService
   ) {}
 
-  ngOnInit(): void {
-    this.setActions();
-    this.columns = this.getColumnsResource();
-  }
+  // ngOnInit(): void {
+  //   this.setActions();
+  //   this.columns = this.getColumnsResource();
+  // }
 
   setActions(): void {
     this.actions = [
       {
-        label: '+ Incluir',
+        label: 'Incluir',
         url: this.routerNew,
-      },
+        icon: "po-icon-plus",
+      }
     ];
   }
 

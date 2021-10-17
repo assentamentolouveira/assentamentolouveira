@@ -9,7 +9,7 @@ import { Titulares } from '../../titulares/shared/titulares.model';
   templateUrl: './dependentes-list.component.html',
   styles: [],
 })
-export class DependentesListComponent extends BaseResourceListComponent<Titulares> {
+export class DependentesListComponent extends BaseResourceListComponent {
   constructor(protected dependentesService: DependentesService) {
     super('Cadastro de Dependentes', 'dependentes/novo', dependentesService);
   }

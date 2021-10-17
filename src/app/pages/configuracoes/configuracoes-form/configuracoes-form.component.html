@@ -1,0 +1,35 @@
+<form [formGroup]="formularioUsuario">
+  <po-input
+    formControlName="cpf"
+    p-label="Usuário"
+    p-mask="999.999.999-99"
+    p-icon="po-icon-user"
+    p-placeholder="Informe o CPF"
+    p-required="true"
+    p-error-pattern="CPF inválido"
+  >
+  </po-input>
+  <po-password
+    formControlName="senha"
+    name="Senha"
+    p-label="Senha"
+    p-placeholder="Informe uma nova senha"
+    p-error-pattern="A senha deve possuir ao menos 6 dígitos"
+  >
+  </po-password>
+  <po-select
+    formControlName="perfilAcesso"
+    p-label="Perfil de Acesso"
+    [p-options]="perfilDeAcessoOpcoes"
+    p-placeholder="Selecione o Perfil de Acesso do Usuário"
+  >
+  </po-select>
+  <po-select
+    formControlName="novaSenha"
+    p-label="Redefinir Senha no Próximo Login?"
+    [p-options]="boleanoOpcoes"
+    [p-disabled]="edicao"
+    p-placeholder="Deseja que o usuário redefina a senha no próximo login?"
+  >
+  </po-select>
+</form>

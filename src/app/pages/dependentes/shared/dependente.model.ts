@@ -12,5 +12,6 @@ export interface Dependente {
   deficiencia: number | string,
   nome: string,
   Nome?: string,
+  naoResidente: number | boolean,
   cpfCartaoCidadao: string
 }

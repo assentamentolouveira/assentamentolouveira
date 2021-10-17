@@ -10,7 +10,7 @@ import { Titulares } from '../../titulares/shared/titulares.model';
   templateUrl: './assentamento-list.component.html',
   styleUrls: ['./assentamento-list.component.css']
 })
-export class AssentamentoListComponent extends BaseResourceListComponent<Assentamento> {
+export class AssentamentoListComponent extends BaseResourceListComponent {
   constructor(protected assentamentoService:AssentamentoService) {
     super('Cadastro de Assentamento', 'assentamento/novo', assentamentoService);
   }

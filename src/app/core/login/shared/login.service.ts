@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { PoTableColumn } from '@po-ui/ng-components';
 import { token } from './token.model';
 import { mergeMap, switchMap, finalize, first } from 'rxjs/operators';
+import { loginBackEnd } from './loginBackEnd.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +18,17 @@ import { mergeMap, switchMap, finalize, first } from 'rxjs/operators';
 export class LoginService extends BaseResourceService {
   private autenticado = new BehaviorSubject<boolean>(false);
   isInternet = true;
-  private JWTToken = '';
-  informacoesDoLogin: login;
+  protected JWTToken = '';
+  protected informacoesDoLogin: login;
+  protected funcionario: boolean;
+  protected perfilAcesso: string
 
   constructor(protected injector: Injector, private router: Router, private titularesService: TitularesService) {
     super(environment.URL + '/usuario/logar', injector);
     this.isInternet = !window.location.href.includes('intranet');
   }
 
-  realizaLogin(usuario: login): Observable<any> {
+  realizaLogin(usuario: loginBackEnd): Observable<any> {
     if (this.isInternet) {
       sessionStorage.removeItem('idTitular');
       sessionStorage.removeItem('moradiaID');
@@ -33,7 +36,7 @@ export class LoginService extends BaseResourceService {
         mergeMap(login => this.retornaDadosCartaoCidadao(login)),
       );
     } else {
-      return of({ token: 'ok' }, localStorage.setItem('user', 'teste'));
+      return this.http.post<login>(this.apiPath, usuario, this.httpOptions).pipe()
     }
   }
 
@@ -66,7 +69,7 @@ export class LoginService extends BaseResourceService {
     sessionStorage.removeItem('titular');
     sessionStorage.removeItem('idTitular');
     sessionStorage.removeItem('usuario');
-    this.router.navigate(['/login']);
+    this.isInternet? this.router.navigate(['internet/login']) : this.router.navigate(['intranet/login'])
   }
 
   isLoggedIn(): boolean {
@@ -82,11 +85,24 @@ export class LoginService extends BaseResourceService {
   gravaUsuario(usuarioLogado: token): void {
     this.informacoesDoLogin = usuarioLogado;
     this.JWTToken = usuarioLogado.token;
-    sessionStorage.setItem('token', usuarioLogado.token)
+    this.funcionario = usuarioLogado.funcionario;
+    this.perfilAcesso = usuarioLogado.perfilAcesso
     sessionStorage.setItem('usuario', usuarioLogado.idUsuario)
   }
 
   getToken(): string | null {
-    return sessionStorage.getItem('token')//this.JWTToken;
+    return this.JWTToken;
+  }
+
+  getCPFUsuario(): string {
+    return this.informacoesDoLogin.idUsuario
+  }
+
+  getTipoFuncionario(): login {
+    return this.informacoesDoLogin
+  }
+
+  getAcessoInicial(): boolean | undefined {
+    return this.informacoesDoLogin.acessoInicial
   }
 }

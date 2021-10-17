@@ -1,3 +1,4 @@
+import { LoginService } from './../../../core/login/shared/login.service';
 import { Titular } from './../../titulares/shared/titular.model';
 import { TitularesService } from './../../titulares/shared/titulares.service';
 import { Component, EventEmitter, Injector, OnDestroy, OnInit, Output } from '@angular/core';
@@ -50,6 +51,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
     private opcoesComboService: OpcoesComboService,
     private moradiaService: MoradiaService,
     private titularesService: TitularesService,
+    private loginService: LoginService,
     private fb: FormBuilder,
   ) {
     super(injector, new Moradias(), moradiaService);
@@ -67,6 +69,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
   }
 
   ngOnInit(): void {
+    this.acessoInternet = this.loginService.isInternet;
     this.initialize();
     this.criaFormulario()
   }

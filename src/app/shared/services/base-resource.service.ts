@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injector } from '@angular/core';
 
@@ -7,6 +8,7 @@ import { BaseResourceModel } from '../models/base-resource.model';
 
 export abstract class BaseResourceService {
   protected http: HttpClient;
+  protected httpBusca = environment.URLFilter;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json', 'accept': '*/*' }),

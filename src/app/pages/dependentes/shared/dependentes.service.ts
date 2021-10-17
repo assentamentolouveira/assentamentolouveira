@@ -97,11 +97,21 @@ export class DependentesService extends BaseResourceService {
   }
 
   alteraDependente(dependente: Dependente): Observable<any> {
+    dependente = this.trataDependente(dependente)
     return this.http.put(`${this.apiPath}/${dependente.id}`, dependente, this.httpOptions);
   }
 
   getId(): Observable<any> {
     return of(this.retornaDependentes());
+  }
+
+  trataDependente(dependente:Dependente): Dependente{
+    dependente.naoResidente = this.converterParaBoleano(dependente.naoResidente)
+    return dependente
+  }
+
+  converterParaBoleano(valor: number | boolean): boolean {
+    return valor === 1 ? true : false
   }
 
   retornaDependentes() {
@@ -119,7 +129,8 @@ export class DependentesService extends BaseResourceService {
     ];
   }
 
-  incluiDependente(dependente: string): Observable<Dependente> {
+  incluiDependente(dependente: Dependente): Observable<Dependente> {
+    dependente = this.trataDependente(dependente)
     return this.http.post<Dependente>(this.apiPath, dependente, this.httpOptions);
   }
 

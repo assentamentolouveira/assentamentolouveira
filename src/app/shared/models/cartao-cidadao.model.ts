@@ -1,5 +1,5 @@
 export interface CartaoCidadao {
-  Status?: string,
+  Status: string,
   Numero: string | number,
   CPF: string,
   Nome: string,

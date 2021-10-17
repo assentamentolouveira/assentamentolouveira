@@ -3,4 +3,7 @@ export interface login {
   senha?:string;
   acessoInicial?:boolean;
   token?:string;
+  perfilAcesso?: string,
+  novaSenha?: boolean,
+  funcionario?: boolean,
 }

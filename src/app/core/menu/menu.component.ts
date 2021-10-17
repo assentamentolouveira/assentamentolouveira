@@ -1,3 +1,4 @@
+import { LoginService } from './../login/shared/login.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PoMenuItem } from '@po-ui/ng-components';
@@ -13,7 +14,7 @@ export class MenuComponent implements OnInit {
   menus: Array<PoMenuItem>;
   logo: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private loginService: LoginService) {
     this.logo = `../../../${environment.imagesPath}//brasao-removebg-preview.png`;
   }
 
@@ -36,46 +37,34 @@ export class MenuComponent implements OnInit {
         icon: 'po-icon-home',
       },
       {
-        label: 'Cadastros',
-        shortLabel: 'Cadastros',
-        icon: 'po-icon po-icon-company',
-        subItems: [
-          {
-            label: 'Titulares',
-            shortLabel: 'Titulares',
-            action: () => {
-              this.router.navigate(['/intranet/titulares']);
-            },
-          },
-          {
-            label: 'Dependentes',
-            shortLabel: 'Dependentes',
-            action: () => {
-              this.router.navigate(['/intranet/dependentes']);
-            },
-          },
-          {
-            label: 'Contemplação',
-            shortLabel: 'Contemplação',
-            action: () => {
-              this.router.navigate(['']);
-            },
-          },
-        ],
+        label: 'Titulares',
+        shortLabel: 'Titulares',
+        action: () => {
+          this.router.navigate(['/intranet/titulares']);
+        },
+        icon: 'po-icon-users',
       },
       {
         label: 'Configuração',
-        shortLabel: 'Configuração',
+        shortLabel: 'Config.',
         icon: 'po-icon po-icon-settings',
         subItems: [
           {
             label: 'Usuários',
             shortLabel: 'Usuários',
             action: () => {
-              this.router.navigate(['']);
+              this.router.navigate(['/intranet/configuracoes']);
             },
           },
         ],
+      },
+      {
+        label: 'Sair',
+        shortLabel: 'Sair',
+        action: () => {
+          this.loginService.realizaLogout();
+        },
+        icon: 'po-icon-exit',
       },
     ];
     return menu;

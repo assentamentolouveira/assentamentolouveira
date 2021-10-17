@@ -2,13 +2,14 @@ import { CartaoCidadao } from 'src/app/shared/models/cartao-cidadao.model';
 import { DependentesService } from './../../dependentes/shared/dependentes.service';
 import { TitularCartaoCidadao } from './titular-cartao-cidadao.model';
 import { Titular } from './titular.model';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { Injectable, Injector } from '@angular/core';
 import { PoTableColumn } from '@po-ui/ng-components';
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { Titulares } from './titulares.model';
 import { environment } from 'src/environments/environment';
-import { mergeMap, switchMap, toArray } from 'rxjs/operators';
+import { map, mergeMap, switchMap, toArray } from 'rxjs/operators';
+import { NgSwitchCase } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,7 @@ export class TitularesService extends BaseResourceService {
     this.dadosTitular.familiaIncProcHabit = titular.familiaIncProcHabit;
     this.dadosTitular.genero = titular.genero;
     this.dadosTitular.id = titular.id;
-    this.dadosTitular.numeroCpf = titular.numeroCpf;
+    this.dadosTitular.numeroCpf = titular.numeroCpf === '' ? this.dadosTitular.numeroCpf : titular.numeroCpf;
     this.dadosTitular.numeroSelagemAntiga = titular.numeroSelagemAntiga;
     this.dadosTitular.numeroSelagemAtual = titular.numeroSelagemAtual;
     this.dadosTitular.possuiImovel = titular.possuiImovel;
@@ -73,9 +74,70 @@ export class TitularesService extends BaseResourceService {
     this.dadosTitular.nomeResponsavel = dadosCartaoCidade.Nome;
     this.dadosTitular.numeroCartaoCidadao = dadosCartaoCidade.Numero;
     this.dadosTitular.deficiencia = dadosCartaoCidade.PCD;
+    this.dadosTitular.numeroCpf = dadosCartaoCidade.CPF;
     this.dadosTitular.estadoCivil = dadosCartaoCidade.Estado_Civil;
     this.dadosTitular.dependentes = dadosCartaoCidade.CCMesmoEndereco;
     this.dadosTitular.dataNascimento = dadosCartaoCidade.Nascimento;
+  }
+
+  getDadosCartaoCidadao(cpf: string): Observable<CartaoCidadao> {
+    const filter = `&cond=CPF&value=${cpf}`
+    return this.http.get<CartaoCidadao>(`${environment.URLCartaoCidadao}${filter}`).pipe(
+      map(res => {
+        if (res.Status !== "100") {
+          console.log("Erro:" + res.Status)
+          throw new Error(this.retornarErroCartaoCidadao(res.Status))//({ error:{message: this.retornarErroCartaoCidadao(res.Status)}, status: res.Status });
+        }
+        return res
+      })
+    )
+  }
+
+  retornarErroCartaoCidadao(codigoErro: string): string {
+    let mensagemDeErro = ''
+    switch (codigoErro) {
+      case '101':
+        mensagemDeErro = 'Parâmentro(s) não informado(s)';
+        break;
+      case '102':
+        mensagemDeErro = 'Conexão parametrizada inativa';
+        break;
+      case '103':
+        mensagemDeErro = 'Login inativo';
+        break;
+      case '104':
+        mensagemDeErro = 'Campo para busca enviado via parametro inexistente';
+        break;
+      case '105':
+        mensagemDeErro = 'Condição enviada via parametro não é com campo de pesquisa';
+        break;
+      case '106':
+        mensagemDeErro = 'Quantidade de acessos por minuto excedido ao parametrizado';
+        break;
+      case '107':
+        mensagemDeErro = 'Quantidade de acessos por hora excedido ao parametrizado';
+        break;
+      case '108':
+        mensagemDeErro = 'Quantidade de acessos por dia excedido ao parametrizado';
+        break;
+      case '109':
+        mensagemDeErro = 'Erro ao conectar ao Banco de Dados';
+        break;
+      case '110':
+        mensagemDeErro = 'Consulta realizada - nenhum registro localizado';
+        break;
+      case '111':
+        mensagemDeErro = 'Usuário / Senha inválido';
+        break;
+      case '112':
+        mensagemDeErro = 'Login de Teste';
+        break;
+      default:
+        console.log(`Erro ${codigoErro} não identificado. Favor entrar em contato com o time de TI.`);
+
+    }
+    return mensagemDeErro
+
   }
 
   alterarTitular(titular: Titular): Observable<any> {
@@ -102,40 +164,45 @@ export class TitularesService extends BaseResourceService {
   getColumns(): PoTableColumn[] {
     return [
       {
-        property: 'id',
-        width: '10%',
+        property: 'Id',
+        width: '35%',
         label: 'Id',
         type: 'string',
         visible: true,
       },
       {
-        property: 'nome',
-        width: '40%',
-        label: 'Nome',
+        property: 'NumeroCpf',
+        width: '30%',
+        label: 'CPF',
         type: 'string',
-        visible: true,
+        visible: false,
       },
       {
-        property: 'cpf',
-        width: '20%',
+        property: 'cpfFormatado',
+        width: '30%',
         label: 'CPF',
         type: 'string',
         visible: true,
       },
       {
-        property: 'rg',
-        width: '20%',
-        label: 'RG',
+        property: 'NumeroCartaoCidadao',
+        width: '30%',
+        label: 'Cartão Cidadão',
         type: 'string',
         visible: true,
-      },
-      {
-        property: 'acoes',
-        width: '10%',
-        label: 'Ações',
-        type: 'link',
-      },
+      }
     ];
+  }
+
+  getAll(pagina: number = 0, filtroRecebido?: string): Observable<any> {
+    let filtro: string = '';
+    pagina = pagina * 10;
+    if (filtroRecebido)
+      filtro = `&$filter=contains(NumeroCpf,'${filtroRecebido}') or NumeroCartaoCidadao eq ${filtroRecebido}`
+
+    const queryParams = `$skip=${pagina}` + filtro
+
+    return this.http.get(`${this.httpBusca}titularodata?${queryParams}`)
   }
 
   getRendasColumns(): PoTableColumn[] {

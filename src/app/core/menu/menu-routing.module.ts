@@ -1,11 +1,14 @@
+import { AuthGuard } from 'src/app/core/auth/auth.guard';
 import { AssentamentoModule } from './../../pages/assentamento/assentamento.module';
 import { LoginComponent } from './../login/login-form/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MenuComponent } from './menu.component';
+import { NovaSenhaComponent } from '../login/nova-senha/nova-senha.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'newPassword', component: NovaSenhaComponent },
   {
     path: '',
     component: MenuComponent,
@@ -13,7 +16,7 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('../../pages/assentamento/assentamento.module').then((m) => m.AssentamentoModule),
+          import('../../pages/home/home.module').then((m) => m.HomeModule), canActivate:[AuthGuard]
       },
       {
         path: 'titulares',
@@ -29,9 +32,16 @@ const routes: Routes = [
             (m) => m.DependentesModule
           ),
       },
+      {
+        path: 'configuracoes',
+        loadChildren: () =>
+          import('../../pages/configuracoes/configuracoes.module').then(
+            (m) => m.ConfiguracoesModule
+          ),
+      },
     ],
     canActivate: [
-      /*AuthGuard*/
+      AuthGuard
     ],
   },
 ];

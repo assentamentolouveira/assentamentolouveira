@@ -48,26 +48,26 @@ export class TermoAceiteComponent implements OnInit {
   }
 
   primeiroLogin(): void {
-    if (this.loginService.informacoesDoLogin.acessoInicial) {
+    if (this.loginService.getAcessoInicial()) {
       this.modal.open();
     } else {
-      this.titularesService.getTitularByCPF(this.loginService.informacoesDoLogin.idUsuario).subscribe((res) => {
+      this.titularesService.getTitularByCPF(this.loginService.getCPFUsuario()).subscribe((res) => {
         this.titularesService.setTitularInfo(res)
-        this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/editar`]);
+        this.router.navigate([`/internet/${this.loginService.getCPFUsuario()}/editar`]);
       },
         (res) => {
           this.titularesService.setTitularInfo();
-          this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/`]);
+          this.router.navigate([`/internet/${this.loginService.getCPFUsuario()}/`]);
         })
     }
   }
 
   validaConfirmacao() {
     if (this.FormularioTermosDeAceite.value.checkCriterioDeAceite) {
-      this.internetService.gravaLogin(this.loginService.informacoesDoLogin.idUsuario).subscribe(() => {
+      this.internetService.gravaLogin(this.loginService.getCPFUsuario()).subscribe(() => {
         this.modal.close();
         this.titularesService.setTitularInfo();
-        this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}`]);
+        this.router.navigate([`/internet/${this.loginService.getCPFUsuario()}`]);
       },
         error => this.poNotificationService.error('Erro ao atualizar o usuário: ' + error.statusText));
     } else {

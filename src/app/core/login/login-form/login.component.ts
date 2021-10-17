@@ -13,6 +13,8 @@ import { finalize } from 'rxjs/operators'
 })
 export class LoginComponent implements OnInit {
   public loginFormatado = ''
+  public habilitaNovoUsuario = this.loginService.isInternet ? '/internet/newuser' : '';
+
   private valorAtual = '';
   private valorAntigo = '';
   private tituloDaPagina = this.loginService.isInternet ? 'Internet' : 'Intranet'
@@ -27,41 +29,39 @@ export class LoginComponent implements OnInit {
 
   constructor(private loginService: LoginService, private poNotificationService: PoNotificationService, private router: Router) { }
 
-  @ViewChild('aaa') aaa: any;
+  @ViewChild('formularioLogin') formularioLogin: any;
 
   ngOnInit() {
   }
 
-  teste(a: any) {
-    let testea
-    this.valorAtual = a
+  teste(valorRecebido: string) {
+    let loginTradado: string;
+    this.valorAtual = valorRecebido
     if (this.valorAntigo !== this.valorAtual) {
-      testea = this.aaa.login
-      testea = testea.replace(/\D/g, "")                    //Remove tudo o que não é dígito
-      if (testea.length  === 4) {
-        testea = testea.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
-        this.loginFormatado = testea
+      loginTradado = this.formularioLogin.login
+      loginTradado = loginTradado.replace(/\D/g, "")                    //Remove tudo o que não é dígito
+      if (loginTradado.length === 4) {
+        loginTradado = loginTradado.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
+        this.loginFormatado = loginTradado
         this.valorAntigo = this.valorAtual;
 
       }
-      if (testea.length === 7) {
-        testea = testea.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
-        testea = testea.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
-        //de novo (para o segundo bloco de números)
-        this.loginFormatado = testea
+      if (loginTradado.length === 7) {
+        loginTradado = loginTradado.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
+        loginTradado = loginTradado.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
+        this.loginFormatado = loginTradado
         this.valorAntigo = this.valorAtual;
 
       }
-      if (testea.length >= 9 && testea.length <= 11) {
-        testea = testea.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
-        testea = testea.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
-        //de novo (para o segundo bloco de números)
-        testea = testea.replace(/(\d{3})(\d{1,2})$/, "$1-$2") //Coloca um hífen entre o terceiro e o quarto dígitos
-        this.loginFormatado = testea
+      if (loginTradado.length >= 9 && loginTradado.length <= 11) {
+        loginTradado = loginTradado.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
+        loginTradado = loginTradado.replace(/(\d{3})(\d)/, "$1.$2")       //Coloca um ponto entre o terceiro e o quarto dígitos
+        loginTradado = loginTradado.replace(/(\d{3})(\d{1,2})$/, "$1-$2") //Coloca um hífen entre o terceiro e o quarto dígitos
+        this.loginFormatado = loginTradado
         this.valorAntigo = this.valorAtual;
       }
-      if (a.length > 14) {
-        this.loginFormatado = testea
+      if (valorRecebido.length > 14) {
+        this.loginFormatado = loginTradado
         this.valorAntigo = this.valorAtual;
       }
     }
@@ -76,10 +76,17 @@ export class LoginComponent implements OnInit {
         if (this.loginService.isInternet) {
           this.router.navigate(['/internet'])
         } else {
-          this.router.navigate(['/intranet'])
+          if (sucesso.novaSenha) {
+            this.router.navigate(['/intranet/newPassword'])
+          } else if (sucesso.funcionario) {
+            this.loginService.gravaUsuario(sucesso);
+            this.router.navigate(['/intranet'])
+          } else {
+            this.poNotificationService.error("Usuário informado não é um funcionário")
+          }
         }
       }
-      , error => { this.poNotificationService.error(`Ocorreu um erron o momento do login: ${error.message}`) }
+      , error => { this.poNotificationService.error(`Ocorreu um erro no momento do login: ${error.message}`) }
     );
   }
 

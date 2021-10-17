@@ -7,7 +7,7 @@ import {
   PoNotificationModule,
   PoPageModule,
 } from '@po-ui/ng-components';
-import { PoPageLoginModule } from '@po-ui/ng-templates';
+import { PoPageChangePasswordModule, PoPageLoginModule } from '@po-ui/ng-templates';
 
 
 
@@ -20,6 +20,7 @@ import { PoPageLoginModule } from '@po-ui/ng-templates';
     PoNotificationModule,
     PoPageModule,
     PoPageLoginModule,
+    PoPageChangePasswordModule,
   ],
   exports: [
     PoMenuModule,
@@ -28,7 +29,8 @@ import { PoPageLoginModule } from '@po-ui/ng-templates';
     PoModule,
     PoNotificationModule,
     PoPageModule,
-    PoPageLoginModule
+    PoPageLoginModule,
+    PoPageChangePasswordModule
   ],
 })
 export class PoUiComponentsModule {}

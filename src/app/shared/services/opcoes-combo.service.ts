@@ -610,6 +610,25 @@ export class OpcoesComboService {
     }
   ]
 
+  perfilDeAcessoOpcoes = [
+    {
+      value: 'Nenhum',
+      label: 'Nenhum'
+    },
+    {
+      value: 'Digitador',
+      label: 'Digitador'
+    },
+    {
+      value: 'AssistenteSocial',
+      label: 'Assistente Social'
+    },
+    {
+      value: 'Administrador',
+      label: 'Administrador'
+    }
+  ]
+
   retornaLabelOpcoes(valor: number | string, combo: any[]): string {
     let comboFilter = combo.filter(opc => opc.value === valor)
     return comboFilter[0]?.label ? comboFilter[0].label : '';

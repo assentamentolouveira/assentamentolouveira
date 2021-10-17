@@ -24,9 +24,11 @@ import { Moradia } from '../../moradia/shared/moradia.model';
 })
 export class AssentamentoFormComponent extends BaseResourceFormComponent<Assentamento> {
   public actions: Array<PoPageAction> = [
-    { label: 'Salvar Solicitação de Moradia',
-    action: () => this.salvaAssentamento(this),
-    icon: 'po-icon-ok'},
+    {
+      label: 'Salvar Solicitação de Moradia',
+      action: () => this.salvaAssentamento(this),
+      icon: 'po-icon-ok'
+    },
   ];
 
   public isTitular = true;
@@ -97,6 +99,12 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         action: () => this.router.navigate(['/internet/login']),
         icon: 'po-icon-exit',
       });
+    } else {
+      this.actions.push({
+        label: 'Voltar',
+        action: () => this.router.navigate(['/intranet/titulares']),
+        icon: 'po-icon-exit',
+      });
     }
     this.edicao = this.router.url.includes('editar')
     this.titularValido = this.edicao;
@@ -104,6 +112,9 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       this.botoes[indice].disabled = !this.edicao;
     });
     this.poNotificationService.setDefaultDuration(3000);
+    // if (this.loginService.getCPFUsuario() !== this.route.snapshot.paramMap.get('id')){
+    //   this.router.navigate(['/internet/login'])
+    // }
   }
 
   defineFormulario(
@@ -168,7 +179,8 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         this.botoes[indice].disabled = false;
       });
       this.poNotificationService.success("Titular incluído com sucesso!")
-      this.router.navigate([`/internet/${this.loginService.informacoesDoLogin.idUsuario}/editar`]);
+      this.loginService.isInternet ? this.router.navigate([`/internet/${this.loginService.getCPFUsuario()}/editar`]) : this.router.navigate([`/intranet/titulares/${this.loginService.getCPFUsuario()}/editar`]);
+
       // this.edicao = true;
 
       // const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
@@ -258,7 +270,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     )
   }
 
-  salvaAssentamento(a:any): void {
+  salvaAssentamento(a: any): void {
     console.log(a)
     this.poNotificationService.success('Assentamento Salvo com Sucesso')
   }
@@ -270,8 +282,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   protected editionPageTitle(): string {
-    const informacoesAssentamento =
-      `${this.route.snapshot.paramMap.get('id')}` || '';
-    return 'Editando Assentamento'
+    const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
+    return 'Editando Assentamento ' + dadosTitular.nomeResponsavel
   }
 }
