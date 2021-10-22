@@ -57,6 +57,7 @@ export class TitularesListComponent extends BaseResourceListComponent implements
 
   private subscription: Subscription;
   private pagina = 0
+  private valorPesquisado = ''
 
   constructor(private titularesService: TitularesService
     , private fb: FormBuilder
@@ -83,19 +84,18 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       }
     ];
 
-    this.buscaTitulares(this.pagina);
+    // this.buscaTitulares(this.pagina);
     this.subscription = this.reactiveForm.valueChanges.pipe(
       debounceTime(500)
     ).subscribe(
       res => {
         this.resources = [];
         this.pagina = 0;
-        this.buscaTitulares(0, res.pesquisa.replace(/\D/g, ""))
+        this.valorPesquisado = res.pesquisa
+        if (this.valorPesquisado.length > 0)
+          this.buscaTitulares(0, this.valorPesquisado.replace(/\D/g, ""))
       }
     )
-
-
-
   }
 
   informaCPF(): void {
@@ -120,7 +120,7 @@ export class TitularesListComponent extends BaseResourceListComponent implements
 
   carregarMais(): void {
     this.pagina++
-    this.buscaTitulares(this.pagina)
+    this.buscaTitulares(this.pagina, this.valorPesquisado)
   }
 
   buscaTitulares(page: number, filtro: string = ''): void {

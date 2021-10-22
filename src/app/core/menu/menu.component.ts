@@ -1,3 +1,4 @@
+import { login } from './../login/shared/login.model';
 import { LoginService } from './../login/shared/login.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,9 +14,11 @@ import { environment } from './../../../environments/environment';
 export class MenuComponent implements OnInit {
   menus: Array<PoMenuItem>;
   logo: string;
+  private dadosUsuario: login;
 
   constructor(private router: Router, private loginService: LoginService) {
     this.logo = `../../../${environment.imagesPath}//brasao-removebg-preview.png`;
+    this.dadosUsuario = this.loginService.getTipoFuncionario()
   }
 
   ngOnInit(): void {
@@ -43,8 +46,11 @@ export class MenuComponent implements OnInit {
           this.router.navigate(['/intranet/titulares']);
         },
         icon: 'po-icon-users',
-      },
-      {
+      }
+    ];
+
+    if (this.dadosUsuario.perfilAcesso === 'Administrador') {
+      menu.push({
         label: 'Configuração',
         shortLabel: 'Config.',
         icon: 'po-icon po-icon-settings',
@@ -57,16 +63,17 @@ export class MenuComponent implements OnInit {
             },
           },
         ],
+      })
+    }
+
+    menu.push({
+      label: 'Sair',
+      shortLabel: 'Sair',
+      action: () => {
+        this.loginService.realizaLogout();
       },
-      {
-        label: 'Sair',
-        shortLabel: 'Sair',
-        action: () => {
-          this.loginService.realizaLogout();
-        },
-        icon: 'po-icon-exit',
-      },
-    ];
+      icon: 'po-icon-exit',
+    })
     return menu;
   }
 }

@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  teste(valorRecebido: string) {
+  informaCaracterLogin(valorRecebido: string) {
     let loginTradado: string;
     this.valorAtual = valorRecebido
     if (this.valorAntigo !== this.valorAtual) {

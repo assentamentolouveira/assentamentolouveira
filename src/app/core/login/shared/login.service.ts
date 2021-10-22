@@ -59,6 +59,9 @@ export class LoginService extends BaseResourceService {
     //     ))
     return this.http.get<CartaoCidadao>(`${environment.URLCartaoCidadao}${filter}`).pipe(mergeMap((res) => {
       this.titularesService.gravaDadosTitularCartaoCidadao(res);
+      if (res.Status !== "100") {
+        throw new Error('CPF não é válida no sistema do Cartão Cidadão. Procure um posto de atendimento mais próximo')//({ error:{message: this.retornarErroCartaoCidadao(res.Status)}, status: res.Status });
+      }
       return of(login)
     }
     ))

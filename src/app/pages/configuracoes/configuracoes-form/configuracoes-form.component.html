@@ -28,7 +28,7 @@
     formControlName="novaSenha"
     p-label="Redefinir Senha no Próximo Login?"
     [p-options]="boleanoOpcoes"
-    [p-disabled]="edicao"
+    [p-disabled]="!edicao"
     p-placeholder="Deseja que o usuário redefina a senha no próximo login?"
   >
   </po-select>

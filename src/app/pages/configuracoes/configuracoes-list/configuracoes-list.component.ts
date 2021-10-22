@@ -47,11 +47,11 @@ export class ConfiguracoesListComponent extends BaseResourceListComponent implem
   public inclusaoDeUsuario = false;
   public abreModal = false;
   public acoes: Array<PoTableAction> = [
-    {
-      icon: 'po-icon-edit',
-      label: 'Editar',
-      action: this.editarUsuario.bind(this)
-    },
+    // {
+    //   icon: 'po-icon-edit',
+    //   label: 'Editar',
+    //   action: this.editarUsuario.bind(this)
+    // },
     {
       icon: 'po-icon-close',
       label: 'Excluir',
@@ -147,7 +147,8 @@ export class ConfiguracoesListComponent extends BaseResourceListComponent implem
   }
 
   editarUsuario(): void {
-
+    this.inclusaoDeUsuario = false;
+    this.poModal.open()
   }
 
   confirmaExclusao(usuario: any): void {
