@@ -5,6 +5,8 @@ import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Validacoes } from 'src/app/shared/validações/validacoes';
+import { newUser } from 'src/app/core/login/shared/newUser.model';
+import { tokenBackEnd } from 'src/app/core/login/shared/tokenBackend.model';
 
 @Component({
   selector: 'app-configuracoes-form',
@@ -14,6 +16,7 @@ import { Validacoes } from 'src/app/shared/validações/validacoes';
 export class ConfiguracoesFormComponent implements OnInit {
 
   @Input() edicao = false;
+  @Input() usuarioEditado: tokenBackEnd;
 
   public formularioUsuario: FormGroup;
   public perfilDeAcessoOpcoes: PoSelectOption[];
@@ -33,7 +36,9 @@ export class ConfiguracoesFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    console.log("usuário Editado:", this.usuarioEditado)
+    if (this.edicao)
+      this.montaFormularioEdicao(this.usuarioEditado)
   }
 
   montaFormulario(): void {
@@ -46,18 +51,21 @@ export class ConfiguracoesFormComponent implements OnInit {
       novaSenha: ['1']
     });
 
-    if (this.edicao) {
-      this.montaFormularioEdicao()
-    }
-
     this.subscription = this.formularioUsuario.valueChanges.pipe(
       debounceTime(500)
     )
     .subscribe(res => this.formularioInclusaoDeUsuarioValido.emit(this.formularioUsuario))
   }
 
-  montaFormularioEdicao(): void {
-
+  montaFormularioEdicao(usuarioEditado:tokenBackEnd): void {
+    this.formularioUsuario.patchValue({
+      cpf: usuarioEditado.IdUsuario,
+      senha: '******',
+      acessoInicial: false,
+      funcionario: true,
+      perfilAcesso: usuarioEditado.PerfilAcesso,
+      novaSenha: ['1']
+    })
   }
 
 }

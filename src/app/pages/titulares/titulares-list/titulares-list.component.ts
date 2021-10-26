@@ -55,9 +55,11 @@ export class TitularesListComponent extends BaseResourceListComponent implements
 
   ];
 
+  public valorPesquisado = ''
+
   private subscription: Subscription;
   private pagina = 0
-  private valorPesquisado = ''
+
 
   constructor(private titularesService: TitularesService
     , private fb: FormBuilder

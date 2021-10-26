@@ -38,6 +38,7 @@
     <div *ngIf="abreModal">
       <app-configuracoes-form
         [edicao]="!inclusaoDeUsuario"
+        [usuarioEditado]="usuarioEditado"
         (formularioInclusaoDeUsuarioValido)="recebeFormularioUsuario($event)"
       ></app-configuracoes-form>
     </div>

@@ -27,7 +27,7 @@ export class NovaSenhaComponent implements OnInit {
     }
     this.loginService.realizaLogin(usuario).subscribe(
       res => {
-        this.newUser.alteraUsuario(dados.newPassword).subscribe(
+        this.newUser.novaSenha(usuario, dados.newPassword).subscribe(
           res => {
             this.poNotificationService.success("Senha alterada com sucesso!");
             if (this.loginService.isInternet) {

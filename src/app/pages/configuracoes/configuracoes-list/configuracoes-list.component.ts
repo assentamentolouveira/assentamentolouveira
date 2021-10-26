@@ -40,6 +40,7 @@ export class ConfiguracoesListComponent extends BaseResourceListComponent implem
   private subscription: Subscription;
 
   public formularioUsuario: FormGroup;
+  public usuarioEditado: tokenBackEnd;
   public carregandoRegistros = false;
   public disativarShowMore = false;
   public reactiveForm: FormGroup;
@@ -47,11 +48,11 @@ export class ConfiguracoesListComponent extends BaseResourceListComponent implem
   public inclusaoDeUsuario = false;
   public abreModal = false;
   public acoes: Array<PoTableAction> = [
-    // {
-    //   icon: 'po-icon-edit',
-    //   label: 'Editar',
-    //   action: this.editarUsuario.bind(this)
-    // },
+    {
+      icon: 'po-icon-edit',
+      label: 'Editar',
+      action: this.editarUsuario.bind(this)
+    },
     {
       icon: 'po-icon-close',
       label: 'Excluir',
@@ -146,8 +147,10 @@ export class ConfiguracoesListComponent extends BaseResourceListComponent implem
     });
   }
 
-  editarUsuario(): void {
+  editarUsuario(usuarioEditado:tokenBackEnd): void {
     this.inclusaoDeUsuario = false;
+    this.usuarioEditado = usuarioEditado;
+    this.abreModal = true;
     this.poModal.open()
   }
 
@@ -188,7 +191,7 @@ export class ConfiguracoesListComponent extends BaseResourceListComponent implem
       this.poNotificationService.warning("Informe Todos os Campos")
     } else {
       informacoesFormulario.novaSenha = informacoesFormulario.novaSenha === '1' ? true : false;
-      this.inclusaoDeUsuario ? this.incluirUsuario(informacoesFormulario) : this.alterarUsuario();
+      this.inclusaoDeUsuario ? this.incluirUsuario(informacoesFormulario) : this.alterarUsuario(informacoesFormulario);
     }
   }
 
@@ -204,8 +207,16 @@ export class ConfiguracoesListComponent extends BaseResourceListComponent implem
       , erro => this.poNotificationService.error("Ocorreu um erro na criação do usuário: " + erro.message))
   }
 
-  alterarUsuario(): void {
-
+  alterarUsuario(formularioUsuario: newUser): void {
+    this.carregando = true;
+    this.newUserService.alteraUsuario(formularioUsuario).pipe(
+      finalize(() => this.carregando = false)
+    ).subscribe(res => {
+      this.poNotificationService.success("Usuário Alterado Com Sucesso");
+      this.fechaModal();
+      this.buscaUsuarios(0);
+    }
+      , erro => this.poNotificationService.error("Ocorreu um erro na criação do usuário: " + erro.message))
   }
 
   ngOnDestroy(): void {

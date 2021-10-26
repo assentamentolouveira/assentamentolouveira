@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { newUser } from './newUser.model';
 import { environment } from 'src/environments/environment';
+import { loginBackEnd } from './loginBackEnd.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,15 +37,26 @@ export class NewUserService extends BaseResourceService {
     return this.http.delete(`${this.apiPath}${id}`)
   }
 
-  alteraUsuario(novaSenha: string): Observable<newUser>{
+  alteraUsuario(dadosUsuario: newUser): Observable<newUser>{
     const tipoFuncionario = this.loginService.getTipoFuncionario();
     const jsonUsuarioAlterado = {
       funcionario: tipoFuncionario.funcionario,
-      perfilAcesso: tipoFuncionario.perfilAcesso,
-      senha: novaSenha,
+      perfilAcesso: dadosUsuario.perfilAcesso,
+      senha: dadosUsuario.senha,
       acessoInicial: false,
+      novaSenha: true
+    }
+    return this.http.put<newUser>(`${this.apiPath}/${dadosUsuario.cpf}`, jsonUsuarioAlterado, this.httpOptions);
+  }
+
+  novaSenha(usuario: loginBackEnd, novaSenha: string): Observable<newUser>{
+    const tipoFuncionario = this.loginService.getTipoFuncionario();
+    const jsonUsuarioAlterado = {
+      idUsuario: usuario.idUsuario,
+      senhaAtual: usuario.senha,
+      senhaNova: novaSenha,
       novaSenha: false
     }
-    return this.http.put<newUser>(`${this.apiPath}/${sessionStorage.getItem('usuario')}`, jsonUsuarioAlterado, this.httpOptions);
+    return this.http.put<newUser>(`${this.apiPath}alterarsenha`, jsonUsuarioAlterado, this.httpOptions);
   }
 }

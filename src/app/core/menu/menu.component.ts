@@ -66,6 +66,15 @@ export class MenuComponent implements OnInit {
       })
     }
 
+    // menu.push({
+    //   label: 'Alterar Sennha',
+    //   shortLabel: 'Alt. Senha',
+    //   action: () => {
+    //     this.router.navigate(['/intranet/newPassword']);
+    //   },
+    //   icon: 'po-icon-lock',
+    // })
+
     menu.push({
       label: 'Sair',
       shortLabel: 'Sair',
@@ -76,4 +85,5 @@ export class MenuComponent implements OnInit {
     })
     return menu;
   }
+
 }
