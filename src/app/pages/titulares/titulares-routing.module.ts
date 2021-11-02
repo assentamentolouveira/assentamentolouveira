@@ -8,7 +8,7 @@ import { TitularesListComponent } from './titulares-list/titulares-list.componen
 const routes: Routes = [
   { path: '', component: TitularesListComponent },
   { path: 'novo', component: AssentamentoFormComponent },
-  { path: ':id/editar', component: AssentamentoFormComponent },
+  { path: ':id/editar/:dependente', component: AssentamentoFormComponent },
 ];
 
 @NgModule({

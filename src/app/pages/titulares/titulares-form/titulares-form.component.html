@@ -8,6 +8,7 @@
         p-label="Assentamento"
         p-placeholder="Assentamento"
         p-readonly="true"
+        p-disabled="true"
         p-clean
       >
       </po-input>
@@ -17,6 +18,7 @@
         p-label="Selagem Atual"
         p-placeholder="Selagem Atual"
         p-readonly="true"
+        p-disabled="true"
         p-clean
       ></po-input>
       <po-input
@@ -25,6 +27,7 @@
         p-label="Selagem Antiga"
         p-placeholder="Selagem FUMHAB"
         p-readonly="true"
+        p-disabled="true"
         p-clean
       ></po-input>
     </div>
@@ -38,6 +41,7 @@
       p-label="Nome Responsável"
       p-placeholder="Nome do Responsável"
       p-readonly="true"
+      p-disabled="true"
       p-tooltip="Dados obtidos através do Cartão Cidadão"
       p-clean
     >
@@ -48,6 +52,7 @@
       p-label="Cartão Cidadão"
       p-placeholder="Número do Cartão Cidadão"
       p-readonly="true"
+      p-disabled="true"
       p-tooltip="Dados obtidos através do Cartão Cidadão"
       p-clean
     ></po-number>
@@ -58,6 +63,7 @@
       p-placeholder="Número do CPF"
       p-mask="999.999.999-99"
       p-readonly="true"
+      p-disabled="true"
       p-tooltip="Dados obtidos através do Cartão Cidadão"
       p-clean
     ></po-input>
@@ -67,6 +73,7 @@
       p-label="Data de Nascimento"
       p-placeholder="dd/mm/aaaa"
       p-readonly="true"
+      p-disabled="true"
       p-tooltip="Dados obtidos através do Cartão Cidadão"
       p-clean
     >
@@ -74,16 +81,26 @@
   </div>
 
   <div class="po-row">
-    <po-select
+    <!-- <po-select
       formControlName="deficiencia"
       class="po-lg-3"
-      p-label="PCD"
+      p-label="Possui Deficiencia"
       [p-options]="deficienciaOpcoes"
       p-placeholder="Não Possui"
       [p-readonly]="true"
+      p-disabled="true"
       p-tooltip="Dados obtidos através do Cartão Cidadão"
     >
-    </po-select>
+    </po-select> -->
+    <po-input
+      formControlName="deficiencia"
+      class="po-lg-3"
+      p-label="Possui Deficiencia"
+      p-placeholder="Não Possui"
+      p-disabled="true"
+      p-tooltip="Dados obtidos através do Cartão Cidadão"
+    >
+    </po-input>
     <po-select
       formControlName="estadoCivil"
       class="po-lg-3"
@@ -91,6 +108,7 @@
       [p-options]="estadoCivilOpcoes"
       p-placeholder="Selecione o estado civil"
       [p-readonly]="true"
+      p-disabled="true"
       p-tooltip="Dados obtidos através do Cartão Cidadão"
     >
     </po-select>
@@ -198,7 +216,7 @@
     <po-select
       formControlName="possuiImovel"
       class="po-lg-3"
-      p-label="Possui algum imóvel em seu nome"
+      p-label="Possui algum imóvel em seu nome no país"
       (p-change)="possuiImovelSelecionado($event)"
       [p-options]="boleanoOpcoes"
       p-placeholder="Possui algum imóvel no país?"

@@ -44,6 +44,7 @@ export class ConfiguracoesFormComponent implements OnInit {
   montaFormulario(): void {
     this.formularioUsuario = this.fb.group({
       cpf: ['', Validators.compose([Validators.required, Validacoes.ValidaCpf])],
+      nome: ['', Validators.compose([Validators.required])],
       senha: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       acessoInicial: [false],
       funcionario: [true],
@@ -60,6 +61,7 @@ export class ConfiguracoesFormComponent implements OnInit {
   montaFormularioEdicao(usuarioEditado:tokenBackEnd): void {
     this.formularioUsuario.patchValue({
       cpf: usuarioEditado.IdUsuario,
+      nome: usuarioEditado.Nome,
       senha: '******',
       acessoInicial: false,
       funcionario: true,

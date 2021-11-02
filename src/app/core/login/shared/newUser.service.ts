@@ -25,6 +25,7 @@ export class NewUserService extends BaseResourceService {
     const jsonNovoUsuario = {
       idUsuario: novoUsuario.cpf,
       senha: novoUsuario.senha,
+      nome: novoUsuario.nome,
       acessoInicial: novoUsuario.acessoInicial?  novoUsuario.acessoInicial :  true,
       funcionario: novoUsuario.funcionario ? novoUsuario.funcionario : false,
       perfilAcesso: novoUsuario.perfilAcesso? novoUsuario.perfilAcesso : "0",
@@ -41,6 +42,7 @@ export class NewUserService extends BaseResourceService {
     const tipoFuncionario = this.loginService.getTipoFuncionario();
     const jsonUsuarioAlterado = {
       funcionario: tipoFuncionario.funcionario,
+      nome: dadosUsuario.nome,
       perfilAcesso: dadosUsuario.perfilAcesso,
       senha: dadosUsuario.senha,
       acessoInicial: false,

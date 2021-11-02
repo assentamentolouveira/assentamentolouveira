@@ -1,6 +1,7 @@
 export interface newUser {
   id?: string;
   cpf:string;
+  nome: string;
   senha:string;
   dataNascimento:Date;
   token?:string;

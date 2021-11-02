@@ -5,7 +5,7 @@ import { Dependente } from './../../dependentes/shared/dependente.model';
 import { TitularesService } from './../../titulares/shared/titulares.service';
 import { PoButtonGroupItem, PoPageAction, PoNotificationService, PoComboOption } from '@po-ui/ng-components';
 import { LoginService } from './../../../core/login/shared/login.service';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { AssentamentoService } from './../shared/assentamento.service';
 import { Assentamento } from './../shared/assentamento.model';
 import { Component, Injector, OnInit } from '@angular/core';
@@ -112,6 +112,11 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       this.botoes[indice].disabled = !this.edicao;
     });
     this.poNotificationService.setDefaultDuration(3000);
+
+    if (this.route.snapshot.queryParamMap.get('inclusao')){
+      this.isDependente = true;
+      this.isTitular = false;
+    }
     // if (this.loginService.getCPFUsuario() !== this.route.snapshot.paramMap.get('id')){
     //   this.router.navigate(['/internet/login'])
     // }
@@ -178,8 +183,12 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       this.botoes.map((botao, indice) => {
         this.botoes[indice].disabled = false;
       });
+      const navigationExtras: NavigationExtras = {
+        queryParams: { 'inclusao': true },
+      };
+
       this.poNotificationService.success("Titular incluído com sucesso!")
-      this.loginService.isInternet ? this.router.navigate([`/internet/${this.loginService.getCPFUsuario()}/editar`]) : this.router.navigate([`/intranet/titulares/${this.loginService.getCPFUsuario()}/editar`]);
+      this.loginService.isInternet ? this.router.navigate([`/internet/${this.loginService.getCPFUsuario()}/editar/`], navigationExtras) : this.router.navigate([`/intranet/titulares/${this.loginService.getCPFUsuario()}/editar/`]);
 
       // this.edicao = true;
 
