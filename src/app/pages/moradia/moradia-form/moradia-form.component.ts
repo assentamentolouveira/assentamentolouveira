@@ -42,6 +42,15 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
   public familiaAcessaUnidadeBasicaSaude = false;
   public acessoInternet = true;
   public carregando = false;
+  public isInternet = false;
+  public familiaDomicilioOpcoes: Array<PoSelectOption>;
+  public tempoDeMoradiaOpcoes: Array<PoSelectOption>;
+  public localDoImovelAtivo = false;
+  public programaContempladoAtivo = false;
+  public programaContempladoPaisAtivo = false;
+
+
+
 
   @Output() formularioMoradiaValido: EventEmitter<FormGroup> = new EventEmitter()
 
@@ -56,6 +65,11 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
   ) {
     super(injector, new Moradias(), moradiaService);
     this.dadosTitular = JSON.parse(this.titularesService.getTitularInfo());
+    this.isInternet = loginService.isInternet;
+    this.familiaDomicilioOpcoes = this.opcoesComboService.familiaDomicilioOpcoes;
+    this.tempoDeMoradiaOpcoes = this.opcoesComboService.tempoDeMoradiaOpcoes;
+
+
   }
 
   protected buildResourceForm(): void { }
@@ -93,7 +107,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       take(1),
   finalize(() => this.carregando = true)
     ).subscribe(
-      res => { sessionStorage.setItem('moradiaID', res.id), this.montaFormularioEdicao(res) },
+      res => { sessionStorage.setItem('moradiaID', res.id), this.montaFormularioEdicao(res) ,       console.log(res) },
       error => console.log(error)
     )
   }
@@ -140,6 +154,18 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       gastoComMedicamento: [],
       totalDeDespesasMensais: [],
       observacao: [''],
+      familiaIncProcHabit: ['', Validators.compose([Validators.required])],
+      quantidadeFamilia: ['', Validators.compose([Validators.required])],
+      tempoMoradiaBairro: ['', Validators.compose([Validators.required])],
+      tempoMoradiaLouveira: ['', Validators.compose([Validators.required])],
+      possuiImovel: ['', Validators.compose([Validators.required])],
+      qualLocalDoImovel: [''],
+      programaHabitacional: ['', Validators.compose([Validators.required])],
+      qualProgHabitacional: [''],
+      regFundOuUsocapiao: ['', Validators.compose([Validators.required])],
+      qualRegFundOuUsocapiao: [''],
+      aondeRegFundOuUsocapiao: [''],
+
 
     });
 
@@ -191,11 +217,31 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       gastoComMedicamento: moradia.gastoComMedicamento,
       totalDeDespesasMensais: moradia.totalDeDespesasMensais,
       observacao: moradia.observacao,
+
+      familiaIncProcHabit:moradia.familiaIncProcHabit,
+      quantidadeFamilia: moradia.quantidadeFamilia,
+      tempoMoradiaLouveira: moradia.tempoMoradiaLouveira,
+      tempoMoradiaBairro: moradia.tempoMoradiaBairro,
+      possuiImovel: this.converterParaInteiro(moradia.possuiImovel),
+      qualLocalDoImovel: moradia.qualLocalDoImovel,
+      programaHabitacional: this.converterParaInteiro(moradia.programaHabitacional),
+      qualProgHabitacional: moradia.qualProgHabitacional,
+      regFundOuUsocapiao: this.converterParaInteiro(moradia.regFundOuUsocapiao),
+      qualRegFundOuUsocapiao: moradia.qualRegFundOuUsocapiao,
+      aondeRegFundOuUsocapiao: moradia.aondeRegFundOuUsocapiao,
     });
 
+    !!moradia.qualLocalDoImovel && moradia.qualLocalDoImovel.length > 0 ? this.localDoImovelAtivo = true : this.localDoImovelAtivo = false;
+    !!moradia.qualProgHabitacional && moradia.qualProgHabitacional.length > 0 ? this.programaContempladoAtivo = true : this.programaContempladoAtivo = false;
+    !!moradia.qualRegFundOuUsocapiao && moradia.qualRegFundOuUsocapiao.length > 0 ? this.programaContempladoPaisAtivo = true : this.programaContempladoPaisAtivo = false;
+    !!moradia.aondeRegFundOuUsocapiao && moradia.aondeRegFundOuUsocapiao.length > 0 ? this.programaContempladoPaisAtivo = true : this.programaContempladoPaisAtivo = false;
     !!moradia.qualUnidBasicaSaude ? this.familiaAcessaUnidadeBasicaSaude = true : this.familiaAcessaUnidadeBasicaSaude = false;
 
     this.formularioMoradiaValido.emit(this.formularioMoradia)
+  }
+
+  converterParaInteiro(valor: number | boolean): number {
+    return valor ? 1 : 2
   }
 
   familiaAcessaUnidadeBasicaSaudeSelecionado(selecionado: number) {
@@ -231,6 +277,33 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
   retornaValorNumerico(valorRecebido: undefined | number): number {
     const valor = !!valorRecebido ? valorRecebido : 0
     return valor
+  }
+
+  possuiImovelSelecionado(selecionado: number) {
+    if (selecionado === 1) {
+      this.localDoImovelAtivo = true;
+    } else {
+      this.localDoImovelAtivo = false;
+      this.formularioMoradia.patchValue({ qualLocalDoImovel: "" })
+    }
+  }
+
+  jaContempladoSelecionado(selecionado: number) {
+    if (selecionado === 1) {
+      this.programaContempladoAtivo = true
+    } else {
+      this.programaContempladoAtivo = false;
+      this.formularioMoradia.patchValue({ qualProgHabitacional: "" })
+    }
+  }
+
+  jaContempladoPaisSelecionado(selecionado: number) {
+    if (selecionado === 1) {
+      this.programaContempladoPaisAtivo = true
+    } else {
+      this.programaContempladoPaisAtivo = false;
+      this.formularioMoradia.patchValue({ qualRegFundOuUsocapiao: "", aondeRegFundOuUsocapiao: "" })
+    }
   }
 
   ngOnDestroy() {

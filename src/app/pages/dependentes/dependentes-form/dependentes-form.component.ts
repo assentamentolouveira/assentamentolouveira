@@ -106,7 +106,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     this.listaDependentesLocal = [];
 
     const dadosTitular: Titular = JSON.parse(this.titularService.getTitularInfo());
-    let listaDeDepententes: string[] = String(dadosTitular.dependentes).split(',');
+    let listaDeDepententes: string[] = dadosTitular.dependentes === null? [] : String(dadosTitular.dependentes).split(',');
     if (String(sessionStorage.getItem('idTitular'))?.length > 0 && listaDeDepententes.length > 0) {
       this.retornaDadosdoCartaoCidadao(listaDeDepententes, dadosTitular.nomeResponsavel);
       this.retornaDependentesCadastrados(dadosTitular);
@@ -236,7 +236,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   editarDependente(dependenteSelecionado: Dependente): void {
     this.dependenteSelecionado = dependenteSelecionado.id === '' ? 'novo' : dependenteSelecionado.id;
     this.formularioDependente.patchValue({
-      nomeResponsavel: dependenteSelecionado.nomeResponsavel,
+      nomeResponsavel: dependenteSelecionado.nome,
       numeroCartaoCidadao: dependenteSelecionado.numeroCartaoCidadao,
       numeroCPF: dependenteSelecionado.cpfCartaoCidadao,
       dataNascimento: dependenteSelecionado.dataNascimento,

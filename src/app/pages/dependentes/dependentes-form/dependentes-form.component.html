@@ -17,166 +17,188 @@
   >
   </po-button>
 </ng-template> -->
+<div >
+  <po-loading-overlay [hidden]="!carregandoTabela"></po-loading-overlay>
+</div>
 
-<div *ngIf="dependenteSelecionado === ''; else exibeDependente">
+<div *ngIf="listaDependentes.length === 0">
   <po-divider p-label="Dependentes"></po-divider>
   <p class="po-font-title" style="text-align: center; padding: 10px">
-    Nenhum Dependente Selecionado.
+    Este titular não possui nenhum dependente vinculado.
   </p>
 </div>
 
-<ng-template #exibeDependente>
-  <form [formGroup]="formularioDependente">
-    <po-divider p-label="Informações Gerais"></po-divider>
-    <div class="po-row">
-      <po-input
-        formControlName="nomeResponsavel"
-        class="po-lg-3"
-        p-label="Nome Responsável"
-        p-placeholder="Nome do Responsável"
-        p-readonly="true"
-        p-tooltip="Dados obtidos através do Cartão Cidadão"
-        p-clean
-      >
-      </po-input>
-      <po-number
-        formControlName="numeroCartaoCidadao"
-        class="po-lg-3"
-        p-label="Cartão Cidadão"
-        p-placeholder="Número do Cartão Cidadão"
-        p-readonly="true"
-        p-tooltip="Dados obtidos através do Cartão Cidadão"
-        p-clean
-      ></po-number>
-      <po-input
-        formControlName="numeroCPF"
-        class="po-lg-3"
-        p-label="CPF"
-        p-placeholder="Número do CPF"
-        p-mask="999.999.999-99"
-        p-readonly="true"
-        p-tooltip="Dados obtidos através do Cartão Cidadão"
-        p-clean
-      ></po-input>
-      <po-datepicker
-        formControlName="dataNascimento"
-        class="po-lg-3"
-        p-label="Data de Nascimento"
-        p-placeholder="dd/mm/aaaa"
-        p-readonly="true"
-        p-tooltip="Dados obtidos através do Cartão Cidadão"
-        p-clean
-      >
-      </po-datepicker>
-    </div>
-
-    <div class="po-row">
-      <po-select
-        formControlName="deficiencia"
-        class="po-lg-4"
-        p-label="PCD"
-        [p-options]="deficienciaOpcoes"
-        p-placeholder="Não Possui"
-        [p-readonly]="true"
-        p-tooltip="Dados obtidos através do Cartão Cidadão"
-      >
-      </po-select>
-      <po-select
-        formControlName="estadoCivil"
-        class="po-lg-2"
-        p-label="Estado Civil"
-        [p-options]="estadoCivilOpcoes"
-        p-placeholder="Selecione o estado civil"
-        [p-readonly]="true"
-        p-tooltip="Dados obtidos através do Cartão Cidadão"
-      >
-      </po-select>
-      <po-select
-        formControlName="grauParentesco"
-        class="po-lg-2"
-        p-label="Parentesco com o Responsável"
-        [p-options]="parentescoResponsavelOpcoes"
-        p-placeholder="Selecione o Grau de Parentesco"
-      >
-      </po-select>
-      <po-select
-        formControlName="escolaridade"
-        class="po-lg-2"
-        p-label="Escolaridade"
-        [p-options]="escolaridadeOpcoes"
-        p-placeholder="Selecione o Grau de Escolaridade"
-      >
-      </po-select>
-      <po-select
-        class="po-lg-2"
-        p-label="Mora na Residência?"
-        formControlName="naoResidente"
-        [p-options]="boleanoOpcoes"
-        p-placeholder="Selecione uma opção"
-      >
-      </po-select>
-    </div>
-  </form>
-  <po-button
-    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-6 po-offset-xl-6 po-mb-1"
-    p-label="Cancelar"
-    p-icon="po-icon-close"
-    [p-loading]="realizandoAlteracao"
-    (p-click)="cancelarEdicao()"
-  >
-  </po-button>
-
-  <po-button
-    class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
-    p-label="Excluir"
-    p-icon="po-icon-delete"
-    [p-disabled]="dependenteSelecionado === 'novo'"
-    [p-loading]="realizandoAlteracao"
-    (p-click)="excluiDependente()"
-  >
-  </po-button>
-  <po-button
-    class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
-    p-label="Salvar Dependente"
-    p-icon="po-icon-ok"
-    [p-disabled]="!habilitaConfirmacao"
-    [p-loading]="realizandoAlteracao"
-    (p-click)="salvarEdicao()"
-  >
-  </po-button>
-</ng-template>
-
-<br />
-<po-divider p-label="Moradores da Mesma Residência"></po-divider>
-<div *ngIf="isDesktop; else dependente">
-  <po-table
-    [p-columns]="colunas"
-    [p-hide-columns-manager]="true"
-    [p-items]="listaDependentes"
-    [p-actions]="acoes"
-    [p-height]="300"
-    [p-loading]="carregandoTabela"
-    [p-infinite-scroll]="true"
-  ></po-table>
-</div>
-
-<ng-template #dependente>
-  <div class="po-row po-mt-1" *ngFor="let listaDependente of listaDependentes">
-    <po-widget
-      class="po-md-12 po-lg-12 po-xl-12"
-      p-primary-label="Editar"
-      (p-primary-action)="editarDependente(listaDependente)"
-    >
-      <div class="po-font-text-large-bold">
-        Nome: {{ listaDependente.nome }}
-      </div>
-      <div class="po-font-text-large-bold">
-        Parentesco: {{ listaDependente.grauParentesco }}
-      </div>
-      <div class="po-font-subtitle po-text-center">
-        {{ listaDependente.cpfFormatado }}
-      </div>
-      <div class="po-text-center">{{ listaDependente.parentesco }}</div>
-    </po-widget>
+<div *ngIf="listaDependentes.length > 0">
+  <div *ngIf="dependenteSelecionado === ''; else exibeDependente">
+    <po-divider p-label="Dependentes"></po-divider>
+    <p class="po-font-title" style="text-align: center; padding: 10px">
+      Nenhum Dependente Selecionado.
+    </p>
   </div>
-</ng-template>
+
+  <ng-template #exibeDependente>
+    <form [formGroup]="formularioDependente">
+      <po-divider p-label="Informações Gerais"></po-divider>
+      <div class="po-row">
+        <po-input
+          formControlName="nomeResponsavel"
+          class="po-lg-3"
+          p-label="Nome Responsável"
+          p-placeholder="Nome do Responsável"
+          p-readonly="true"
+          p-tooltip="Dados obtidos através do Cartão Cidadão"
+          p-disabled="true"
+          p-clean
+        >
+        </po-input>
+        <po-number
+          formControlName="numeroCartaoCidadao"
+          class="po-lg-3"
+          p-label="Cartão Cidadão"
+          p-placeholder="Número do Cartão Cidadão"
+          p-readonly="true"
+          p-tooltip="Dados obtidos através do Cartão Cidadão"
+          p-disabled="true"
+          p-clean
+        ></po-number>
+        <po-input
+          formControlName="numeroCPF"
+          class="po-lg-3"
+          p-label="CPF"
+          p-placeholder="Número do CPF"
+          p-mask="999.999.999-99"
+          p-readonly="true"
+          p-tooltip="Dados obtidos através do Cartão Cidadão"
+          p-disabled="true"
+          p-clean
+        ></po-input>
+        <po-datepicker
+          formControlName="dataNascimento"
+          class="po-lg-3"
+          p-label="Data de Nascimento"
+          p-placeholder="dd/mm/aaaa"
+          p-readonly="true"
+          p-tooltip="Dados obtidos através do Cartão Cidadão"
+          p-disabled="true"
+          p-clean
+        >
+        </po-datepicker>
+      </div>
+
+      <div class="po-row">
+        <po-select
+          formControlName="deficiencia"
+          class="po-lg-4"
+          p-label="PCD"
+          [p-options]="deficienciaOpcoes"
+          p-placeholder="Não Possui"
+          [p-readonly]="true"
+          p-tooltip="Dados obtidos através do Cartão Cidadão"
+          p-disabled="true"
+        >
+        </po-select>
+        <po-select
+          formControlName="estadoCivil"
+          class="po-lg-2"
+          p-label="Estado Civil"
+          [p-options]="estadoCivilOpcoes"
+          p-placeholder="Selecione o estado civil"
+          [p-readonly]="true"
+          p-tooltip="Dados obtidos através do Cartão Cidadão"
+          p-disabled="true"
+        >
+        </po-select>
+        <po-select
+          formControlName="grauParentesco"
+          class="po-lg-2"
+          p-label="Parentesco com o Responsável"
+          [p-options]="parentescoResponsavelOpcoes"
+          p-placeholder="Selecione o Grau de Parentesco"
+        >
+        </po-select>
+        <po-select
+          formControlName="escolaridade"
+          class="po-lg-2"
+          p-label="Escolaridade"
+          [p-options]="escolaridadeOpcoes"
+          p-placeholder="Selecione o Grau de Escolaridade"
+        >
+        </po-select>
+        <po-select
+          class="po-lg-2"
+          p-label="Mora na Residência?"
+          formControlName="naoResidente"
+          [p-options]="boleanoOpcoes"
+          p-placeholder="Selecione uma opção"
+          p-required=true
+        >
+        </po-select>
+      </div>
+    </form>
+    <po-button
+      class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-6 po-offset-xl-6 po-mb-1"
+      p-label="Cancelar"
+      p-icon="po-icon-close"
+      [p-loading]="realizandoAlteracao"
+      (p-click)="cancelarEdicao()"
+    >
+    </po-button>
+
+    <po-button
+      class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
+      p-label="Excluir"
+      p-icon="po-icon-delete"
+      [p-disabled]="dependenteSelecionado === 'novo'"
+      [p-loading]="realizandoAlteracao"
+      (p-click)="excluiDependente()"
+    >
+    </po-button>
+    <po-button
+      class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
+      p-label="Salvar Dependente"
+      p-icon="po-icon-ok"
+      [p-disabled]="!habilitaConfirmacao"
+      [p-loading]="realizandoAlteracao"
+      (p-click)="salvarEdicao()"
+    >
+    </po-button>
+  </ng-template>
+
+  <br />
+  <po-divider p-label="Moradores da Mesma Residência"></po-divider>
+  <div *ngIf="isDesktop; else dependente">
+    <po-table
+      [p-columns]="colunas"
+      [p-hide-columns-manager]="true"
+      [p-items]="listaDependentes"
+      [p-actions]="acoes"
+      [p-height]="300"
+      [p-loading]="carregandoTabela"
+      [p-infinite-scroll]="true"
+    ></po-table>
+  </div>
+
+  <ng-template #dependente>
+    <div
+      class="po-row po-mt-1"
+      *ngFor="let listaDependente of listaDependentes"
+    >
+      <po-widget
+        class="po-md-12 po-lg-12 po-xl-12"
+        p-primary-label="Editar"
+        (p-primary-action)="editarDependente(listaDependente)"
+      >
+        <div class="po-font-text-large-bold">
+          Nome: {{ listaDependente.nome }}
+        </div>
+        <div class="po-font-text-large-bold">
+          Parentesco: {{ listaDependente.grauParentesco }}
+        </div>
+        <div class="po-font-subtitle po-text-center">
+          {{ listaDependente.cpfFormatado }}
+        </div>
+        <div class="po-text-center">{{ listaDependente.parentesco }}</div>
+      </po-widget>
+    </div>
+  </ng-template>
+</div>

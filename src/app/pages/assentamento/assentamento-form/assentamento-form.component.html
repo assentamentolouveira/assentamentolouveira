@@ -1,4 +1,4 @@
-<po-page-default [p-title]="pageTitle" [p-actions]="actions">
+<!-- <po-page-default [p-title]="pageTitle" [p-actions]="actions">
   <div class="po-row">
     <po-button-group class="po-md-12 po-mb-2" [p-buttons]="botoes"> </po-button-group>
   </div>
@@ -32,7 +32,7 @@
       <div class="po-row">
         <po-button
         class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1"
-        p-label="Salvar Moradia"
+        p-label="Prosseguir"
         p-icon="po-icon-ok"
         [p-disabled]="!formularioMoradiaValido"
         (p-click)="salvarEdicaoMoradia()"
@@ -41,55 +41,90 @@
       </div>
     </div>
     <div *ngIf="isRenda">
-      <!-- <div *ngIf="habilitaRenda"> -->
         <app-rendas></app-rendas>
-      <!-- </div> -->
     </div>
 
 
 
-</po-page-default>
+</po-page-default> -->
 
-
-
-<!-- <po-page-default [p-title]="pageTitle" [p-actions]="actions">
-
-
+<po-page-default [p-title]="pageTitle" [p-actions]="actions">
   <po-loading-overlay
     [p-screen-lock]="true"
     [hidden]="carregando"
-    [p-text]="mensagemLoading" >
+    [p-text]="mensagemLoading"
+  >
   </po-loading-overlay>
 
-  <po-stepper [p-step-icons]=true>
-    <po-step p-label="Titular" [p-can-active-next-step]="dependenteValido.bind(this)">
-      <app-titulares-form [edicao]="edicao" (formularioTitularValido)="formularioTitularValido($event)"></app-titulares-form>
+  <po-stepper #stepper (p-change-step)="mudaStap($event)">
+    <po-step
+      p-label="Titular"
+      [p-can-active-next-step]="dependenteValido.bind(this)"
+    >
+      <app-titulares-form
+        [edicao]="edicao"
+        (formularioTitularValido)="recebeFormularioTitular($event)"
+      ></app-titulares-form>
       <div class="po-row">
-        <po-button
-        class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1"
-        p-label="Salvar Titular"
-        p-icon="po-icon-ok"
-        [p-disabled]="!formularioTitular?.valid"
-        (p-click)="salvarEdicaoTitular()"
-      >
-      </po-button>
+        <!-- <po-button
+          class="
+            po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1
+          "
+          p-label="Salvar Titular"
+          p-icon="po-icon-ok"
+          [p-disabled]="!formularioTitular?.valid"
+          (p-click)="salvarEdicaoTitular()"
+        >
+        </po-button> -->
       </div>
     </po-step>
     <po-step p-label="Dependentes">
-      <div *ngIf="titularValido">
-        <app-dependentes-form (enviaDependentes)="recebeDependentes($event)" ></app-dependentes-form>
+      <div *ngIf="titularValido && stepperSelecionado === 'Dependentes'">
+        <app-dependentes-form
+          (enviaDependentes)="recebeDependentes($event)"
+        ></app-dependentes-form>
       </div>
     </po-step>
-    <po-step p-label="Moradia">
-      <app-moradia-form (formularioMoradiaValido)="formularioMoradiaValido($event)"></app-moradia-form>
+    <po-step
+      p-label="Moradia"
+      [p-can-active-next-step]="moradiaValido.bind(this)"
+    >
+      <div *ngIf="titularValido && stepperSelecionado === 'Moradia'">
+        <app-moradia-form
+          (formularioMoradiaValido)="recebeFormularioMoradia($event)"
+        ></app-moradia-form>
+        <div class="po-row">
+          <!-- <po-button
+          class="
+            po-sm-12 po-lg-2 po-xl-2 po-mt-1
+          "
+          p-label="Retornar"
+          p-icon="po-icon-ok"
+          [p-disabled]="!formularioMoradiaValido"
+          (p-click)="salvarEdicaoMoradia()"
+        >
+        </po-button> -->
+        </div>
+      </div>
     </po-step>
     <po-step p-label="Rendas">
-      <div *ngIf="habilitaRenda">
-        <app-rendas [comboRenda]=comboRenda></app-rendas>
+      <div *ngIf="habilitaRenda && stepperSelecionado === 'Rendas'">
+        <app-rendas></app-rendas>
       </div>
     </po-step>
   </po-stepper>
-
-
-
-</po-page-default> -->
+  <!-- <po-button
+    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1"
+    p-label="Próximo"
+    [p-disabled]="!formularioTitular?.valid"
+    (p-click)="stepper.next()"
+  >
+  </po-button>
+  <po-button
+    class="po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10 po-mt-1"
+    p-label="Próximo"
+    [p-disabled]="!formularioTitular?.valid"
+    (p-click)="stepper.previous()"
+  >
+  </po-button> -->
+</po-page-default>

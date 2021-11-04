@@ -13,17 +13,6 @@ export interface Titular {
   deficiencia: string,
   estadoCivil: number | string,
   rendaTotal: number,
-  familiaIncProcHabit: number | boolean,
-  quantidadeFamilia: number,
-  tempoMoradiaBairro: number,
-  tempoMoradiaLouveira: number,
-  possuiImovel: number | boolean,
-  qualLocalDoImovel: string,
-  programaHabitacional: number | boolean,
-  qualProgHabitacional: string,
-  regFundOuUsocapiao: number | boolean,
-  qualRegFundOuUsocapiao: string,
-  aondeRegFundOuUsocapiao: string,
   dependentes?: string;
   telefoneTitular?: string;
   telefoneContato?: string;

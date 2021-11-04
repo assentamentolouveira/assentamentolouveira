@@ -63,6 +63,10 @@ export class MoradiaService extends BaseResourceService {
     moradia.acessaServConvivenciaCriancaAdolescente = this.converterParaBoleano(moradia.acessaServConvivenciaCriancaAdolescente);
     moradia.acessaServConvivenciaCriancaIdoso = this.converterParaBoleano(moradia.acessaServConvivenciaCriancaIdoso);
     moradia.titularId = String(sessionStorage.getItem('idTitular'));
+    moradia.familiaIncProcHabit = this.converterParaBoleano(moradia.familiaIncProcHabit);
+    moradia.possuiImovel = this.converterParaBoleano(moradia.possuiImovel);
+    moradia.programaHabitacional = this.converterParaBoleano(moradia.programaHabitacional);
+    moradia.regFundOuUsocapiao = this.converterParaBoleano(moradia.regFundOuUsocapiao);
     delete moradia.totalDeDespesasMensais;
     return moradia
   }

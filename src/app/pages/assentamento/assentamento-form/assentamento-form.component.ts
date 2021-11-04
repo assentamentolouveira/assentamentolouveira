@@ -3,12 +3,12 @@ import { MoradiaService } from './../../moradia/shared/moradia.service';
 import { DependentesService } from './../../dependentes/shared/dependentes.service';
 import { Dependente } from './../../dependentes/shared/dependente.model';
 import { TitularesService } from './../../titulares/shared/titulares.service';
-import { PoButtonGroupItem, PoPageAction, PoNotificationService, PoComboOption } from '@po-ui/ng-components';
+import { PoButtonGroupItem, PoPageAction, PoNotificationService, PoComboOption, PoStepperComponent } from '@po-ui/ng-components';
 import { LoginService } from './../../../core/login/shared/login.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { AssentamentoService } from './../shared/assentamento.service';
 import { Assentamento } from './../shared/assentamento.model';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { Titular } from '../../titulares/shared/titular.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -23,14 +23,18 @@ import { Moradia } from '../../moradia/shared/moradia.model';
   styleUrls: ['./assentamento-form.component.css'],
 })
 export class AssentamentoFormComponent extends BaseResourceFormComponent<Assentamento> {
+
+  @ViewChild('stepper') stepper: PoStepperComponent;
+
   public actions: Array<PoPageAction> = [
     {
-      label: 'Salvar Solicitação de Moradia',
-      action: () => this.salvaAssentamento(this),
+      label: 'Prosseguir',
+      action: () => this.proximoStepper(this),
       icon: 'po-icon-ok'
     },
   ];
 
+  public stepperSelecionado: string;
   public isTitular = true;
   public isDependente = false;
   public isMoradia = false;
@@ -93,6 +97,11 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     private opcoesComboService: OpcoesComboService
   ) {
     super(injector, new Assentamento(), assentamentoService);
+    this.actions.push({
+      label: 'Retornar',
+      action: () => this.retornarStepper(),
+      icon: 'po-icon-exit',
+    });
     if (this.loginService.isInternet) {
       this.actions.push({
         label: 'Sair',
@@ -113,9 +122,8 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     });
     this.poNotificationService.setDefaultDuration(3000);
 
-    if (this.route.snapshot.queryParamMap.get('inclusao')){
-      this.isDependente = true;
-      this.isTitular = false;
+    if (this.route.snapshot.queryParamMap.get('inclusao')) {
+      this.stepper.next();
     }
     // if (this.loginService.getCPFUsuario() !== this.route.snapshot.paramMap.get('id')){
     //   this.router.navigate(['/internet/login'])
@@ -142,11 +150,23 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   dependenteValido(): boolean {
     if (!this.titularValido) {
-      this.poNotificationService.error("Salva os Dados do Titular para Habilitar os Dependentes")
+      this.poNotificationService.error("Preencha todos os campos do cadastro de moradia para habilitar a opção de Rendas")
+    } else {
+      this.salvarEdicaoTitular()
     }
     return this.titularValido
   }
 
+  moradiaValido(): boolean {
+    this.habilitaRenda = false;
+    this.habilitaRenda = this.formularioMoradia.valid;
+    if (!this.habilitaRenda) {
+      this.poNotificationService.error("Salva os Dados da Moradia para Habilitar as Rendas")
+    } else {
+      this.salvarEdicaoMoradia()
+    }
+    return this.habilitaRenda
+  }
   recebeFormularioTitular(formularioValido: FormGroup): void {
     this.formularioTitular = formularioValido;
     this.formularioTitularValido = formularioValido.valid;
@@ -226,9 +246,6 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     this.comboRenda = [];
     this.comboRenda.push({ value: String(sessionStorage.getItem('idTitular')), label: dadosTitular.nomeResponsavel })
     this.dependentes?.map(dependente => this.comboRenda.push({ value: dependente.id, label: dependente.nome }));
-
-    this.habilitaRenda = true;
-    console.log("combo Renda", this.comboRenda)
   }
 
   recebeFormularioMoradia(formularioMoradia: FormGroup): void {
@@ -255,13 +272,12 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       } else {
         this.incluiMoradia(formularioMoradia);
       }
-      console.log(this.formularioMoradia)
     }
   }
 
   editaMoradia(formularioMoradia: Moradia): void {
     this.moradiaService.putMoradia(JSON.parse(JSON.stringify(formularioMoradia)), String(sessionStorage.getItem('moradiaID'))).pipe(
-      finalize(() => this.carregando = true)
+      finalize(() => { this.carregando = true, this.stepper.next() })
     ).subscribe(
       res => this.poNotificationService.success("Moradia Editada com Sucesso"),
       error => this.poNotificationService.error("Erro ao Editar a Moradia: " + error.message),
@@ -270,7 +286,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   incluiMoradia(formularioMoradia: Moradia): void {
     this.moradiaService.postMoradia(JSON.parse(JSON.stringify(formularioMoradia))).pipe(
-      finalize(() => this.carregando = true)
+      finalize(() => { this.carregando = true, this.stepper.next() })
     ).subscribe(
       res => {
         this.poNotificationService.success("Moradia Incluída com Sucesso"), sessionStorage.setItem('moradiaID', res.id)
@@ -279,9 +295,29 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     )
   }
 
-  salvaAssentamento(a: any): void {
-    console.log(a)
-    this.poNotificationService.success('Assentamento Salvo com Sucesso')
+  proximoStepper(a: any): void {
+    console.log(this.stepper)
+    console.log(this.stepper.step)
+    console.log(this.stepperSelecionado)
+    if (this.stepperSelecionado === 'Titular') {
+      this.stepper.next();
+    } else if (this.stepperSelecionado === 'Dependentes') {
+      this.stepper.next();
+    } else if (this.stepperSelecionado === 'Moradia') {
+      this.stepper.next();
+    } else if (this.stepperSelecionado === 'Rendas') {
+      alert("Exibir pergunte e salvar moradia.")
+    }
+  }
+
+  retornarStepper(): void {
+    if (this.stepperSelecionado != 'Titular') {
+      this.stepper.previous();
+    }
+  }
+
+  mudaStap(stapEvent: any): void {
+    this.stepperSelecionado = stapEvent.label
   }
 
   protected buildResourceForm(): void { }
@@ -294,4 +330,5 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
     return 'Editando Assentamento ' + dadosTitular.nomeResponsavel
   }
+
 }

@@ -30,9 +30,6 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   public tipoRenda: string = '';
   public modalAberto: boolean = false;
 
-  public programaContempladoAtivo = false;
-  public programaContempladoPaisAtivo = false;
-  public localDoImovelAtivo = false;
   public acessoInternet = true;
 
 
@@ -44,8 +41,6 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   public naturalidadeOpcoes: Array<PoSelectOption>;
   public deficienciaOpcoes: Array<PoSelectOption>;
   public boleanoOpcoes: Array<PoSelectOption>;
-  public familiaDomicilioOpcoes: Array<PoSelectOption>;
-  public tempoDeMoradiaOpcoes: Array<PoSelectOption>;
   public colunasRenda: PoTableColumn[];
   public listaRendas: Array<any> = []
   public acoes: Array<PoTableAction> = [
@@ -102,8 +97,6 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     this.escolaridadeOpcoes = this.opcoesComboService.escolaridadeOpcoes;
     this.deficienciaOpcoes = this.opcoesComboService.deficienciaOpcoes;
     this.boleanoOpcoes = this.opcoesComboService.boleanoOpcoes;
-    this.familiaDomicilioOpcoes = this.opcoesComboService.familiaDomicilioOpcoes;
-    this.tempoDeMoradiaOpcoes = this.opcoesComboService.tempoDeMoradiaOpcoes;
     this.poNotificationService.setDefaultDuration(3000);
   }
 
@@ -128,17 +121,6 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       deficiencia: [this.dadosTitular.deficiencia],
       estadoCivil: [this.dadosTitular.estadoCivil],
       rendaTotal: [''],
-      familiaIncProcHabit: ['', Validators.compose([Validators.required])],
-      quantidadeFamilia: ['', Validators.compose([Validators.required])],
-      tempoMoradiaBairro: ['', Validators.compose([Validators.required])],
-      tempoMoradiaLouveira: ['', Validators.compose([Validators.required])],
-      possuiImovel: ['', Validators.compose([Validators.required])],
-      qualLocalDoImovel: [''],
-      programaHabitacional: ['', Validators.compose([Validators.required])],
-      qualProgHabitacional: [''],
-      regFundOuUsocapiao: ['', Validators.compose([Validators.required])],
-      qualRegFundOuUsocapiao: [''],
-      aondeRegFundOuUsocapiao: [''],
       telefoneTitular: [''],
       telefoneContato: [''],
       email: [''],
@@ -181,26 +163,15 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       deficiencia: this.dadosTitular.deficiencia,
       estadoCivil: this.dadosTitular.estadoCivil,
       rendaTotal: this.dadosTitular.rendaTotal,
-      familiaIncProcHabit: this.dadosTitular.familiaIncProcHabit,
-      quantidadeFamilia: this.dadosTitular.quantidadeFamilia,
-      tempoMoradiaBairro: this.dadosTitular.tempoMoradiaBairro,
-      tempoMoradiaLouveira: this.dadosTitular.tempoMoradiaLouveira,
-      possuiImovel: this.dadosTitular.possuiImovel,
-      qualLocalDoImovel: this.dadosTitular.qualLocalDoImovel,
-      programaHabitacional: this.dadosTitular.programaHabitacional,
-      qualProgHabitacional: this.dadosTitular.qualProgHabitacional,
-      regFundOuUsocapiao: this.dadosTitular.regFundOuUsocapiao,
-      qualRegFundOuUsocapiao: this.dadosTitular.qualRegFundOuUsocapiao,
-      aondeRegFundOuUsocapiao: this.dadosTitular.aondeRegFundOuUsocapiao,
       telefoneTitular: this.dadosTitular.telefoneTitular,
       telefoneContato: this.dadosTitular.telefoneContato,
       email: this.dadosTitular.email,
     });
 
-    this.dadosTitular.qualLocalDoImovel.length > 0 ? this.localDoImovelAtivo = true : this.localDoImovelAtivo = false;
-    this.dadosTitular.qualProgHabitacional.length > 0 ? this.programaContempladoAtivo = true : this.programaContempladoAtivo = false;
-    this.dadosTitular.qualRegFundOuUsocapiao.length > 0 ? this.programaContempladoPaisAtivo = true : this.programaContempladoPaisAtivo = false;
-    this.dadosTitular.aondeRegFundOuUsocapiao.length > 0 ? this.programaContempladoPaisAtivo = true : this.programaContempladoPaisAtivo = false;
+    // this.dadosTitular.qualLocalDoImovel.length > 0 ? this.localDoImovelAtivo = true : this.localDoImovelAtivo = false;
+    // this.dadosTitular.qualProgHabitacional.length > 0 ? this.programaContempladoAtivo = true : this.programaContempladoAtivo = false;
+    // this.dadosTitular.qualRegFundOuUsocapiao.length > 0 ? this.programaContempladoPaisAtivo = true : this.programaContempladoPaisAtivo = false;
+    // this.dadosTitular.aondeRegFundOuUsocapiao.length > 0 ? this.programaContempladoPaisAtivo = true : this.programaContempladoPaisAtivo = false;
 
     this.formularioTitularValido.emit(this.formularioTitular)
   }
@@ -236,33 +207,6 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       debounceTime(300)
     ).subscribe(res => this.telaIniciada ? this.formularioTitularValido.emit(this.formularioTitular) : this.telaIniciada = true)
 
-  }
-
-  jaContempladoSelecionado(selecionado: number) {
-    if (selecionado === 1) {
-      this.programaContempladoAtivo = true
-    } else {
-      this.programaContempladoAtivo = false;
-      this.formularioTitular.patchValue({ qualProgHabitacional: "" })
-    }
-  }
-
-  jaContempladoPaisSelecionado(selecionado: number) {
-    if (selecionado === 1) {
-      this.programaContempladoPaisAtivo = true
-    } else {
-      this.programaContempladoPaisAtivo = false;
-      this.formularioTitular.patchValue({ qualRegFundOuUsocapiao: "", aondeRegFundOuUsocapiao: "" })
-    }
-  }
-
-  possuiImovelSelecionado(selecionado: number) {
-    if (selecionado === 1) {
-      this.localDoImovelAtivo = true;
-    } else {
-      this.localDoImovelAtivo = false;
-      this.formularioTitular.patchValue({ qualLocalDoImovel: "" })
-    }
   }
 
   converterBooleanString(valorBooleano: boolean): string {

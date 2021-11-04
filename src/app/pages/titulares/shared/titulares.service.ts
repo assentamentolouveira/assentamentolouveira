@@ -27,30 +27,30 @@ export class TitularesService extends BaseResourceService {
   }
 
   setTitularInfo(titular: Titular = this.novoTitular()): void {
-    titular.familiaIncProcHabit = this.converterParaInteiro(titular.familiaIncProcHabit);
-    titular.possuiImovel = this.converterParaInteiro(titular.possuiImovel);
-    titular.programaHabitacional = this.converterParaInteiro(titular.programaHabitacional);
-    titular.regFundOuUsocapiao = this.converterParaInteiro(titular.regFundOuUsocapiao);
+    // titular.familiaIncProcHabit = this.converterParaInteiro(titular.familiaIncProcHabit);
+    // titular.possuiImovel = this.converterParaInteiro(titular.possuiImovel);
+    // titular.programaHabitacional = this.converterParaInteiro(titular.programaHabitacional);
+    // titular.regFundOuUsocapiao = this.converterParaInteiro(titular.regFundOuUsocapiao);
+    // this.dadosTitular.aondeRegFundOuUsocapiao = titular.aondeRegFundOuUsocapiao;
+    // this.dadosTitular.familiaIncProcHabit = titular.familiaIncProcHabit;
+    // this.dadosTitular.possuiImovel = titular.possuiImovel;
+    // this.dadosTitular.programaHabitacional = titular.programaHabitacional;
+    // this.dadosTitular.qualLocalDoImovel = titular.qualLocalDoImovel;
+    // this.dadosTitular.qualProgHabitacional = titular.qualProgHabitacional;
+    // this.dadosTitular.qualRegFundOuUsocapiao = titular.qualRegFundOuUsocapiao;
+    // this.dadosTitular.quantidadeFamilia = titular.quantidadeFamilia;
+    // this.dadosTitular.regFundOuUsocapiao = titular.regFundOuUsocapiao;
+    // this.dadosTitular.tempoMoradiaBairro = titular.tempoMoradiaBairro;
+    // this.dadosTitular.tempoMoradiaLouveira = titular.tempoMoradiaLouveira;
 
-    this.dadosTitular.aondeRegFundOuUsocapiao = titular.aondeRegFundOuUsocapiao;
     this.dadosTitular.assentamento = titular.assentamento;
     this.dadosTitular.escolaridade = titular.escolaridade;
     this.dadosTitular.etnia = titular.etnia;
-    this.dadosTitular.familiaIncProcHabit = titular.familiaIncProcHabit;
     this.dadosTitular.genero = titular.genero;
     this.dadosTitular.id = titular.id;
     this.dadosTitular.numeroCpf = titular.numeroCpf === '' ? this.dadosTitular.numeroCpf : titular.numeroCpf;
     this.dadosTitular.numeroSelagemAntiga = titular.numeroSelagemAntiga;
     this.dadosTitular.numeroSelagemAtual = titular.numeroSelagemAtual;
-    this.dadosTitular.possuiImovel = titular.possuiImovel;
-    this.dadosTitular.programaHabitacional = titular.programaHabitacional;
-    this.dadosTitular.qualLocalDoImovel = titular.qualLocalDoImovel;
-    this.dadosTitular.qualProgHabitacional = titular.qualProgHabitacional;
-    this.dadosTitular.qualRegFundOuUsocapiao = titular.qualRegFundOuUsocapiao;
-    this.dadosTitular.quantidadeFamilia = titular.quantidadeFamilia;
-    this.dadosTitular.regFundOuUsocapiao = titular.regFundOuUsocapiao;
-    this.dadosTitular.tempoMoradiaBairro = titular.tempoMoradiaBairro;
-    this.dadosTitular.tempoMoradiaLouveira = titular.tempoMoradiaLouveira;
     this.dadosTitular.telefoneTitular = titular.telefoneTitular,
     this.dadosTitular.telefoneContato = titular.telefoneContato,
     this.dadosTitular.email = titular.email
@@ -146,10 +146,10 @@ export class TitularesService extends BaseResourceService {
   }
 
   ajustaEnvioJsonTitular(titular: Titular): Titular {
-    titular.familiaIncProcHabit = this.converterParaBoleano(titular.familiaIncProcHabit);
-    titular.possuiImovel = this.converterParaBoleano(titular.possuiImovel);
-    titular.programaHabitacional = this.converterParaBoleano(titular.programaHabitacional);
-    titular.regFundOuUsocapiao = this.converterParaBoleano(titular.regFundOuUsocapiao);
+    // titular.familiaIncProcHabit = this.converterParaBoleano(titular.familiaIncProcHabit);
+    // titular.possuiImovel = this.converterParaBoleano(titular.possuiImovel);
+    // titular.programaHabitacional = this.converterParaBoleano(titular.programaHabitacional);
+    // titular.regFundOuUsocapiao = this.converterParaBoleano(titular.regFundOuUsocapiao);
     return titular
   }
 
@@ -241,17 +241,6 @@ export class TitularesService extends BaseResourceService {
       deficiencia: "",
       estadoCivil: 1,
       rendaTotal: 1,
-      familiaIncProcHabit: 1,
-      quantidadeFamilia: 1,
-      tempoMoradiaBairro: 1,
-      tempoMoradiaLouveira: 1,
-      possuiImovel: 1,
-      qualLocalDoImovel: "",
-      programaHabitacional: 1,
-      qualProgHabitacional: "",
-      regFundOuUsocapiao: 1,
-      qualRegFundOuUsocapiao: "",
-      aondeRegFundOuUsocapiao: "",
       dependentes: ""
     }
   }

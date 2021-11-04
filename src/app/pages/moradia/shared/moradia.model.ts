@@ -40,5 +40,19 @@ export interface Moradia {
   gastoComMedicamento: number,
   totalDeDespesasMensais?: number,
   observacoes: number,
-  observacao: string
+  observacao: string,
+
+
+  familiaIncProcHabit: number | boolean,
+  quantidadeFamilia: number,
+  tempoMoradiaBairro: number,
+  tempoMoradiaLouveira: number,
+  possuiImovel: number | boolean,
+  qualLocalDoImovel: string,
+  programaHabitacional: number | boolean,
+  qualProgHabitacional: string,
+  regFundOuUsocapiao: number | boolean,
+  qualRegFundOuUsocapiao: string,
+  aondeRegFundOuUsocapiao: string,
+
 }
