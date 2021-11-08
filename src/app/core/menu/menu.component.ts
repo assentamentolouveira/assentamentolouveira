@@ -46,6 +46,14 @@ export class MenuComponent implements OnInit {
           this.router.navigate(['/intranet/titulares']);
         },
         icon: 'po-icon-users',
+      },
+      {
+        label: 'Assentamentos',
+        shortLabel: 'Assentamentos',
+        action: () => {
+          this.router.navigate(['/intranet/assentamentos']);
+        },
+        icon: 'po-icon-warehouse',
       }
     ];
 

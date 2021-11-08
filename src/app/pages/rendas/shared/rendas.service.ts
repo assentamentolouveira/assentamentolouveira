@@ -38,7 +38,7 @@ export class RendasService extends BaseResourceService {
       {
         property: 'valor',
         width: '33%',
-        label: 'Nome',
+        label: 'Valor',
         format: 'BRL',
         type: 'currency',
         visible: true,

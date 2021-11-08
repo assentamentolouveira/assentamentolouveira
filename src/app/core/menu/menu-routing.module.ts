@@ -33,6 +33,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'assentamentos',
+        loadChildren: () =>
+          import('../../pages/assentamento/assentamento.module').then(
+            (m) => m.AssentamentoModule
+          ),
+      },
+      {
         path: 'configuracoes',
         loadChildren: () =>
           import('../../pages/configuracoes/configuracoes.module').then(

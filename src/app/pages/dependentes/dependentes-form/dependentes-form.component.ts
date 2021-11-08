@@ -110,6 +110,8 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     if (String(sessionStorage.getItem('idTitular'))?.length > 0 && listaDeDepententes.length > 0) {
       this.retornaDadosdoCartaoCidadao(listaDeDepententes, dadosTitular.nomeResponsavel);
       this.retornaDependentesCadastrados(dadosTitular);
+    } else {
+      this.carregandoTabela = false;
     }
   }
 
@@ -138,7 +140,8 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
             nome: res.Nome,
             cpfCartaoCidadao: res.CPF,
             naoResidente:false,
-            grauParentescoTratado: 'Não relacionado ao Titular'
+            grauParentescoTratado: 'Não relacionado ao Titular',
+            status: 'naoDependente'
           })
         },
         error => this.poNotificationService.error(`Erro ao Retornar os dados do Dependente. Número do Cartão Cidadão: ${dependente}.`)
@@ -169,7 +172,8 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
             nome: cartao.nome,
             cpfCartaoCidadao: cartao.cpfCartaoCidadao,
             naoResidente: this.converterParaInteiro(cartao.naoResidente),
-            grauParentescoTratado: this.converteParentesco(cartao.grauParentesco)
+            grauParentescoTratado: this.converteParentesco(cartao.grauParentesco),
+            status: 'dependente'
           })
 
         })
@@ -196,6 +200,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
               this.dependentesTratados[indice].grauParentescoTratado = cartao.grauParentescoTratado;
               this.dependentesTratados[indice].escolaridade = cartao.escolaridade;
               this.dependentesTratados[indice].naoResidente = cartao.naoResidente;
+              this.dependentesTratados[indice].status = cartao.status;
             }
           }
         )

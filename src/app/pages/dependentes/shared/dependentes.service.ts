@@ -21,21 +21,30 @@ export class DependentesService extends BaseResourceService {
     return [
       {
         property: 'nome',
-        width: '50%',
+        width: '30%',
         label: 'Nome',
         type: 'string',
         visible: true,
       },
       {
+        property: 'status',
+        type: 'label',
+        width: '10%',
+        labels: [
+          { value: 'dependente', color: 'color-11', label: 'Dependente' },
+          { value: 'naoDependente', color: 'color-07', label: 'Não Dependente' }
+        ]
+      },
+      {
         property: 'cpfFormatado',
-        width: '25%',
+        width: '20%',
         label: 'CPF',
         type: 'string',
         visible: true,
       },
       {
         property: 'grauParentescoTratado',
-        width: '10%',
+        width: '25%',
         label: 'Parentesco',
         type: 'string',
         visible: true,

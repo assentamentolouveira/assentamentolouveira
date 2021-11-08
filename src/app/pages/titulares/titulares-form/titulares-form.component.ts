@@ -205,7 +205,9 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
 
     this.subscriptionFormularioTitular = this.formularioTitular.valueChanges.pipe(
       debounceTime(300)
-    ).subscribe(res => this.telaIniciada ? this.formularioTitularValido.emit(this.formularioTitular) : this.telaIniciada = true)
+    ).subscribe(res => {
+      this.telaIniciada ? this.formularioTitularValido.emit(this.formularioTitular) : this.telaIniciada = true
+    })
 
   }
 

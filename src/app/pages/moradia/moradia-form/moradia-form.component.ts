@@ -158,7 +158,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       quantidadeFamilia: ['', Validators.compose([Validators.required])],
       tempoMoradiaBairro: ['', Validators.compose([Validators.required])],
       tempoMoradiaLouveira: ['', Validators.compose([Validators.required])],
-      possuiImovel: ['', Validators.compose([Validators.required])],
+      possuiImovel: [, Validators.compose([Validators.required])],
       qualLocalDoImovel: [''],
       programaHabitacional: ['', Validators.compose([Validators.required])],
       qualProgHabitacional: [''],
@@ -218,7 +218,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       totalDeDespesasMensais: moradia.totalDeDespesasMensais,
       observacao: moradia.observacao,
 
-      familiaIncProcHabit:moradia.familiaIncProcHabit,
+      familiaIncProcHabit:this.converterParaInteiro(moradia.familiaIncProcHabit),
       quantidadeFamilia: moradia.quantidadeFamilia,
       tempoMoradiaLouveira: moradia.tempoMoradiaLouveira,
       tempoMoradiaBairro: moradia.tempoMoradiaBairro,

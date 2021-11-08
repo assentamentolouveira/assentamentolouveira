@@ -1,13 +1,35 @@
 <po-page-default [p-title]="title" [p-actions]="actions">
-  <po-table
-    [p-auto-collapse]="true"
-    [p-columns]="columns"
-    [p-items]="resources"
-    [p-sort]="true"
-    [p-striped]="true"
-  ></po-table>
+  <form [formGroup]="reactiveForm">
+    <div class="po-row">
+      <po-input
+        formControlName="pesquisa"
+        class="po-lg-3 po-xl-3 po-offset-lg-9 po-offset-xl-9"
+        p-icon="po-icon-search"
+        p-label="Informe parte do CPF do Titular"
+        p-placeholder="Pesquise pelo CPF do Titular"
+      ></po-input>
+    </div>
+  </form>
+  <div *ngIf="valorPesquisado === ''; else exibeTable">
+    <p class="po-font-title po-mt-3" style="text-align: center; padding: 10px">
+      Informe um CPF no campo de busca.
+    </p>
+  </div>
 
-  <po-navbar
-    [p-shadow]="true" >
-</po-navbar>
+  <ng-template #exibeTable>
+    <po-table
+      [p-auto-collapse]="true"
+      [p-columns]="columns"
+      [p-hide-columns-manager]="true"
+      [p-items]="resources"
+      [p-sort]="true"
+      [p-height]="300"
+      (p-show-more)="carregarMais()"
+      [p-striped]="true"
+      [p-loading]="carregandoRegistros"
+      [p-show-more-disabled]="disativarShowMore"
+      [p-infinite-scroll]="true"
+    ></po-table>
+
+  </ng-template>
 </po-page-default>

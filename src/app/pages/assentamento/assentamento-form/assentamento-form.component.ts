@@ -3,17 +3,17 @@ import { MoradiaService } from './../../moradia/shared/moradia.service';
 import { DependentesService } from './../../dependentes/shared/dependentes.service';
 import { Dependente } from './../../dependentes/shared/dependente.model';
 import { TitularesService } from './../../titulares/shared/titulares.service';
-import { PoButtonGroupItem, PoPageAction, PoNotificationService, PoComboOption, PoStepperComponent } from '@po-ui/ng-components';
+import { PoButtonGroupItem, PoPageAction, PoNotificationService, PoComboOption, PoStepperComponent, PoDialogService } from '@po-ui/ng-components';
 import { LoginService } from './../../../core/login/shared/login.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { AssentamentoService } from './../shared/assentamento.service';
 import { Assentamento } from './../shared/assentamento.model';
-import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { Titular } from '../../titulares/shared/titular.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { take, finalize, retry } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { DocumentPipe } from 'src/app/shared/pipes/document.pipe';
 import { Moradia } from '../../moradia/shared/moradia.model';
 
@@ -22,7 +22,7 @@ import { Moradia } from '../../moradia/shared/moradia.model';
   templateUrl: './assentamento-form.component.html',
   styleUrls: ['./assentamento-form.component.css'],
 })
-export class AssentamentoFormComponent extends BaseResourceFormComponent<Assentamento> {
+export class AssentamentoFormComponent extends BaseResourceFormComponent<Assentamento> implements OnDestroy {
 
   @ViewChild('stepper') stepper: PoStepperComponent;
 
@@ -30,7 +30,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     {
       label: 'Prosseguir',
       action: () => this.proximoStepper(this),
-      icon: 'po-icon-ok'
+      icon: 'po-icon-arrow-right'
     },
   ];
 
@@ -53,6 +53,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   private titular: Titular;
   private dependentes: Dependente[];
+  private subscribeStepper: Subscription;
 
   public comboRenda: PoComboOption[] = [];
 
@@ -94,13 +95,14 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     private titularService: TitularesService,
     private dependentesService: DependentesService,
     private moradiaService: MoradiaService,
+    private poAlert: PoDialogService,
     private opcoesComboService: OpcoesComboService
   ) {
     super(injector, new Assentamento(), assentamentoService);
     this.actions.push({
       label: 'Retornar',
       action: () => this.retornarStepper(),
-      icon: 'po-icon-exit',
+      icon: 'po-icon-arrow-left',
     });
     if (this.loginService.isInternet) {
       this.actions.push({
@@ -120,14 +122,16 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     this.botoes.map((botao, indice) => {
       this.botoes[indice].disabled = !this.edicao;
     });
+
     this.poNotificationService.setDefaultDuration(3000);
 
     if (this.route.snapshot.queryParamMap.get('inclusao')) {
-      this.stepper.next();
+      this.stepper?.next();
     }
     // if (this.loginService.getCPFUsuario() !== this.route.snapshot.paramMap.get('id')){
     //   this.router.navigate(['/internet/login'])
     // }
+
   }
 
   defineFormulario(
@@ -149,19 +153,22 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   dependenteValido(): boolean {
-    if (!this.titularValido) {
-      this.poNotificationService.error("Preencha todos os campos do cadastro de moradia para habilitar a opção de Rendas")
+    if (this.subscribeStepper === undefined) {
+      this.subscribeStepper = this.stepper.onChangeStep.subscribe(a => console.log('teste', a))
+    }
+    if (!this.formularioTitularValido) {
+      this.poNotificationService.error("Preencha todos os campos de Gênero, Raça/Etnia e Escolaridade para habilitar a opção de Dependentes")
     } else {
       this.salvarEdicaoTitular()
     }
-    return this.titularValido
+    return this.formularioTitularValido
   }
 
   moradiaValido(): boolean {
     this.habilitaRenda = false;
-    this.habilitaRenda = this.formularioMoradia.valid;
+    this.habilitaRenda = this.formularioMoradia === undefined ? false : this.formularioMoradia.valid;
     if (!this.habilitaRenda) {
-      this.poNotificationService.error("Salva os Dados da Moradia para Habilitar as Rendas")
+      this.poNotificationService.error("Preencha todos os campos da Moradia para Habilitar as Rendas")
     } else {
       this.salvarEdicaoMoradia()
     }
@@ -208,7 +215,10 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       };
 
       this.poNotificationService.success("Titular incluído com sucesso!")
-      this.loginService.isInternet ? this.router.navigate([`/internet/${this.loginService.getCPFUsuario()}/editar/`], navigationExtras) : this.router.navigate([`/intranet/titulares/${this.loginService.getCPFUsuario()}/editar/`]);
+      this.edicao = true;
+      this.carregando = true;
+      this.titularValido = true;
+      //this.loginService.isInternet ? this.router.navigate([`/internet/${this.loginService.getCPFUsuario()}/editar/`], navigationExtras) : this.router.navigate([`/intranet/titulares/${this.loginService.getCPFUsuario()}/editar/`]);
 
       // this.edicao = true;
 
@@ -296,9 +306,6 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   proximoStepper(a: any): void {
-    console.log(this.stepper)
-    console.log(this.stepper.step)
-    console.log(this.stepperSelecionado)
     if (this.stepperSelecionado === 'Titular') {
       this.stepper.next();
     } else if (this.stepperSelecionado === 'Dependentes') {
@@ -306,8 +313,45 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     } else if (this.stepperSelecionado === 'Moradia') {
       this.stepper.next();
     } else if (this.stepperSelecionado === 'Rendas') {
-      alert("Exibir pergunte e salvar moradia.")
+      this.poAlert.confirm({
+        literals: { confirm: 'Salvar', cancel: 'Fechar' },
+        title: 'Confirmação de Moradia',
+        message: "Confirma o cadastro da solicitação de moradia?",
+        confirm: () => (this.confirmaSolicitacaoDeMoradia()),
+        cancel: () => ('')
+      });
     }
+  }
+
+  confirmaSolicitacaoDeMoradia(): void {
+    this.mensagemLoading = "Atualizando Solicitação...";
+    this.carregando = false;
+    this.assentamentoService.getAssentamentoPorTitular(String(sessionStorage.getItem('idTitular'))).subscribe(
+      res => {
+        this.assentamentoService.alteraAssentamento(String(sessionStorage.getItem('moradiaID')), String(sessionStorage.getItem('idTitular')), res.id).pipe(
+          finalize(() => this.carregando = true)
+        ).subscribe(
+          res => {
+            this.poNotificationService.success("Solicitação realizada com sucesso!")
+          },
+          error => {
+            this.poNotificationService.error("Ocorreu um erro na gravação da solicitação: " + error.message)
+          }
+        )
+      }
+      , error => {
+        this.assentamentoService.gravaAssentamento(String(sessionStorage.getItem('moradiaID')), String(sessionStorage.getItem('idTitular'))).pipe(
+          finalize(() => this.carregando = true)
+        ).subscribe(
+          res => {
+            this.poNotificationService.success("Solicitação realizada com sucesso!")
+          },
+          error => {
+            this.poNotificationService.error("Ocorreu um erro na gravação da solicitação: " + error.message)
+          }
+        )
+      }
+    )
   }
 
   retornarStepper(): void {
@@ -317,7 +361,30 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   mudaStap(stapEvent: any): void {
+    console.log(this.actions)
+    switch (stapEvent.label) {
+      case 'Titular':
+        this.actions[0].label = "Prosseguir para Dependentes"
+        this.actions[0].icon = 'po-icon-arrow-right'
+        break;
+      case 'Dependentes':
+        this.actions[0].label = "Prosseguir para Moradia"
+        this.actions[0].icon = 'po-icon-arrow-right'
+        break;
+      case 'Moradia':
+        this.actions[0].label = "Prosseguir para Rendas"
+        this.actions[0].icon = 'po-icon-arrow-right'
+        break;
+      default:
+        this.actions[0].label = "Salvar Solicitação"
+        this.actions[0].icon = 'po-icon-ok'
+        break;
+    }
     this.stepperSelecionado = stapEvent.label
+  }
+
+  ngOnDestroy(): void {
+    this.subscribeStepper.unsubscribe()
   }
 
   protected buildResourceForm(): void { }
