@@ -107,7 +107,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       take(1),
   finalize(() => this.carregando = true)
     ).subscribe(
-      res => { sessionStorage.setItem('moradiaID', res.id), this.montaFormularioEdicao(res) ,       console.log(res) },
+      res => { sessionStorage.setItem('moradiaID', res.id), this.montaFormularioEdicao(res) },
       error => console.log(error)
     )
   }

@@ -188,7 +188,6 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
 
   unificaDependentes(): void {
     if (this.buscaCartaoCidadaoFinalizada && this.buscaLocalFinalizada) {
-      console.log("FINALIZEI 100%")
       this.dependentesTratados = this.listaDependentesCartaoCidadao;
 
       this.listaDependentesLocal.map(cartao => {

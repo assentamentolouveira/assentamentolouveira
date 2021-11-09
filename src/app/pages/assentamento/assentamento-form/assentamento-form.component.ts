@@ -153,9 +153,9 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   dependenteValido(): boolean {
-    if (this.subscribeStepper === undefined) {
-      this.subscribeStepper = this.stepper.onChangeStep.subscribe(a => console.log('teste', a))
-    }
+    // if (this.subscribeStepper === undefined) {
+    //   this.subscribeStepper = this.stepper.onChangeStep.subscribe(a => console.log('teste', a))
+    // }
     if (!this.formularioTitularValido) {
       this.poNotificationService.error("Preencha todos os campos de Gênero, Raça/Etnia e Escolaridade para habilitar a opção de Dependentes")
     } else {
@@ -361,7 +361,6 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   mudaStap(stapEvent: any): void {
-    console.log(this.actions)
     switch (stapEvent.label) {
       case 'Titular':
         this.actions[0].label = "Prosseguir para Dependentes"
@@ -384,7 +383,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   ngOnDestroy(): void {
-    this.subscribeStepper.unsubscribe()
+    // this.subscribeStepper.unsubscribe()
   }
 
   protected buildResourceForm(): void { }

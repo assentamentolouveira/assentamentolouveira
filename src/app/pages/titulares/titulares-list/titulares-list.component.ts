@@ -146,7 +146,6 @@ export class TitularesListComponent extends BaseResourceListComponent implements
         } else {
           this.disativarShowMore = true;
         }
-        console.log(res)
       }
     )
   }
