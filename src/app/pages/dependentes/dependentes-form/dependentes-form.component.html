@@ -94,7 +94,7 @@
           p-placeholder="Não Possui"
           [p-readonly]="true"
           p-tooltip="Dados obtidos através do Cartão Cidadão"
-          p-disabled="true"
+          [p-disabled]=true
         >
         </po-select>
         <po-select
@@ -105,7 +105,7 @@
           p-placeholder="Selecione o estado civil"
           [p-readonly]="true"
           p-tooltip="Dados obtidos através do Cartão Cidadão"
-          p-disabled="true"
+          [p-disabled]=true
         >
         </po-select>
         <po-select
@@ -130,7 +130,7 @@
           formControlName="naoResidente"
           [p-options]="boleanoOpcoes"
           p-placeholder="Selecione uma opção"
-          p-required=true
+          [p-required]=true
         >
         </po-select>
       </div>

@@ -264,25 +264,32 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
         const dependente = { ...this.formularioDependente.value, titularId: sessionStorage.getItem('idTitular') }
         this.dependentesService.incluiDependente(dependente).pipe(
           take(1),
-          finalize(() => this.carregaDados())
+          finalize(() => this.realizandoAlteracao = false)
         ).subscribe(
           res => {
+            this.carregaDados();
             this.poNotificationService.success('Registro Alterado com Sucesso')
             this.dependenteSelecionado = '';
           },
-          error => this.poNotificationService.error(error)
+          error => {
+            if (error.status === 409){
+              this.poNotificationService.error(`Não foi possível incluir o dependente pois ${this.formularioDependente.value.nomeResponsavel} possui um cadastro como titular.`)
+            }else {
+              this.poNotificationService.error(error.message)}
+            }
         )
       } else {
         const dependente = { ...this.formularioDependente.value, id: this.dependenteSelecionado, titularId: sessionStorage.getItem('idTitular') }
         this.dependentesService.alteraDependente(dependente).pipe(
           take(1),
-          finalize(() => this.carregaDados())
+          finalize(() => this.realizandoAlteracao = false)
         ).subscribe(
           res => {
+            this.carregaDados();
             this.poNotificationService.success('Registro Alterado com Sucesso')
             this.dependenteSelecionado = '';
           },
-          error => this.poNotificationService.error(error)
+          error => this.poNotificationService.error(error.message)
         )
       }
     }

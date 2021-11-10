@@ -254,8 +254,12 @@ export class OpcoesComboService {
       label: 'Mais de 20 até 30 anos'
     },
     {
-      value: 'AcimaDeTrintaAnos ',
-      label: 'Acima de 30 anos'
+      value: 'DeTrintaAQuarentaAnos',
+      label: 'De 30 até 40 anos'
+    },
+    {
+      value: 'AcimaDeQuarentaAnos',
+      label: 'Acima de 40 anos'
     }
   ];
 
