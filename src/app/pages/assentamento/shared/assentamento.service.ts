@@ -46,6 +46,13 @@ export class AssentamentoService extends BaseResourceService {
         width: '35%',
         label: 'CPF Titular',
         type: 'string',
+        visible: false,
+      },
+      {
+        property: 'cpfFormatado',
+        width: '35%',
+        label: 'CPF Titular',
+        type: 'string',
         visible: true,
       },
       {

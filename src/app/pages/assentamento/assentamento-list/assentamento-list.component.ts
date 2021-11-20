@@ -7,6 +7,7 @@ import { BaseResourceListComponent } from 'src/app/shared/components/base-resour
 import { Titulares } from '../../titulares/shared/titulares.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, finalize } from 'rxjs/operators';
+import { DocumentPipe } from 'src/app/shared/pipes/document.pipe';
 
 @Component({
   selector: 'app-assentamento-list',
@@ -55,13 +56,15 @@ export class AssentamentoListComponent extends BaseResourceListComponent {
         if (res.value.length > 0) {
           let resourceTratado: any[] = [];
 
+          const pipeCPF = new DocumentPipe();
           res.value.map((assentamento: any) => {
             resourceTratado.push({
                 idAssentamento: assentamento.Id,
                 pontuacao: assentamento.Pontuacao,
                 titularID: assentamento.Titular.Id,
                 numeroCartaoCidadao: assentamento.Titular.NumeroCartaoCidadao,
-                numeroCpf: assentamento.Titular.NumeroCpf
+                numeroCpf: assentamento.Titular.NumeroCpf,
+                cpfFormatado: pipeCPF.transform(assentamento.Titular.NumeroCpf)
               })
           })
           this.resources = this.resources.concat(resourceTratado);
