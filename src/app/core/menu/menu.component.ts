@@ -48,8 +48,8 @@ export class MenuComponent implements OnInit {
         icon: 'po-icon-users',
       },
       {
-        label: 'Assentamentos',
-        shortLabel: 'Assentamentos',
+        label: 'Solicitações',
+        shortLabel: 'Solicit.',
         action: () => {
           this.router.navigate(['/intranet/assentamentos']);
         },
@@ -70,6 +70,13 @@ export class MenuComponent implements OnInit {
               this.router.navigate(['/intranet/configuracoes']);
             },
           },
+          {
+            label: 'Processamento',
+            shortLabel: 'Proc.',
+            action: () => {
+              this.router.navigate(['/intranet/processamento']);
+            },
+          }
         ],
       })
     }

@@ -1,0 +1,55 @@
+<po-page-default p-title="Processamento de Moradias">
+  <po-loading-overlay
+    [p-screen-lock]="true"
+    [hidden]="carregando"
+    p-text="Buscando dados do Processamento"
+  >
+  </po-loading-overlay>
+  <po-container class="po-lg-8 po-xl-8 po-offset-lg-2 po-offset-xl-2">
+    <div *ngIf="emProcesso; else exibeFormulario">
+      <p>Já existe um prcocessamento em endamento...</p>
+    </div>
+    <ng-template #exibeFormulario>
+      <form [formGroup]="formularioProcessamento">
+        <div class="po-row">
+          <p class="po-font-subtitle">Processamento de Dados</p>
+          <po-textarea
+            [p-rows]="10"
+            class="po-lg-12"
+            [p-readonly]="true"
+            name="criteriosDeAceite"
+            formControlName="criteriosDeAceite"
+          >
+          </po-textarea>
+        </div>
+        <div class="po-row">
+          <po-checkbox
+            class="po-lg-6 po-xl-6 po-offset-lg-9 po-offset-xl-9"
+            name="checkCriterioDeAceite"
+            p-label="Declaro que li e concordo."
+            formControlName="checkCriterioDeAceite"
+            (p-change)="confirmaTermoDeAceite($event)"
+          >
+          </po-checkbox>
+        </div>
+        <div class="po-row">
+          <po-decimal
+            class="po-lg-4 po-xl-4 po-offset-lg-8 po-offset-xl-8"
+            p-label="Salário Mínimo"
+            formControlName="salarioMinimo"
+            p-placeholder="0,00"
+            (p-change)="alteraSalarioMinimo($event)"
+          >
+          </po-decimal>
+        </div>
+        <po-button
+          p-label="Processar"
+          class="po-sm-12 po-lg-6 po-xl-6 po-mt-2 po-offset-lg-3 po-offset-xl-3"
+          [p-disabled]="!termoDeAceiteInformado || !salarioMinimoInformado || emProcesso "
+          (p-click)="confirmaProcessamento()"
+        >
+        </po-button>
+      </form>
+    </ng-template>
+  </po-container>
+</po-page-default>

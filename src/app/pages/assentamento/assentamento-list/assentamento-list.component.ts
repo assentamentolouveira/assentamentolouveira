@@ -53,7 +53,18 @@ export class AssentamentoListComponent extends BaseResourceListComponent {
     ).subscribe(
       res => {
         if (res.value.length > 0) {
-          this.resources = this.resources.concat(res);
+          let resourceTratado: any[] = [];
+
+          res.value.map((assentamento: any) => {
+            resourceTratado.push({
+                idAssentamento: assentamento.Id,
+                pontuacao: assentamento.Pontuacao,
+                titularID: assentamento.Titular.Id,
+                numeroCartaoCidadao: assentamento.Titular.NumeroCartaoCidadao,
+                numeroCpf: assentamento.Titular.NumeroCpf
+              })
+          })
+          this.resources = this.resources.concat(resourceTratado);
 
         } else {
           this.disativarShowMore = true;

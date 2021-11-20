@@ -8,7 +8,7 @@ import { PoTableColumn } from '@po-ui/ng-components';
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { Titulares } from './titulares.model';
 import { environment } from 'src/environments/environment';
-import { map, mergeMap, switchMap, toArray } from 'rxjs/operators';
+import { map, mergeMap, skip, switchMap, toArray } from 'rxjs/operators';
 import { NgSwitchCase } from '@angular/common';
 
 @Injectable({
@@ -168,6 +168,13 @@ export class TitularesService extends BaseResourceService {
         width: '35%',
         label: 'Id',
         type: 'string',
+        visible: false,
+      },
+      {
+        property: 'Nome',
+        width: '35%',
+        label: 'Nome',
+        type: 'string',
         visible: true,
       },
       {
@@ -202,7 +209,16 @@ export class TitularesService extends BaseResourceService {
 
     const queryParams = `$skip=${pagina}` + filtro
 
-    return this.http.get(`${this.httpBusca}titularodata?${queryParams}`)
+    return this.http.get<any>(`${this.httpBusca}titularodata?${queryParams}`)
+      .pipe(
+        switchMap(titulares => titulares.value),
+        mergeMap((titular:any) => {
+          return this.getDadosCartaoCidadao(titular.NumeroCpf).pipe(
+            map(a => Object.assign(titular, a) )
+          );
+        })
+        , toArray())
+
   }
 
   getRendasColumns(): PoTableColumn[] {

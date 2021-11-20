@@ -16,8 +16,8 @@ export class AssentamentoService extends BaseResourceService {
     return this.http.get<any>(`${this.apiPath}/titular/${idTitular}`).pipe()
   }
 
-  gravaAssentamento(moradiaId: string, titularId: string): Observable<any>{
-    const moradia={
+  gravaAssentamento(moradiaId: string, titularId: string): Observable<any> {
+    const moradia = {
       moradiaID: moradiaId,
       titularId: titularId
     }
@@ -25,7 +25,7 @@ export class AssentamentoService extends BaseResourceService {
   }
 
   alteraAssentamento(moradiaId: string, titularId: string, assentamentoId: string): Observable<any> {
-    const moradia={
+    const moradia = {
       moradiaID: moradiaId,
       titularId: titularId
     }
@@ -35,23 +35,55 @@ export class AssentamentoService extends BaseResourceService {
   getColumns(): PoTableColumn[] {
     return [
       {
-        property: 'Id',
+        property: 'idAssentamento',
         width: '35%',
-        label: 'Id',
+        label: 'Id Assentamento',
+        type: 'string',
+        visible: false,
+      },
+      {
+        property: 'numeroCpf',
+        width: '35%',
+        label: 'CPF Titular',
         type: 'string',
         visible: true,
+      },
+      {
+        property: 'numeroCartaoCidadao',
+        width: '35%',
+        label: 'Cartão Cidadão',
+        type: 'string',
+        visible: true,
+      },
+      {
+        property: 'titularID',
+        width: '35%',
+        label: 'ID Titular',
+        type: 'string',
+        visible: false,
+      },
+      {
+        property: 'pontuacao',
+        width: '30%',
+        label: 'Pontuação',
+        type: 'number',
+        visible: true,
       }
+
     ];
   }
+
+
 
   getAll(pagina: number = 0, filtroRecebido?: string): Observable<any> {
     let filtro: string = '';
     pagina = pagina * 10;
     if (filtroRecebido)
-      filtro = `&$filter=contains(titularId,'${filtroRecebido}')`
+      filtro = `&$filter=contains(Titular/NumeroCpf,'${filtroRecebido}')`
 
-    const queryParams = `$skip=${pagina}` + filtro
+    const queryParams = `&skip=${pagina}` + filtro
 
-    return this.http.get(`${this.httpBusca}solicitacaomoradiaodata?${queryParams}`)
+
+    return this.http.get(`${this.httpBusca}solicitacaomoradiaodata?$expand=Titular${queryParams}`)
   }
 }

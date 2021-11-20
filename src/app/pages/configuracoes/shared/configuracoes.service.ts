@@ -31,6 +31,13 @@ export class ConfiguracoesService extends BaseResourceService {
         width: '35%',
         label: 'Id',
         type: 'string',
+        visible: false,
+      },
+      {
+        property: 'Nome',
+        width: '35%',
+        label: 'Nome',
+        type: 'string',
         visible: true,
       },
       {

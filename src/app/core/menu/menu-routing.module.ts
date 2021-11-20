@@ -46,6 +46,13 @@ const routes: Routes = [
             (m) => m.ConfiguracoesModule
           ),
       },
+      {
+        path: 'processamento',
+        loadChildren: () =>
+          import('../../pages/processamento/processamento.module').then(
+            (m) => m.ProcessamentoModule
+          ),
+      },
     ],
     canActivate: [
       AuthGuard

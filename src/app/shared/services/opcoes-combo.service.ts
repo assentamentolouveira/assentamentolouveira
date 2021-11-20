@@ -235,31 +235,27 @@ export class OpcoesComboService {
 
   tempoDeMoradiaOpcoes = [
     {
-      value: 'AteUmAno',
-      label: 'Até 1 ano'
-    },
-    {
-      value: 'UmACincoAnos',
-      label: 'De 1 até 5 anos'
+      value: 'MenorQueCincoAnos',
+      label: 'Menor que 5 anos'
     },
     {
       value: 'DeCincoADezAnos',
-      label: 'Mais de 5 até 10 anos'
+      label: 'De 5 Até 10 anos'
     },
     {
-      value: 'DeDezAVinteAnos',
-      label: 'Mais de 10 até 20 anos'
+      value: 'DeOnzeAVinteAnos',
+      label: 'De 11 Até 20 anos'
+    },
+    {
+      value: 'DeVinteUmATrintaAnos',
+      label: 'De 21 até 30 anos'
     }, {
-      value: 'DeVinteATrintaAnos',
-      label: 'Mais de 20 até 30 anos'
-    },
-    {
-      value: 'DeTrintaAQuarentaAnos',
-      label: 'De 30 até 40 anos'
+      value: 'DeTrintaUmAQuarentaAnos',
+      label: 'De 31 Até 40 anos'
     },
     {
       value: 'AcimaDeQuarentaAnos',
-      label: 'Acima de 40 anos'
+      label: 'Mais de 40 Anos'
     }
   ];
 

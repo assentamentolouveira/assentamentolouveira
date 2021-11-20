@@ -132,11 +132,12 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       finalize(() => this.carregandoRegistros = false)
     ).subscribe(
       res => {
-        if (res.value.length > 0) {
+        console.log(res)
+        if (res.length > 0) {
           const pipeCPF = new DocumentPipe();
           this.disativarShowMore = false;
           this.resources = this.resources.concat(
-            res.value.map((titular: TitularBackEnd) => {
+            res.map((titular: TitularBackEnd) => {
               return {
                 ...titular, cpfFormatado: pipeCPF.transform(titular.NumeroCpf)
               }
