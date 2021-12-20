@@ -88,7 +88,7 @@
       <div class="po-row">
         <po-select
           formControlName="deficiencia"
-          class="po-lg-4"
+          class="po-lg-2"
           p-label="PCD"
           [p-options]="deficienciaOpcoes"
           p-placeholder="Não Possui"
@@ -125,8 +125,8 @@
         >
         </po-select>
         <po-select
-          class="po-lg-2"
-          p-label="Mora na Residência?"
+          class="po-lg-4"
+          p-label="Esse Dependente Reside na sua Residência Atualmente?"
           formControlName="naoResidente"
           [p-options]="boleanoOpcoes"
           p-placeholder="Selecione uma opção"
@@ -146,7 +146,7 @@
 
     <po-button
       class="po-sm-12 po-lg-2 po-xl-2 po-mb-1"
-      p-label="Excluir"
+      p-label="Remover Dependente"
       p-icon="po-icon-delete"
       [p-disabled]="dependenteSelecionado === 'novo'"
       [p-loading]="realizandoAlteracao"

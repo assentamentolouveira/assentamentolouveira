@@ -72,5 +72,9 @@ export class NewUserComponent implements OnInit {
     this.router.navigate(['/internet/login'])
   }
 
+  dataDeNascimentoMinima():Date{
+    const dataMinima = new Date().getFullYear()-18;
+    return new Date(`01/01/${dataMinima}`)
+  }
 
 }

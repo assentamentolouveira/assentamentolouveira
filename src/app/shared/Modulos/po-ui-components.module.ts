@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   PoButtonModule,
+  PoContainerModule,
   PoDividerModule,
   PoFieldModule,
   PoLoadingModule,
@@ -33,7 +34,8 @@ import { PoPageChangePasswordModule, PoPageLoginModule } from '@po-ui/ng-templat
     PoTableModule,
     PoWidgetModule,
     PoTagModule,
-    PoTableModule
+    PoTableModule,
+    PoContainerModule
   ],
   exports: [
     PoMenuModule,
@@ -50,7 +52,8 @@ import { PoPageChangePasswordModule, PoPageLoginModule } from '@po-ui/ng-templat
     PoTableModule,
     PoWidgetModule,
     PoTagModule,
-    PoTableModule
+    PoTableModule,
+    PoContainerModule
   ],
 })
 export class PoUiComponentsModule {}

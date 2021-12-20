@@ -15,9 +15,9 @@ export class MoradiaService extends BaseResourceService {
     super(environment.URL + '/moradia', injector);
   }
 
-  getMoradiabyTitular(idTitular: string): Observable<Moradia>{
+  getMoradiabyTitular(idTitular: string): Observable<Moradia> {
     return this.http.get<Moradia>(`${this.apiPath}/titular/${idTitular}`).pipe(
-      tap((res)=>{
+      tap((res) => {
         res.acessaUnidBasicaSaude = this.converterParaInteiro(res.acessaUnidBasicaSaude);
         res.temAcessoEscolaCreche = this.converterParaInteiro(res.temAcessoEscolaCreche);
         res.utilizaTransporteEscolar = this.converterParaInteiro(res.utilizaTransporteEscolar);
@@ -52,7 +52,7 @@ export class MoradiaService extends BaseResourceService {
     return valor ? 1 : 2
   }
 
-  trataMoradia(moradia : Moradia): Moradia{
+  trataMoradia(moradia: Moradia): Moradia {
     let moradiaTratada = moradia;
     moradia.caracteristicaMoradia = this.montaObjetoCaracterísticasDaMoradia(moradia.caracteristicaMoradia, moradia.id);
     moradia.acessaUnidBasicaSaude = this.converterParaBoleano(moradia.acessaUnidBasicaSaude);
@@ -73,7 +73,7 @@ export class MoradiaService extends BaseResourceService {
 
   montaObjetoCaracterísticasDaMoradia(características: object[], moradiaId: string): object[] {
     let objetoCaracteristica: object[] = [];
-    características.map(caracteristica => objetoCaracteristica.push({tipo:caracteristica}));
+    características ? características.map(caracteristica => objetoCaracteristica.push({ tipo: caracteristica })) : objetoCaracteristica = [];
     return objetoCaracteristica
   }
 

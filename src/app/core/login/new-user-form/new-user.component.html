@@ -50,6 +50,7 @@
             formControlName="dataNascimento"
             name="dataNascimento"
             p-label="Data de Nascimento"
+            [p-max-date]="dataDeNascimentoMinima()"
             p-placeholder="Selecione a data de Nascimento"
           >
           </po-datepicker>

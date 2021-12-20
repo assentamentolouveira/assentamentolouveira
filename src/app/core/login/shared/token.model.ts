@@ -5,5 +5,6 @@ export interface token{
   perfilAcesso: string;
   acessoInicial?:boolean;
   token:string;
+  assentamento?:boolean;
   novaSenha?: boolean
 }

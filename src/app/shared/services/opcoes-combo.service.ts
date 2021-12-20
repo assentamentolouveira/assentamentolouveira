@@ -161,6 +161,10 @@ export class OpcoesComboService {
     {
       value: 'Bpc',
       label: 'BPC',
+    },
+    {
+      value: 'OutrosBeneficios',
+      label: 'Outros Beneficios',
     }
   ]
 
@@ -236,26 +240,26 @@ export class OpcoesComboService {
   tempoDeMoradiaOpcoes = [
     {
       value: 'MenorQueCincoAnos',
-      label: 'Menor que 5 anos'
+      label: 'Até 5 Anos'
     },
     {
       value: 'DeCincoADezAnos',
-      label: 'De 5 Até 10 anos'
+      label: 'Até 10 anos'
     },
     {
       value: 'DeOnzeAVinteAnos',
-      label: 'De 11 Até 20 anos'
+      label: 'Até 20 anos'
     },
     {
       value: 'DeVinteUmATrintaAnos',
-      label: 'De 21 até 30 anos'
+      label: 'Até 30 anos'
     }, {
       value: 'DeTrintaUmAQuarentaAnos',
-      label: 'De 31 Até 40 anos'
+      label: 'Até 40 anos'
     },
     {
       value: 'AcimaDeQuarentaAnos',
-      label: 'Mais de 40 Anos'
+      label: 'Acima 40 Anos'
     }
   ];
 
@@ -486,16 +490,12 @@ export class OpcoesComboService {
       label: 'Rede geral de distribuição'
     },
     {
-      value: 'PocoOuNascente',
-      label: 'Poço ou nascente'
+      value: 'PocoOuNascenteOuCaminhaoPipa',
+      label: 'Poço, Nascente ou Caminhão Pipa'
     },
     {
-      value: 'Cisterna',
+      value: 'CisternaDeCaptacaoAguaDeChuva',
       label: 'Cisterna de captação de águas de chuva '
-    },
-    {
-      value: 'CarroPipa',
-      label: 'Carro pipa'
     },
     {
       value: 'NaoPossuiAcessoAgua',

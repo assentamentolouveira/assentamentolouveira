@@ -150,6 +150,8 @@ export class TitularesService extends BaseResourceService {
     // titular.possuiImovel = this.converterParaBoleano(titular.possuiImovel);
     // titular.programaHabitacional = this.converterParaBoleano(titular.programaHabitacional);
     // titular.regFundOuUsocapiao = this.converterParaBoleano(titular.regFundOuUsocapiao);
+    titular.nascimento = titular.dataNascimento;
+    titular.pcd = !!titular.deficiencia;
     return titular
   }
 

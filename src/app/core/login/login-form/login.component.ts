@@ -73,6 +73,11 @@ export class LoginComponent implements OnInit {
     dadosDoLogin.login = dadosDoLogin.login.replace(/\D/g, "");
     this.loginService.realizaLogin({ idUsuario: dadosDoLogin.login, senha: dadosDoLogin.password }).pipe(finalize(() => this.carregando = false)).subscribe(
       (sucesso: token) => {
+        if(sucesso.assentamento && !sucesso.funcionario) {
+          this.poNotificationService.error("Usuário sem permissão de edição. Procure o posto de atendimento mais próximo.")
+          return
+        }
+
         this.loginService.gravaUsuario(sucesso);
         if (this.loginService.isInternet) {
           this.router.navigate(['/internet'])

@@ -22,7 +22,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
   private formularioPreenchido = false;
   private subscriptionFormularioTitular: Subscription;
   private dadosTitular: Titular;
-  private telaIniciada:boolean = false;
+  private telaIniciada: boolean = false;
 
   public formularioTitular: FormGroup;
 
@@ -118,7 +118,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       genero: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       etnia: ['', Validators.compose([Validators.required])],
       escolaridade: ['', Validators.compose([Validators.required])],
-      deficiencia: [this.dadosTitular.deficiencia],
+      deficiencia: [this.convertePCD(this.dadosTitular.deficiencia)],
       estadoCivil: [this.dadosTitular.estadoCivil],
       rendaTotal: [''],
       telefoneTitular: [''],
@@ -160,7 +160,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       genero: this.dadosTitular.genero,
       etnia: this.dadosTitular.etnia,
       escolaridade: this.dadosTitular.escolaridade,
-      deficiencia: this.dadosTitular.deficiencia,
+      deficiencia: this.convertePCD(this.dadosTitular.deficiencia),
       estadoCivil: this.dadosTitular.estadoCivil,
       rendaTotal: this.dadosTitular.rendaTotal,
       telefoneTitular: this.dadosTitular.telefoneTitular,
@@ -217,6 +217,15 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     } else {
       return 'false'
     }
+  }
+
+  convertePCD(pcd: string): string {
+    let pcdTratado = pcd ? pcd : '';
+    pcdTratado = pcdTratado.replace('1', 'Física');
+    pcdTratado = pcdTratado.replace('2', 'Mental');
+    pcdTratado = pcdTratado.replace('3', 'Auditiva');
+    pcdTratado = pcdTratado.replace('$', 'Visual');
+    return pcdTratado
   }
 
   ngOnDestroy() {

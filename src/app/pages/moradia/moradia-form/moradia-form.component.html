@@ -68,7 +68,7 @@
 
     <po-divider p-label="Informações Sobre Moradia"></po-divider>
     <div class="po-row">
-      <po-select
+      <po-select *ngIf="!isInternet"
         formControlName="familiaIncProcHabit"
         class="po-lg-3"
         p-label="Família Incluída no Programa Habitacional"
@@ -79,12 +79,12 @@
       <po-select
         formControlName="quantidadeFamilia"
         class="po-lg-3"
-        p-label="Familia por Domícíio"
+        p-label="Quantas Famílias Moram no Domicílio"
         [p-options]="familiaDomicilioOpcoes"
         p-placeholder="Quantas Famílias existem no Domicílio"
       >
       </po-select>
-      <po-select
+      <po-select *ngIf="!isInternet"
         formControlName="tempoMoradiaBairro"
         class="po-lg-3"
         p-label="Tempo de Moradia no Bairro"
@@ -144,7 +144,7 @@
       >
       </po-input>
     </div>
-    <div class="po-row">
+    <div class="po-row" >
       <po-select
         formControlName="regFundOuUsocapiao"
         (p-change)="jaContempladoPaisSelecionado($event)"
@@ -176,9 +176,9 @@
       </po-input>
     </div>
 
-    <po-divider p-label="Acesso a Serviços"></po-divider>
+    <po-divider p-label="Acesso a Serviços" *ngIf="!acessoInternet"></po-divider>
 
-    <div class="po-row">
+    <div class="po-row" *ngIf="!acessoInternet">
       <po-select
         class="po-lg-3"
         p-label="Família tem cadastro único?"
@@ -207,7 +207,7 @@
       >
       </po-input>
     </div>
-    <div class="po-row">
+    <div class="po-row" *ngIf="!acessoInternet">
       <po-select
         class="po-lg-3"
         p-label="Família tem acesso à escolas, creches?"
@@ -242,7 +242,7 @@
       </po-select>
     </div>
 
-    <div class="po-row">
+    <div class="po-row" *ngIf="!acessoInternet">
       <po-select
         class="po-lg-3"
         p-label="Família acessa serviços de convivência para crianças ou adolescentes?"
@@ -261,9 +261,9 @@
       </po-select>
     </div>
 
-    <po-divider p-label="Identificação da Moradia"></po-divider>
+    <po-divider p-label="Identificação da Moradia" *ngIf="!acessoInternet"></po-divider>
 
-    <div class="po-row">
+    <div class="po-row" *ngIf="!acessoInternet">
       <po-select
         class="po-lg-3"
         p-label="Moradia"
@@ -307,7 +307,7 @@
       </po-multiselect>
     </div>
 
-    <div class="po-row">
+    <div class="po-row" *ngIf="!acessoInternet">
       <po-select
         class="po-lg-3"
         p-label="Acesso à energia elétrica"
@@ -341,7 +341,7 @@
       >
       </po-select>
     </div>
-    <div class="po-row">
+    <div class="po-row" *ngIf="!acessoInternet">
       <po-select
         class="po-lg-3"
         p-label="A sua moradia atual já sofreu algum tipo de desastre?"
@@ -360,9 +360,9 @@
       </po-select>
     </div>
 
-    <po-divider p-label="Animais de Estimação"></po-divider>
+    <po-divider p-label="Animais de Estimação" *ngIf="!acessoInternet"></po-divider>
 
-    <div class="po-row">
+    <div class="po-row" *ngIf="!acessoInternet">
       <po-number
         class="po-lg-3"
         p-label="Cachorro"
@@ -389,9 +389,9 @@
       ></po-number>
     </div>
 
-    <po-divider p-label="Demais Gastos"></po-divider>
+    <po-divider p-label="Demais Gastos" *ngIf="!acessoInternet"></po-divider>
 
-    <div class="po-row">
+    <div class="po-row" *ngIf="!acessoInternet">
       <po-decimal
         class="po-lg-3"
         p-label="Aluguel"
@@ -426,7 +426,7 @@
       </po-decimal>
     </div>
 
-    <div class="po-row">
+    <div class="po-row" *ngIf="!acessoInternet">
       <po-decimal
         class="po-lg-3"
         p-label="Alimentação, higiene e limpeza"
@@ -453,7 +453,7 @@
       </po-decimal>
     </div>
 
-    <div *ngIf="!isInternet">
+    <div *ngIf="!isInternet" >
       <div class="po-row">
         <po-input
           class="po-lg-12"

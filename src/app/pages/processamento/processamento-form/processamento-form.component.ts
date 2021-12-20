@@ -46,8 +46,9 @@ export class ProcessamentoFormComponent implements OnInit {
     this.termoDeAceiteInformado = check;
   }
 
-  alteraSalarioMinimo(salario: string) {
-    this.salarioInformado = parseFloat(salario);
+  alteraSalarioMinimo(salario: any) {
+    salario = salario.replaceAll('.','')
+    this.salarioInformado = Number(salario.replace(",","."));
     this.salarioMinimoInformado = this.salarioInformado > 0
   }
 

@@ -7,6 +7,7 @@ export interface Titular {
   numeroCartaoCidadao: string | number,
   numeroCpf: string,
   dataNascimento: string,
+  nascimento?: string,
   genero: number,
   etnia: number,
   escolaridade: number,
@@ -17,4 +18,6 @@ export interface Titular {
   telefoneTitular?: string;
   telefoneContato?: string;
   email?: string;
+  pcd?: boolean;
+  PCD?: string;
 }
