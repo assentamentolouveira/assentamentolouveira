@@ -15,21 +15,30 @@ export class RelatoriosService extends BaseResourceService {
     return this.http.post(`${this.apiPath}/processar`, { salarioMinimo: salarioMinimo }, this.httpOptions)
   }
 
-  getEtinias(): Observable<any> {
-    return this.http.get(this.apiPath + '/AgruparEtnia')
-  }
-
   getGenero(): Observable<any> {
     return this.http.get(this.apiPath + '/AgruparGenero')
   }
 
-  getRenda(): Observable<any> {
-    return this.http.get(this.apiPath + '/AgruparFonteRenda')
+  getUsoMoradia(): Observable<any> {
+    return this.http.get(this.apiPath + '/AgruparUsoMoradia')
   }
 
-  getFonteRenda(): Observable<any> {
-    return this.http.get(this.apiPath + '/AgruparFonteRenda')
+  getEtinias(): Observable<any> {
+    return this.http.get(this.apiPath + '/AgruparEtnia')
   }
+
+  getRenda(): Observable<any> {
+    return this.http.get(this.apiPath + '/AgruparRenda?salarioMinimo=800')
+  }
+
+  getTipoRenda(): Observable<any> {
+    return this.http.get(this.apiPath + '/AgruparTipoRenda')
+  }
+
+  getFamiliaPorNumeroDependente(): Observable<any> {
+    return this.http.get(this.apiPath + '/AgruparFamiliaPorNumeroDependente')
+  }
+
 
   getEscolaridade(): Observable<any> {
     return this.http.get(this.apiPath + '/AgruparEscolaridade')
@@ -41,6 +50,10 @@ export class RelatoriosService extends BaseResourceService {
 
   getAcessoAbastecimentoAgua(): Observable<any> {
     return this.http.get(this.apiPath + '/AgruparAcessoAbastecimentoAgua')
+  }
+
+  getAcessoEnergiaEletrica(): Observable<any> {
+    return this.http.get(this.apiPath + '/AgruparAcessoEnergiaEletrica')
   }
 
   getAcessoColetadeLixo(): Observable<any> {
@@ -72,6 +85,6 @@ export class RelatoriosService extends BaseResourceService {
   }
 
   getExportarTitularExcel(): Observable<any> {
-    return this.http.get(this.apiPath + '/ExportarTitularExcel')
+    return this.http.get(this.apiPath + '/ExportarListaCadastroExcel')
   }
 }

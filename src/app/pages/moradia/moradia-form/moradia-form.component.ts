@@ -115,7 +115,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
   criaFormulario(): void {
     this.formularioMoradia = this.fb.group({
       titularId: [String(sessionStorage.getItem('idTitular'))],
-      assentamento: ['-'],
+      assentamento: [''],
       numeroSelagemAtual: [''],
       numeroSelagemAntiga: [''],
       endereco: [''],

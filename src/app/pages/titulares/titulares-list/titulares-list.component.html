@@ -31,25 +31,25 @@
       [p-show-more-disabled]="disativarShowMore"
       [p-infinite-scroll]="true"
     ></po-table>
-
-    <po-modal
-      p-title="Inclusão de Titular"
-      [p-hide-close]="true"
-      p-click-out="false"
-      [p-primary-action]="confirm"
-      [p-secondary-action]="close"
-    >
-      <form [formGroup]="formularioInclusaoTitular">
-        <po-input
-          formControlName="pesquisaCpfInclusao"
-          p-icon="po-icon-search"
-          p-label="Informe parte do CPF do Titular"
-          p-placeholder="CPF do Titular"
-          p-mask="999.999.999-99"
-          [p-minlength]="13"
-          p-error-pattern="O CPF precisa ter 11 dígitos"
-        ></po-input>
-      </form>
-    </po-modal>
   </ng-template>
+
+  <po-modal
+    p-title="Inclusão de Titular"
+    [p-hide-close]="true"
+    p-click-out="false"
+    [p-primary-action]="confirm"
+    [p-secondary-action]="close"
+  >
+    <form [formGroup]="formularioInclusaoTitular">
+      <po-input
+        formControlName="pesquisaCpfInclusao"
+        p-icon="po-icon-search"
+        p-label="Informe parte do CPF do Titular"
+        p-placeholder="CPF do Titular"
+        p-mask="999.999.999-99"
+        [p-minlength]="13"
+        p-error-pattern="O CPF precisa ter 11 dígitos"
+      ></po-input>
+    </form>
+  </po-modal>
 </po-page-default>
