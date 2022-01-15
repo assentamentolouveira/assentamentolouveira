@@ -18,7 +18,7 @@
       p-primary-label="Voltar"
       (p-primary-action)="voltar()"
     >
-      <p class="po-font-title text-align-center">Novo Usuário</p>
+      <p class="po-font-title text-align-center">Novo Cadastro</p>
       <po-divider p-label="Informe os Dados para Cadastro"></po-divider>
       <form [formGroup]="reactiveForm">
         <div class="po-row">
@@ -51,6 +51,7 @@
             name="dataNascimento"
             p-label="Data de Nascimento"
             [p-max-date]="dataDeNascimentoMinima()"
+            p-error-pattern="Esperando o Texto da Pamela"
             p-placeholder="Selecione a data de Nascimento"
           >
           </po-datepicker>

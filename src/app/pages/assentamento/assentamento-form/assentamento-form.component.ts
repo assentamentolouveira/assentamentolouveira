@@ -389,12 +389,12 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   protected buildResourceForm(): void { }
 
   protected creationPageTitle(): string {
-    return 'Novo Assentamento';
+    return 'Cadastro de ';
   }
 
   protected editionPageTitle(): string {
     const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
-    return 'Editando Assentamento ' + dadosTitular.nomeResponsavel
+    return 'Editando dados  ' + dadosTitular.nomeResponsavel
   }
 
 }

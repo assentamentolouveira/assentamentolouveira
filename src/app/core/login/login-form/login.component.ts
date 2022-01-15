@@ -19,12 +19,12 @@ export class LoginComponent implements OnInit {
   private valorAntigo = '';
   private tituloDaPagina = this.loginService.isInternet ? 'Internet' : 'Intranet'
   literaisPersonalizadas = {
-    welcome: `Gerenciamento de Assentamentos - ${this.tituloDaPagina}`,
+    welcome: `Fundão Municipal de Habitação - ${this.tituloDaPagina}`,
     loginPlaceholder: 'Informe o seu CPF',
     loginHint: "Informe o CPF do Titular para realizar o login. Caso ainda não possua usuário criado, selecione a opção 'Novo Usuário'",
     titlePopover: 'É novo por aqui? Crie o seu usuário através do botão Novo Usuário',
     loginErrorPattern: "CPF Inválido",
-    registerUrl: "Novo Usuário"
+    registerUrl: "Novo Cadastro"
   }
   carregando = false;
 

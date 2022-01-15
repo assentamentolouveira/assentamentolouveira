@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class RelatoriosService extends BaseResourceService {
   constructor(protected injector: Injector) {
-    super(environment.URL + '/relatorio/', injector);
+    super(environment.URL + '/relatorio', injector);
   }
 
   processaSolicitacoes(salarioMinimo: number): Observable<any> {
@@ -84,7 +84,11 @@ export class RelatoriosService extends BaseResourceService {
     return this.http.get(this.apiPath + '/AgruparGastoComAluguel')
   }
 
+  getPessoasComDeficiencia(): Observable<any> {
+    return this.http.get(this.apiPath + '/AgruparPessoasComDeficiencia')
+  }
+
   getExportarTitularExcel(): Observable<any> {
-    return this.http.get(this.apiPath + '/ExportarListaCadastroExcel')
+    return this.http.get(this.apiPath + '/ExportarListaCadastroExcel', {responseType: 'blob' as 'json'})
   }
 }
