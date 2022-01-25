@@ -9,7 +9,7 @@ import { Titulares } from '../shared/titulares.model';
 import { TitularesService } from './../shared/titulares.service';
 import { Renda } from '../../rendas/shared/renda.model';
 import { debounce, debounceTime, take } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service';
 import { Subscription } from 'rxjs';
 
@@ -104,6 +104,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     super.ngOnInit();
     this.criaFormulario();
     this.initialize();
+    this.markAsDirtyInvalidControls(this.formularioTitular.controls);
   }
 
   criaFormulario(): void {
@@ -114,7 +115,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       nomeResponsavel: [this.dadosTitular.nomeResponsavel],
       numeroCartaoCidadao: [this.dadosTitular.numeroCartaoCidadao],
       numeroCpf: [this.dadosTitular.numeroCpf],
-      dataNascimento: [new Date(this.dadosTitular.dataNascimento)],
+      dataNascimento: [new Date(this.dadosTitular.dataNascimento  + ' 00:00:00')],
       genero: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       etnia: ['', Validators.compose([Validators.required])],
       escolaridade: ['', Validators.compose([Validators.required])],
@@ -156,7 +157,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       nomeResponsavel: this.dadosTitular.nomeResponsavel,
       numeroCartaoCidadao: this.dadosTitular.numeroCartaoCidadao,
       numeroCpf: this.route.snapshot.paramMap.get('id'),
-      dataNascimento: new Date(this.dadosTitular.dataNascimento),
+      dataNascimento: new Date(this.dadosTitular.dataNascimento  + ' 00:00:00'),
       genero: this.dadosTitular.genero,
       etnia: this.dadosTitular.etnia,
       escolaridade: this.dadosTitular.escolaridade,
@@ -226,6 +227,18 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     pcdTratado = pcdTratado.replace('3', 'Auditiva');
     pcdTratado = pcdTratado.replace('$', 'Visual');
     return pcdTratado
+  }
+
+  protected markAsDirtyInvalidControls(controls: { [key: string]: AbstractControl }) {
+    for (const key in controls) {
+      if (controls.hasOwnProperty(key)) {
+        const control = controls[key];
+
+        if (control.invalid) {
+          control.markAsDirty();
+        }
+      }
+    }
   }
 
   ngOnDestroy() {

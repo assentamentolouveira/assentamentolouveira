@@ -27,6 +27,7 @@ export class RendasComponent implements OnInit, OnDestroy {
   public classSalvar = "po-sm-12 po-lg-2 po-xl-2 po-offset-lg-10 po-offset-xl-10";
   public poInfoOrientation: PoInfoOrientation = PoInfoOrientation.Horizontal;
   public somaRenda = 0;
+  public somaComputavel = 0;
 
   public realizandoAlteracaoAlteracao = false;
   public habilitaConfirmacao = false;
@@ -96,6 +97,7 @@ export class RendasComponent implements OnInit, OnDestroy {
   initialize(): void {
     const dadosTitular: Titular = JSON.parse(this.titularesService.getTitularInfo());
     this.somaRenda = 0;
+    this.somaComputavel = 0;
     this.edicao = false;
     this.habilitaConfirmacao = false;
     this.defineClasseBotaoSalvar(true);
@@ -122,6 +124,9 @@ export class RendasComponent implements OnInit, OnDestroy {
       finalize(() => {this.carregando = true; this.realizandoAlteracaoAlteracao = false})
     ).subscribe(rendas => {
       rendas.map(renda => {
+        if(renda.tipo !== "OutrosBeneficios" && renda.tipo !== "PensaoAlimenticia"){
+          this.somaComputavel += renda.valor;
+        }
         this.somaRenda += renda.valor;
         renda.descricaoRenda = this.opcoesComboService.retornaLabelOpcoes(renda.tipo, this.rendaOpcoes)
         renda.responsavelRenda = this.opcoesComboService.retornaLabelOpcoes(renda.dependenteId ? renda.dependenteId : renda.titularId, this.comboRenda);

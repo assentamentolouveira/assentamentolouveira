@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit {
     { label: 'Gênero', value: 6 },
     { label: 'Idade', value: 7 },
     { label: 'Etnia', value: 8 },
-    { label: 'Naturalidade', value: 9 },
     { label: 'Uso da Moradia', value: 10 },
     { label: 'Rede de Energia Elétrica', value: 11 },
     { label: 'Abastecimento de Água', value: 12 },

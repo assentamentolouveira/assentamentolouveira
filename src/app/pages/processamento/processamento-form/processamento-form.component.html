@@ -1,4 +1,4 @@
-<po-page-default p-title="Processamento de Moradias">
+<po-page-default p-title="Processamento de Lista Hierárquica">
   <po-loading-overlay
     [p-screen-lock]="true"
     [hidden]="carregando"
@@ -7,7 +7,7 @@
   </po-loading-overlay>
   <po-container class="po-lg-8 po-xl-8 po-offset-lg-2 po-offset-xl-2">
     <div *ngIf="emProcesso; else exibeFormulario">
-      <p>Já existe um prcocessamento em endamento...</p>
+      <p>Já existe um prcocessamento em andamento...</p>
     </div>
     <ng-template #exibeFormulario>
       <form [formGroup]="formularioProcessamento">

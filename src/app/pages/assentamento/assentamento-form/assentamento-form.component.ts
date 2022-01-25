@@ -236,6 +236,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         this.carregando = true;
         this.titularValido = false;
         this.poNotificationService.error(error.message)
+        this.retornarStepper();
         console.error(error)
       })
 
@@ -287,21 +288,21 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   editaMoradia(formularioMoradia: Moradia): void {
     this.moradiaService.putMoradia(JSON.parse(JSON.stringify(formularioMoradia)), String(sessionStorage.getItem('moradiaID'))).pipe(
-      finalize(() => { this.carregando = true, this.stepper.next() })
+      finalize(() => { this.carregando = true })
     ).subscribe(
-      res => this.poNotificationService.success("Moradia Editada com Sucesso"),
-      error => this.poNotificationService.error("Erro ao Editar a Moradia: " + error.message),
+      res => {this.poNotificationService.success("Moradia Editada com Sucesso"), this.stepper.next()},
+      error => {this.poNotificationService.error("Erro ao Editar a Moradia: " + error.message), this.retornarStepper()},
     )
   }
 
   incluiMoradia(formularioMoradia: Moradia): void {
     this.moradiaService.postMoradia(JSON.parse(JSON.stringify(formularioMoradia))).pipe(
-      finalize(() => { this.carregando = true, this.stepper.next() })
+      finalize(() => { this.carregando = true })
     ).subscribe(
       res => {
-        this.poNotificationService.success("Moradia Incluída com Sucesso"), sessionStorage.setItem('moradiaID', res.id)
+        this.poNotificationService.success("Moradia Incluída com Sucesso"), sessionStorage.setItem('moradiaID', res.id), this.stepper.next()
       },
-      error => this.poNotificationService.error("Erro ao Editar a Moradia: " + error.message),
+      error => {this.poNotificationService.error("Erro ao Editar a Moradia: " + error.message), this.retornarStepper()},
     )
   }
 
@@ -315,7 +316,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     } else if (this.stepperSelecionado === 'Rendas') {
       this.poAlert.confirm({
         literals: { confirm: 'Salvar', cancel: 'Fechar' },
-        title: 'Confirmação de Moradia',
+        title: 'Confirmação de Cadastro',
         message: "Confirma o cadastro da solicitação de moradia?",
         confirm: () => (this.confirmaSolicitacaoDeMoradia()),
         cancel: () => ('')
@@ -375,7 +376,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         this.actions[0].icon = 'po-icon-arrow-right'
         break;
       default:
-        this.actions[0].label = "Salvar Solicitação"
+        this.actions[0].label = "Salvar Cadastro"
         this.actions[0].icon = 'po-icon-ok'
         break;
     }
@@ -394,7 +395,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   protected editionPageTitle(): string {
     const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
-    return 'Editando dados  ' + dadosTitular.nomeResponsavel
+    return 'Editando dados de ' + dadosTitular.nomeResponsavel
   }
 
 }

@@ -106,7 +106,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     this.listaDependentesLocal = [];
 
     const dadosTitular: Titular = JSON.parse(this.titularService.getTitularInfo());
-    let listaDeDepententes: string[] = dadosTitular.dependentes === null? [] : String(dadosTitular.dependentes).split(',');
+    let listaDeDepententes: string[] = dadosTitular.dependentes === null ? [] : String(dadosTitular.dependentes).split(',');
     if (String(sessionStorage.getItem('idTitular'))?.length > 0 && listaDeDepententes.length > 0) {
       this.retornaDadosdoCartaoCidadao(listaDeDepententes, dadosTitular.nomeResponsavel);
       this.retornaDependentesCadastrados(dadosTitular);
@@ -126,23 +126,26 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       ).subscribe(
         res => {
           const pipeCPF = new DocumentPipe()
-          this.listaDependentesCartaoCidadao.push({
-            id: '',
-            cpfFormatado: pipeCPF.transform(res.CPF),
-            nomeResponsavel: nomeResponsavel,
-            numeroCartaoCidadao: res.Numero,
-            numeroCpf: res.CPF,
-            dataNascimento: new Date(res.Nascimento),
-            grauParentesco: 'Não relacionado ao titular',
-            estadoCivil: res.Estado_Civil,
-            escolaridade: '',
-            deficiencia: res.PCD,
-            nome: res.Nome,
-            cpfCartaoCidadao: res.CPF,
-            naoResidente:false,
-            grauParentescoTratado: 'Não relacionado ao Titular',
-            status: 'naoDependente'
-          })
+          if (res.Status === "100") {
+            this.listaDependentesCartaoCidadao.push({
+              id: '',
+              cpfFormatado: pipeCPF.transform(res.CPF),
+              nomeResponsavel: nomeResponsavel,
+              numeroCartaoCidadao: res.Numero,
+              numeroCpf: res.CPF,
+              dataNascimento: new Date(res.Nascimento),
+              grauParentesco: 'Não relacionado ao titular',
+              estadoCivil: res.Estado_Civil,
+              escolaridade: '',
+              deficiencia: res.PCD,
+              nome: res.Nome,
+              cpfCartaoCidadao: res.CPF,
+              naoResidente: false,
+              grauParentescoTratado: 'Não relacionado ao Titular',
+              status: 'naoDependente'
+            })
+          }
+
         },
         error => this.poNotificationService.error(`Erro ao Retornar os dados do Dependente. Número do Cartão Cidadão: ${dependente}.`)
       )
@@ -272,11 +275,12 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
             this.dependenteSelecionado = '';
           },
           error => {
-            if (error.status === 409){
+            if (error.status === 409) {
               this.poNotificationService.error(`Não foi possível incluir o dependente pois ${this.formularioDependente.value.nomeResponsavel} possui um cadastro como titular.`)
-            }else {
-              this.poNotificationService.error(error.message)}
+            } else {
+              this.poNotificationService.error(error.message)
             }
+          }
         )
       } else {
         const dependente = { ...this.formularioDependente.value, id: this.dependenteSelecionado, titularId: sessionStorage.getItem('idTitular') }

@@ -9,14 +9,15 @@
     <div *ngIf="!acessoInternet">
       <po-divider p-label="Informações Assentamento"></po-divider>
       <div class="po-row">
-        <po-input
+        <po-select
+          *ngIf="!isInternet"
+          formControlName="assentamento"
           class="po-lg-4"
           p-label="Assentamento"
-          formControlName="assentamento"
-          p-placeholder="Assentamento"
-          p-clean
+          [p-options]="assentamentoOpcoes"
+          p-placeholder="Assentamento?"
         >
-        </po-input>
+        </po-select>
         <po-input
           class="po-lg-4"
           p-label="Selagem Atual"
@@ -68,7 +69,8 @@
 
     <po-divider p-label="Informações Sobre Moradia"></po-divider>
     <div class="po-row">
-      <po-select *ngIf="!isInternet"
+      <po-select
+        *ngIf="!isInternet"
         formControlName="familiaIncProcHabit"
         class="po-lg-3"
         p-label="Família Incluída no Programa Habitacional"
@@ -84,7 +86,8 @@
         p-placeholder="Quantas Famílias existem no Domicílio"
       >
       </po-select>
-      <po-select *ngIf="!isInternet"
+      <po-select
+        *ngIf="!isInternet"
         formControlName="tempoMoradiaBairro"
         class="po-lg-3"
         p-label="Tempo de Moradia no Bairro"
@@ -144,7 +147,7 @@
       >
       </po-input>
     </div>
-    <div class="po-row" >
+    <div class="po-row">
       <po-select
         formControlName="regFundOuUsocapiao"
         (p-change)="jaContempladoPaisSelecionado($event)"
@@ -176,7 +179,10 @@
       </po-input>
     </div>
 
-    <po-divider p-label="Acesso a Serviços" *ngIf="!acessoInternet"></po-divider>
+    <po-divider
+      p-label="Acesso a Serviços"
+      *ngIf="!acessoInternet"
+    ></po-divider>
 
     <div class="po-row" *ngIf="!acessoInternet">
       <po-select
@@ -261,7 +267,10 @@
       </po-select>
     </div>
 
-    <po-divider p-label="Identificação da Moradia" *ngIf="!acessoInternet"></po-divider>
+    <po-divider
+      p-label="Identificação da Moradia"
+      *ngIf="!acessoInternet"
+    ></po-divider>
 
     <div class="po-row" *ngIf="!acessoInternet">
       <po-select
@@ -307,7 +316,7 @@
       </po-multiselect>
     </div>
 
-    <div class="po-row" *ngIf="!acessoInternet">
+    <div class="po-row">
       <po-select
         class="po-lg-3"
         p-label="Acesso à energia elétrica"
@@ -334,6 +343,14 @@
       </po-select>
       <po-select
         class="po-lg-3"
+        p-label="Acesso a coleta de lixo"
+        formControlName="acessoColetaLixo"
+        [p-options]="acessoColetaDeLixoOpcoes"
+        p-placeholder="Selecione uma opção"
+      >
+      </po-select>
+      <po-select
+        class="po-lg-3"
         p-label="Possui Automóveis?"
         formControlName="possuiAutomovel"
         [p-options]="numeroAutomoveiOpcoes"
@@ -341,7 +358,7 @@
       >
       </po-select>
     </div>
-    <div class="po-row" *ngIf="!acessoInternet">
+    <div class="po-row">
       <po-select
         class="po-lg-3"
         p-label="A sua moradia atual já sofreu algum tipo de desastre?"
@@ -360,7 +377,10 @@
       </po-select>
     </div>
 
-    <po-divider p-label="Animais de Estimação" *ngIf="!acessoInternet"></po-divider>
+    <po-divider
+      p-label="Animais de Estimação"
+      *ngIf="!acessoInternet"
+    ></po-divider>
 
     <div class="po-row" *ngIf="!acessoInternet">
       <po-number
@@ -391,7 +411,7 @@
 
     <po-divider p-label="Demais Gastos" *ngIf="!acessoInternet"></po-divider>
 
-    <div class="po-row" *ngIf="!acessoInternet">
+    <div class="po-row">
       <po-decimal
         class="po-lg-3"
         p-label="Aluguel"
@@ -401,6 +421,7 @@
       >
       </po-decimal>
       <po-decimal
+        *ngIf="!acessoInternet"
         class="po-lg-3"
         p-label="Energia Elétrica"
         formControlName="gastoComEnergiaEletrica"
@@ -409,6 +430,7 @@
       >
       </po-decimal>
       <po-decimal
+        *ngIf="!acessoInternet"
         class="po-lg-3"
         p-label="Água/Esgoto"
         formControlName="gastoComAguaEsgoto"
@@ -417,6 +439,7 @@
       >
       </po-decimal>
       <po-decimal
+        *ngIf="!acessoInternet"
         class="po-lg-3"
         p-label="Gás"
         formControlName="gastoComGas"
@@ -453,7 +476,7 @@
       </po-decimal>
     </div>
 
-    <div *ngIf="!isInternet" >
+    <div *ngIf="!isInternet">
       <div class="po-row">
         <po-input
           class="po-lg-12"

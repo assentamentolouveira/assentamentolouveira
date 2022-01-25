@@ -25,6 +25,7 @@ export interface Moradia {
   acessoEnergiaEletrica: number,
   acessoAbastecimentoAgua: number,
   acessoSaneamentoSanitario: number,
+  acessoColetaLixo:number,
   possuiAutomovel: string,
   moradiaSofreuDesastre: number,
   usoMoradia: number,

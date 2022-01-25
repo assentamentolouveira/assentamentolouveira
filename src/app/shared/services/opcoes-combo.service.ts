@@ -143,7 +143,7 @@ export class OpcoesComboService {
       label: 'Formal',
     },
     {
-      value: 'InformalFormal',
+      value: 'Informal',
       label: 'Informal',
     },
     {
@@ -612,21 +612,56 @@ export class OpcoesComboService {
 
   perfilDeAcessoOpcoes = [
     {
-      value: 'Nenhum',
-      label: 'Nenhum'
-    },
-    {
       value: 'Digitador',
-      label: 'Digitador'
+      label: 'Cadastrador'
     },
     {
       value: 'AssistenteSocial',
-      label: 'Assistente Social'
+      label: 'Técnico'
     },
     {
       value: 'Administrador',
-      label: 'Administrador'
+      label: 'Gestor'
     }
+  ]
+
+  acessoColetaDeLixoOpcoes =[
+    {
+      value: 'SimColetaDireta',
+      label: 'Sim, coleta direta'
+    },
+    {
+      value: 'SimColetaIndireta',
+      label: 'Sim, coleta indireta'
+    },
+    {
+      value: 'NaoPossuiColeta',
+      label: 'Não possui coleta'
+    }
+  ]
+
+  assentamentoOpcoes =[
+    {
+      value: 'Fepasa (Leitão)',
+      label: 'Fepasa (Leitão)'
+    },
+    {
+      value: 'Damasceno (Fepasa)',
+      label: 'Damasceno (Fepasa)'
+    },
+    {
+      value: 'Rua Armada (Granja)',
+      label: 'Rua Armada (Granja)'
+    },
+    {
+      value: 'Pai-a-Pique 1',
+      label: 'Pai-a-Pique 1'
+    },
+    {
+      value: 'Pai-a-Pique 2',
+      label: 'Pai-a-Pique 2'
+    }
+
   ]
 
   retornaLabelOpcoes(valor: number | string, combo: any[]): string {
