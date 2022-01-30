@@ -66,7 +66,7 @@ export class ConfiguracoesFormComponent implements OnInit {
       acessoInicial: false,
       funcionario: true,
       perfilAcesso: usuarioEditado.PerfilAcesso,
-      novaSenha: ['1']
+      novaSenha: '1'
     })
   }
 

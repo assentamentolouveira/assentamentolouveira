@@ -521,14 +521,14 @@ export class OpcoesComboService {
       label: 'Céu Aberto'
     },
     {
-      value: 'DomicilioSemBanheira',
+      value: 'DomicilioSemBanheiro',
       label: 'Domicílio sem banheiro'
     }
   ]
 
   acessoColetaOpcoes = [
     {
-      value: 'DomicilioSemBanheira',
+      value: 'SimColetaDireta',
       label: 'Sim, coleta direta (na porta de casa)'
     },
     {

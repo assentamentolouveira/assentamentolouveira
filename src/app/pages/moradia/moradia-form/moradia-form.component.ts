@@ -50,6 +50,8 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
   public localDoImovelAtivo = false;
   public programaContempladoAtivo = false;
   public programaContempladoPaisAtivo = false;
+  public aluguelObrigatorio = "false";
+  public aluguelHabilitado = "true";
 
 
 
@@ -87,6 +89,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
 
   ngOnInit(): void {
     this.acessoInternet = this.loginService.isInternet;
+    this.poNotificationService.setDefaultDuration(3000);
     this.initialize();
     this.criaFormulario()
     this.markAsDirtyInvalidControls(this.formularioMoradia.controls);
@@ -155,7 +158,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       gato: [],
       passaro: [],
       outroAnimais: [],
-      gastoComAluguel: [, Validators.compose([Validators.required])],
+      gastoComAluguel: [],
       gastoComEnergiaEletrica: [],
       gastoComAguaEsgoto: [],
       gastoComGas: [],
@@ -247,6 +250,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
     !!moradia.aondeRegFundOuUsocapiao && moradia.aondeRegFundOuUsocapiao.length > 0 ? this.programaContempladoPaisAtivo = true : this.programaContempladoPaisAtivo = false;
     !!moradia.qualUnidBasicaSaude ? this.familiaAcessaUnidadeBasicaSaude = true : this.familiaAcessaUnidadeBasicaSaude = false;
 
+    this.atualizaMoradia(String(moradia.tipoMoradia));
     this.formularioMoradiaValido.emit(this.formularioMoradia)
   }
 
@@ -325,6 +329,21 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
           control.markAsDirty();
         }
       }
+    }
+  }
+
+  atualizaMoradia(tipoMoradia:string): void {
+    if (tipoMoradia === 'Alugada') {
+      this.aluguelHabilitado = "false";
+      this.aluguelObrigatorio = "true";
+      this.poNotificationService.warning("Informe um valor para o aluguel!")
+    } else {
+      this.aluguelHabilitado = "true";
+      this.aluguelObrigatorio = "false";
+      this.formularioMoradia.patchValue({
+        gastoComAluguel: ''
+      });
+      this.atualizaTotalDeDespesas(0);
     }
   }
 

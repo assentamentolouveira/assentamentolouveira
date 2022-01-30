@@ -1,6 +1,8 @@
+import { TitularesService } from './../../titulares/shared/titulares.service';
 import { Injectable, Injector } from "@angular/core";
 import { PoTableColumn } from "@po-ui/ng-components";
 import { Observable } from "rxjs";
+import { map, mergeMap, switchMap, toArray } from "rxjs/operators";
 import { BaseResourceService } from "src/app/shared/services/base-resource.service";
 import { environment } from "src/environments/environment";
 
@@ -8,7 +10,7 @@ import { environment } from "src/environments/environment";
   providedIn: 'root',
 })
 export class AssentamentoService extends BaseResourceService {
-  constructor(protected injector: Injector) {
+  constructor(protected injector: Injector, private titularesService: TitularesService) {
     super(environment.URL + '/solicitacaomoradia', injector);
   }
 
@@ -36,42 +38,45 @@ export class AssentamentoService extends BaseResourceService {
     return [
       {
         property: 'idAssentamento',
-        width: '35%',
         label: 'Id Assentamento',
         type: 'string',
         visible: false,
       },
       {
         property: 'numeroCpf',
-        width: '35%',
         label: 'CPF Titular',
         type: 'string',
         visible: false,
       },
       {
+        property: 'nome',
+        width: '20%',
+        label: 'Nome',
+        type: 'string',
+        visible: true,
+      },
+      {
         property: 'cpfFormatado',
-        width: '35%',
+        width: '20%',
         label: 'CPF Titular',
         type: 'string',
         visible: true,
       },
       {
         property: 'numeroCartaoCidadao',
-        width: '35%',
         label: 'Cartão Cidadão',
         type: 'string',
         visible: true,
       },
       {
         property: 'titularID',
-        width: '35%',
         label: 'ID Titular',
         type: 'string',
         visible: false,
       },
       {
         property: 'pontuacao',
-        width: '30%',
+        width: '10%',
         label: 'Pontuação',
         type: 'number',
         visible: true,
@@ -90,7 +95,14 @@ export class AssentamentoService extends BaseResourceService {
 
     const queryParams = `&skip=${pagina}` + filtro
 
-
-    return this.http.get(`${this.httpBusca}solicitacaomoradiaodata?$expand=Titular${queryParams}`)
+    return this.http.get<any>(`${this.httpBusca}solicitacaomoradiaodata?$expand=Titular${queryParams}`)
+    .pipe(
+      switchMap(titulares => titulares.value),
+      mergeMap((titular:any) => {
+        return this.titularesService.getDadosCartaoCidadao(titular.Titular.NumeroCpf).pipe(
+          map(a => Object.assign(titular, a) )
+        );
+      })
+      , toArray())
   }
 }

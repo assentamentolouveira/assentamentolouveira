@@ -16,7 +16,7 @@ import { DocumentPipe } from 'src/app/shared/pipes/document.pipe';
 })
 export class AssentamentoListComponent extends BaseResourceListComponent {
   constructor(protected assentamentoService: AssentamentoService, private fb: FormBuilder) {
-    super('Cadastro de Assentamento', 'assentamento/novo', assentamentoService);
+    super('Cadastro de Núcleo Urbano Informal', 'assentamento/novo', assentamentoService);
     this.columns = this.assentamentoService.getColumns();
     this.criaFormularioPesquisar();
   }
@@ -53,17 +53,18 @@ export class AssentamentoListComponent extends BaseResourceListComponent {
       finalize(() => this.carregandoRegistros = false)
     ).subscribe(
       res => {
-        if (res.value.length > 0) {
+        if (res.length > 0) {
           let resourceTratado: any[] = [];
 
           const pipeCPF = new DocumentPipe();
-          res.value.map((assentamento: any) => {
+          res.map((assentamento: any) => {
             resourceTratado.push({
                 idAssentamento: assentamento.Id,
                 pontuacao: assentamento.Pontuacao,
                 titularID: assentamento.Titular.Id,
                 numeroCartaoCidadao: assentamento.Titular.NumeroCartaoCidadao,
                 numeroCpf: assentamento.Titular.NumeroCpf,
+                nome: assentamento.Nome,
                 cpfFormatado: pipeCPF.transform(assentamento.Titular.NumeroCpf)
               })
           })

@@ -278,6 +278,7 @@
         p-label="Moradia"
         formControlName="tipoMoradia"
         [p-options]="moradiaOpcoes"
+        (p-change)="atualizaMoradia($event)"
         p-placeholder="Selecione uma opção"
       >
       </po-select>
@@ -417,6 +418,10 @@
         p-label="Aluguel"
         formControlName="gastoComAluguel"
         p-placeholder="0,00"
+        [p-min]="1"
+        p-error-pattern="O valor do Aluguel precisa ser maior que 0"
+        [p-disabled]="aluguelHabilitado"
+        [p-required]="aluguelObrigatorio"
         (p-change)="atualizaTotalDeDespesas($event)"
       >
       </po-decimal>

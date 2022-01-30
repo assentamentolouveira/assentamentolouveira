@@ -17,7 +17,7 @@ export interface Moradia {
   acessaCreas: number | boolean,
   acessaServConvivenciaCriancaAdolescente: number | boolean,
   acessaServConvivenciaCriancaIdoso: number | boolean,
-  tipoMoradia: number,
+  tipoMoradia: number | string,
   quantidadeBanheiro: number,
   quantidadeComodo: number,
   tipoMoradiaOcupada: number,

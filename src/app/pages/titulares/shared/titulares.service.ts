@@ -220,7 +220,6 @@ export class TitularesService extends BaseResourceService {
           );
         })
         , toArray())
-
   }
 
   getRendasColumns(): PoTableColumn[] {

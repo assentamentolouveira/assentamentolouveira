@@ -18,6 +18,7 @@ export class NewUserService extends BaseResourceService {
 
   validUsuario(cartaoCidadao:number): Observable<any>{
     const filter = `&cond=Numero&value=${cartaoCidadao}`
+
     return this.http.get(`${environment.URLCartaoCidadao}${filter}`)
   }
 
@@ -40,14 +41,15 @@ export class NewUserService extends BaseResourceService {
 
   alteraUsuario(dadosUsuario: newUser): Observable<newUser>{
     const tipoFuncionario = this.loginService.getTipoFuncionario();
-    const jsonUsuarioAlterado = {
+    let jsonUsuarioAlterado = {
       funcionario: tipoFuncionario.funcionario,
       nome: dadosUsuario.nome,
       perfilAcesso: dadosUsuario.perfilAcesso,
-      senha: dadosUsuario.senha,
       acessoInicial: false,
-      novaSenha: true
+      novaSenha: dadosUsuario.novaSenha,
+      senha: dadosUsuario.novaSenha? dadosUsuario.cpf : undefined
     }
+
     return this.http.put<newUser>(`${this.apiPath}/${dadosUsuario.cpf}`, jsonUsuarioAlterado, this.httpOptions);
   }
 

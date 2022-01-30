@@ -71,6 +71,10 @@ export class DependentesService extends BaseResourceService {
       , toArray())
   }
 
+  getDependentePorCPF(numeroCPF: string | null): Observable<Dependente[]> {
+    return this.http.get<Dependente[]>(`${this.apiPath}/cpf/${numeroCPF}?numeroCpf=${numeroCPF}`).pipe()
+  }
+
   getDetalhesDependentesCartaoCidadao(dependente: Dependente, index: number): Observable<Dependente> {
     return of<Dependente>({ ...dependente, nome: 'desenvolvimento' + index, grauParentesco: 'filho', cpfCartaoCidadao: "" })
   }

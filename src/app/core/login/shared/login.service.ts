@@ -1,3 +1,4 @@
+import { DependentesService } from './../../../pages/dependentes/shared/dependentes.service';
 import { CartaoCidadao } from 'src/app/shared/models/cartao-cidadao.model';
 import { TitularCartaoCidadao } from './../../../pages/titulares/shared/titular-cartao-cidadao.model';
 import { TitularesService } from './../../../pages/titulares/shared/titulares.service';
@@ -23,7 +24,7 @@ export class LoginService extends BaseResourceService {
   protected funcionario: boolean;
   protected perfilAcesso: string
 
-  constructor(protected injector: Injector, private router: Router, private titularesService: TitularesService) {
+  constructor(protected injector: Injector, private router: Router, private titularesService: TitularesService, private dependentesService: DependentesService) {
     super(environment.URL + '/usuario/logar', injector);
     this.isInternet = !window.location.href.includes('intranet');
   }
@@ -33,8 +34,7 @@ export class LoginService extends BaseResourceService {
       sessionStorage.removeItem('idTitular');
       sessionStorage.removeItem('moradiaID');
       return this.http.post<login>(this.apiPath, usuario, this.httpOptions).pipe(
-        mergeMap(login => this.retornaDadosCartaoCidadao(login)),
-      );
+        mergeMap(login => this.retornaDadosCartaoCidadao(login)));
     } else {
       return this.http.post<login>(this.apiPath, usuario, this.httpOptions).pipe()
     }
@@ -72,7 +72,7 @@ export class LoginService extends BaseResourceService {
     sessionStorage.removeItem('titular');
     sessionStorage.removeItem('idTitular');
     sessionStorage.removeItem('usuario');
-    this.isInternet? this.router.navigate(['internet/login']) : this.router.navigate(['intranet/login'])
+    this.isInternet ? this.router.navigate(['internet/login']) : this.router.navigate(['intranet/login'])
   }
 
   isLoggedIn(): boolean {

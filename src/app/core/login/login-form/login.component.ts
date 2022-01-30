@@ -1,3 +1,4 @@
+import { DependentesService } from './../../../pages/dependentes/shared/dependentes.service';
 import { PoNotificationService } from '@po-ui/ng-components';
 import { LoginService } from './../shared/login.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -28,7 +29,7 @@ export class LoginComponent implements OnInit {
   }
   carregando = false;
 
-  constructor(private loginService: LoginService, private poNotificationService: PoNotificationService, private router: Router) { }
+  constructor(private loginService: LoginService, private poNotificationService: PoNotificationService, private router: Router, private dependentesService: DependentesService) { }
 
   @ViewChild('formularioLogin') formularioLogin: any;
 
@@ -80,7 +81,16 @@ export class LoginComponent implements OnInit {
 
         this.loginService.gravaUsuario(sucesso);
         if (this.loginService.isInternet) {
-          this.router.navigate(['/internet'])
+          this.dependentesService.getDependentePorCPF(dadosDoLogin.login).subscribe(
+            res => {
+              this.poNotificationService.error("CPF vinculado a um outro titular. Procure o posto de atendimento mais próximo.")
+              return
+            },
+            error => {
+              this.router.navigate(['/internet'])
+            }
+          )
+
         } else {
           if (sucesso.novaSenha) {
             this.router.navigate(['/intranet/newPassword'])
