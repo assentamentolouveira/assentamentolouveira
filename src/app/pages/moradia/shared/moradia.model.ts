@@ -27,7 +27,7 @@ export interface Moradia {
   acessoSaneamentoSanitario: number,
   acessoColetaLixo:number,
   possuiAutomovel: string,
-  moradiaSofreuDesastre: number,
+  desastreMoradia: object[],
   usoMoradia: number,
   cachorro: number,
   gato: number,

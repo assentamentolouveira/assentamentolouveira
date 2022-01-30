@@ -20,12 +20,13 @@ export class MoradiaService extends BaseResourceService {
       tap((res) => {
         res.acessaUnidBasicaSaude = this.converterParaInteiro(res.acessaUnidBasicaSaude);
         res.temAcessoEscolaCreche = this.converterParaInteiro(res.temAcessoEscolaCreche);
+        res.desastreMoradia = this.desmontaObjetoDesastresDaMoradia(res.desastreMoradia);
         res.utilizaTransporteEscolar = this.converterParaInteiro(res.utilizaTransporteEscolar);
         res.acessaCras = this.converterParaInteiro(res.acessaCras);
         res.acessaCreas = this.converterParaInteiro(res.acessaCreas);
         res.acessaServConvivenciaCriancaAdolescente = this.converterParaInteiro(res.acessaServConvivenciaCriancaAdolescente);
         res.acessaServConvivenciaCriancaIdoso = this.converterParaInteiro(res.acessaServConvivenciaCriancaIdoso);
-        res.caracteristicaMoradia = this.desmontaObjetoCaracterísticasDaMoradia(res.caracteristicaMoradia)
+        res.caracteristicaMoradia = this.desmontaObjetoCaracterísticasDaMoradia(res.caracteristicaMoradia);
         return res
       })
     )
@@ -55,6 +56,7 @@ export class MoradiaService extends BaseResourceService {
   trataMoradia(moradia: Moradia): Moradia {
     let moradiaTratada = moradia;
     moradia.caracteristicaMoradia = this.montaObjetoCaracterísticasDaMoradia(moradia.caracteristicaMoradia, moradia.id);
+    moradia.desastreMoradia = this.montaObjetoDesastresDaDaMoradia(moradia.desastreMoradia, moradia.id);
     moradia.acessaUnidBasicaSaude = this.converterParaBoleano(moradia.acessaUnidBasicaSaude);
     moradia.temAcessoEscolaCreche = this.converterParaBoleano(moradia.temAcessoEscolaCreche);
     moradia.utilizaTransporteEscolar = this.converterParaBoleano(moradia.utilizaTransporteEscolar);
@@ -81,5 +83,21 @@ export class MoradiaService extends BaseResourceService {
     let objetoCaracteristica: any[] = [];
     características.map(caracteristica => objetoCaracteristica.push(caracteristica.tipo));
     return objetoCaracteristica
+  }
+
+  montaObjetoDesastresDaDaMoradia(desastre: object[], moradiaId: string): object[] {
+    let objetoDesastre: object[] = [];
+    if (desastre !== undefined) {
+      desastre ? desastre.map(desastre => objetoDesastre.push({ tipo: desastre })) : objetoDesastre = [];
+    }
+    return objetoDesastre
+  }
+
+  desmontaObjetoDesastresDaMoradia(desastre: any[]): object[] {
+    let objetoDesastre: any[] = [];
+    if (desastre !== undefined) {
+      desastre.map(desastre => objetoDesastre.push(desastre.tipo));
+    }
+    return objetoDesastre
   }
 }
