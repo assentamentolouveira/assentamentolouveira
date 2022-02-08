@@ -1,9 +1,10 @@
+import { Validacoes } from 'src/app/shared/validações/validacoes';
 import { LoginService } from './../../../core/login/shared/login.service';
 import { Titular } from './../../titulares/shared/titular.model';
 import { TitularesService } from './../../titulares/shared/titulares.service';
 import { Component, EventEmitter, Injector, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PoNotificationService, PoSelectOption, PoComboOption } from '@po-ui/ng-components';
+import { PoNotificationService, PoSelectOption, PoComboOption, PoMultiselectOption } from '@po-ui/ng-components';
 import { BaseResourceFormComponent } from 'src/app/shared/components/base-resource-form/base-resource-form.component';
 import { OpcoesComboService } from 'src/app/shared/services/opcoes-combo.service';
 import { MoradiaService } from '../shared/moradia.service';
@@ -183,7 +184,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
 
     this.subscriptionFormularioMoradia = this.formularioMoradia.valueChanges.pipe(
       debounceTime(300)
-    ).subscribe(res => this.telaIniciada ? this.formularioMoradiaValido.emit(this.formularioMoradia) : this.telaIniciada = true)
+    ).subscribe(res => this.telaIniciada ? this.enviaFormulario() : this.telaIniciada = true)
 
     // , Validators.compose([Validators.required])
   }
@@ -332,7 +333,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
     }
   }
 
-  atualizaMoradia(tipoMoradia:string): void {
+  atualizaMoradia(tipoMoradia: string): void {
     if (tipoMoradia === 'Alugada') {
       this.aluguelHabilitado = "false";
       this.aluguelObrigatorio = "true";
@@ -345,6 +346,15 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       });
       this.atualizaTotalDeDespesas(0);
     }
+  }
+
+  enviaFormulario(): void {
+
+    if (this.formularioMoradia.get('desastreMoradia')?.value.length > 1 && this.formularioMoradia.get('desastreMoradia')?.value.find((valor: string) => valor === "NaoSofreu") !== undefined) {
+      this.formularioMoradia.get('desastreMoradia')?.patchValue(['NaoSofreu'])
+    }
+
+    this.formularioMoradiaValido.emit(this.formularioMoradia)
   }
 
   ngOnDestroy() {

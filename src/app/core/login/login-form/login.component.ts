@@ -87,7 +87,11 @@ export class LoginComponent implements OnInit {
               return
             },
             error => {
-              this.router.navigate(['/internet'])
+              if (sucesso.novaSenha) {
+                this.router.navigate(['/intranet/newPassword'])
+              } else {
+                this.router.navigate(['/internet'])
+              }
             }
           )
 

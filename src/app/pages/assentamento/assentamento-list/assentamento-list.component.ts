@@ -69,7 +69,7 @@ export class AssentamentoListComponent extends BaseResourceListComponent {
               })
           })
           this.resources = this.resources.concat(resourceTratado);
-
+          this.disativarShowMore = false;
         } else {
           this.disativarShowMore = true;
         }

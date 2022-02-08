@@ -272,7 +272,7 @@
       *ngIf="!acessoInternet"
     ></po-divider>
 
-    <div class="po-row" *ngIf="!acessoInternet">
+    <div class="po-row">
       <po-select
         class="po-lg-3"
         p-label="Moradia"
@@ -282,6 +282,18 @@
         p-placeholder="Selecione uma opção"
       >
       </po-select>
+      <po-decimal
+        class="po-lg-3"
+        p-label="Aluguel"
+        formControlName="gastoComAluguel"
+        p-placeholder="0,00"
+        [p-min]="1"
+        p-error-pattern="O valor do Aluguel precisa ser maior que 0"
+        [p-disabled]="aluguelHabilitado"
+        [p-required]="aluguelObrigatorio"
+        (p-change)="atualizaTotalDeDespesas($event)"
+      >
+      </po-decimal>
       <po-select
         class="po-lg-3"
         p-label="Quantidade de Banheiros"
@@ -298,6 +310,9 @@
         p-placeholder="Selecione uma opção"
       >
       </po-select>
+    </div>
+
+    <div class="po-row">
       <po-select
         class="po-lg-3"
         p-label="Tipo de Moradia Ocupada"
@@ -315,9 +330,6 @@
         [p-options]="caracteristicasCasaOpcoes"
       >
       </po-multiselect>
-    </div>
-
-    <div class="po-row">
       <po-select
         class="po-lg-3"
         p-label="Acesso à energia elétrica"
@@ -334,6 +346,9 @@
         p-placeholder="Selecione uma opção"
       >
       </po-select>
+    </div>
+
+    <div class="po-row">
       <po-select
         class="po-lg-3"
         p-label="Acesso a saneamento sanitário"
@@ -358,16 +373,17 @@
         p-placeholder="Selecione uma opção"
       >
       </po-select>
-    </div>
-    <div class="po-row">
       <po-multiselect
         class="po-lg-3"
         p-label="A sua moradia atual já sofreu algum tipo de desastre?"
         formControlName="desastreMoradia"
         [p-options]="desastresOpcoes"
         p-placeholder="Selecione uma opção"
+        [p-hide-select-all]="true"
       >
       </po-multiselect>
+    </div>
+    <div class="po-row">
       <po-select
         class="po-lg-3"
         p-label="Uso da Moradia"
@@ -413,18 +429,6 @@
     <po-divider p-label="Demais Gastos" *ngIf="!acessoInternet"></po-divider>
 
     <div class="po-row">
-      <po-decimal
-        class="po-lg-3"
-        p-label="Aluguel"
-        formControlName="gastoComAluguel"
-        p-placeholder="0,00"
-        [p-min]="1"
-        p-error-pattern="O valor do Aluguel precisa ser maior que 0"
-        [p-disabled]="aluguelHabilitado"
-        [p-required]="aluguelObrigatorio"
-        (p-change)="atualizaTotalDeDespesas($event)"
-      >
-      </po-decimal>
       <po-decimal
         *ngIf="!acessoInternet"
         class="po-lg-3"

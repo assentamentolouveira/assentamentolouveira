@@ -20,7 +20,7 @@ export class ProcessamentoFormComponent implements OnInit {
   private idInterval: any;
 
   formularioProcessamento = new FormGroup({
-    criteriosDeAceite: new FormControl('Esta rotina irá processarr todos os cadastros títulares ainda não contemplados. Uma vez executada, os dados antigos serão resetados e não poderão ser consultados porteriormente.'),
+    criteriosDeAceite: new FormControl('Esta rotina irá processar todos os cadastros de títulares ainda não contemplados. Uma vez executada, os dados antigos serão resetados e não poderão ser consultados porteriormente.'),
     checkCriterioDeAceite: new FormControl(false),
     salarioMinimo: new FormControl(0),
   });

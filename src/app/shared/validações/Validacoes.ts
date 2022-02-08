@@ -27,4 +27,18 @@ export class Validacoes {
 
     return { cpfInvalido: true };
   }
+
+  static validaDataMaior18(controle: AbstractControl) {
+    const dataSelecionada = controle.value;
+    let valido = true;
+
+    const dataMinima = new Date().getFullYear()-18;
+    valido = new Date(dataSelecionada) > new Date(`01/01/${dataMinima}`)
+
+    if (valido) {
+      return { mult: true, message: "Quando selecionado a " };
+    }
+
+    return null ;
+  }
 }

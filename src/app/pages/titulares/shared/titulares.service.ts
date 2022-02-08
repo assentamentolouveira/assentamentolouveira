@@ -8,7 +8,7 @@ import { PoTableColumn } from '@po-ui/ng-components';
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { Titulares } from './titulares.model';
 import { environment } from 'src/environments/environment';
-import { map, mergeMap, skip, switchMap, toArray } from 'rxjs/operators';
+import { map, mergeMap, skip, switchMap, toArray, delay, retry } from 'rxjs/operators';
 import { NgSwitchCase } from '@angular/common';
 
 @Injectable({
@@ -83,10 +83,12 @@ export class TitularesService extends BaseResourceService {
   getDadosCartaoCidadao(cpf: string): Observable<CartaoCidadao> {
     const filter = `&cond=CPF&value=${cpf}`
     return this.http.get<CartaoCidadao>(`${environment.URLCartaoCidadao}${filter}`).pipe(
+      delay(1000),
       map(res => {
         if (res.Status !== "100") {
+          console.log(cpf)
           console.log("Erro:" + res.Status)
-          throw new Error(this.retornarErroCartaoCidadao(res.Status))//({ error:{message: this.retornarErroCartaoCidadao(res.Status)}, status: res.Status });
+//          throw new Error(this.retornarErroCartaoCidadao(res.Status))//({ error:{message: this.retornarErroCartaoCidadao(res.Status)}, status: res.Status });
         }
         return res
       })

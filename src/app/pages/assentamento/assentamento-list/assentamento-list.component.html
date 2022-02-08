@@ -23,12 +23,11 @@
       [p-hide-columns-manager]="true"
       [p-items]="resources"
       [p-sort]="true"
-      [p-height]="300"
       (p-show-more)="carregarMais()"
       [p-striped]="true"
       [p-loading]="carregandoRegistros"
       [p-show-more-disabled]="disativarShowMore"
-      [p-infinite-scroll]="true"
+      [p-infinite-scroll]="false"
     ></po-table>
 
   </ng-template>

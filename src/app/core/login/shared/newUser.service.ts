@@ -6,6 +6,7 @@ import { BaseResourceService } from 'src/app/shared/services/base-resource.servi
 import { newUser } from './newUser.model';
 import { environment } from 'src/environments/environment';
 import { loginBackEnd } from './loginBackEnd.model';
+import { TitularBackEnd } from 'src/app/pages/titulares/shared/titularBackEnd.model';
 
 @Injectable({
   providedIn: 'root'
@@ -62,5 +63,10 @@ export class NewUserService extends BaseResourceService {
       novaSenha: false
     }
     return this.http.put<newUser>(`${this.apiPath}alterarsenha`, jsonUsuarioAlterado, this.httpOptions);
+  }
+
+
+  resetarSenha(usuario: TitularBackEnd):Observable<any>{
+    return this.http.put<newUser>(`${this.apiPath}resetarsenha?idUsuario=${usuario.NumeroCpf}`, {}, this.httpOptions);
   }
 }

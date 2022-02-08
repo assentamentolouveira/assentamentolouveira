@@ -1,3 +1,4 @@
+import { NewUserService } from './../../../core/login/shared/newUser.service';
 import { LoginService } from './../../../core/login/shared/login.service';
 import { Router } from '@angular/router';
 import { Titular } from './../shared/titular.model';
@@ -9,7 +10,7 @@ import { AfterContentInit, Component, OnInit, OnDestroy, ViewChild } from '@angu
 import { BaseResourceListComponent } from 'src/app/shared/components/base-resource-list/base-resource-list.component';
 import { Titulares } from '../shared/titulares.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { PoModalAction, PoModalComponent, PoTableAction, PoNotificationService } from '@po-ui/ng-components';
+import { PoModalAction, PoModalComponent, PoTableAction, PoNotificationService, PoDialogService } from '@po-ui/ng-components';
 import { TitularBackEnd } from '../shared/titularBackEnd.model';
 import { DocumentPipe } from 'src/app/shared/pipes/document.pipe';
 
@@ -51,6 +52,11 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       icon: 'po-icon-close',
       label: 'Excluir',
       action: this.excluirTitular.bind(this)
+    },
+    {
+      icon: 'po-icon-lock',
+      label: 'Zerar Senha',
+      action: this.alterarSenha.bind(this)
     }
 
   ];
@@ -65,6 +71,8 @@ export class TitularesListComponent extends BaseResourceListComponent implements
     , private fb: FormBuilder
     , private router: Router
     , private loginService: LoginService
+    , private newUserSetvice: NewUserService
+    , private poAlert: PoDialogService
     , private poNotificationService: PoNotificationService) {
     super('Cadastro de Titular', 'titulares/novo', titularesService);
     this.columns = this.titularesService.getColumns();
@@ -194,5 +202,21 @@ export class TitularesListComponent extends BaseResourceListComponent implements
     )
   }
 
+  alterarSenha(titular: TitularBackEnd): void {
+    this.poAlert.confirm({
+      literals: { confirm: 'Confirmar', cancel: 'Cancelar' },
+      title: 'Redefinição de Senha',
+      message: "Confirmar resetar a senha do usuário? Ao confirmar, a senha do titular será alterada pera o número do CPF.",
+      confirm: () => (this.resetaSenha(titular)),
+      cancel: () => ('')
+    });
+  }
 
+  resetaSenha(titular: TitularBackEnd): void {
+    this.newUserSetvice.resetarSenha(titular).subscribe(
+      res => { this.poNotificationService.success("Senha alterada com sucesso!") },
+      error => { this.poNotificationService.error(error.message) }
+    )
+
+  }
 }

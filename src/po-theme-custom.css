@@ -1,11 +1,16 @@
 :root {
+
+  --color-primary: rgb(33, 66, 101);
+  --color-secondary: rgb(153, 66, 137);
+  --color-tertiary: rgb(234, 175, 23);
+
   /* CORES PRINCIPAIS */
-  /* --color-primary:rgba(#3d9b5d); */
-  /* --color-secondary: #92488e; */
-  /* --color-tertiary: #eac347; */
-  --color-menu-color-menu-item-text: #92488e;
+  /* --color-primary:rgba(#2367cc);
+  --color-secondary: #39c03f;
+  --color-tertiary: #c41111; */
+  /* --color-menu-color-menu-item-text: #92488e;
   --color-page-login-header-product-name-color: #92488e;
-  --color-menu-color-menu-collapse-icon: #92488e;
+  --color-menu-color-menu-collapse-icon: #92488e; */
   /* --color-combo-color-selected: #92488e */
 
   /* MENU */

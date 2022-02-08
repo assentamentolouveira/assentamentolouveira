@@ -93,7 +93,7 @@ export class AssentamentoService extends BaseResourceService {
     if (filtroRecebido)
       filtro = `&$filter=contains(Titular/NumeroCpf,'${filtroRecebido}')`
 
-    const queryParams = `&skip=${pagina}` + filtro
+    const queryParams = `&$skip=${pagina}` + filtro
 
     return this.http.get<any>(`${this.httpBusca}solicitacaomoradiaodata?$expand=Titular${queryParams}`)
     .pipe(
