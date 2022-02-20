@@ -1,32 +1,89 @@
 <po-page-default [p-title]="pageTitle" [p-actions]="actions">
-  <div class="po-row">
-    <div class="po-md-12">
-      <po-container>
-        <po-combo
-          name="select"
-          p-label="Selecione o Gráfico Desejado"
-          (p-change)="graficoAlterado($event)"
-          [p-options]="tiposDeGraficos"
+  <po-tabs>
+    <po-tab [p-active]="true" p-label="Home" (p-click)="selecionaAba($event)">
+      <div class="po-row">
+        <po-widget
+          class="po-lg-4"
+          [p-height]="250"
+          p-title="Total de Cadastros"
         >
-        </po-combo>
-        <div *ngIf="graficoSelecionado === ''; else exibeGrafico">
-          <div class="po-mt-2 po-offset-xl-4 po-offset-lg-4">
-            <font class="po-font-display">Nenhum Gráfico Selecionado</font>
+          <div class="po-font-subtitle po-text-center">Cadastros</div>
+          <div class="po-font-display po-text-center">{{totalDeFamilias}}</div>
+          <div class="po-font-subtitle po-text-center">Desde o Início</div>
+        </po-widget>
+        <po-widget
+          class="po-lg-4"
+          [p-height]="250"
+          p-title="Cadastros Completos"
+        >
+          <div class="po-font-subtitle po-text-center">
+            Cadastro de Contemplados
           </div>
-        </div>
+          <div class="po-font-display po-text-center">{{totalDeContemplados}}</div>
+        </po-widget>
+        <po-widget
+          class="po-lg-4"
+          [p-height]="250"
+          p-title="Cadastros Incompletos"
+        >
+          <div class="po-font-subtitle po-text-center">
+            Cadastro Incompletos
+          </div>
+          <div class="po-font-display po-text-center">{{totalDeFamilias - totalDeContemplados}}</div>
+        </po-widget>
+      </div>
+      <div class="po-row">
+        <po-chart
+          class="po-lg-6"
+          [p-series]="[
+            { label: 'Completo', data: 100 },
+            { label: 'Incompleto', data: 10 }
+          ]"
+        >
+        </po-chart>
+        <po-chart
+          class="po-lg-6"
+          [p-series]="[
+            { label: 'Segunda', data: 10 },
+            { label: 'Terça', data: 20 },
+            { label: 'Quarta', data: 10 },
+            { label: 'Quinta', data: 10 },
+            { label: 'Sexta', data: 50 }
+          ]"
+        >
+        </po-chart>
+      </div>
+    </po-tab>
+    <po-tab p-label="Relatórios">
+      <div class="po-row">
+        <div class="po-md-12">
+          <po-container>
+            <po-combo
+              name="select"
+              p-label="Selecione o Gráfico Desejado"
+              (p-change)="graficoAlterado($event)"
+              [p-options]="tiposDeGraficos"
+            >
+            </po-combo>
+            <div *ngIf="graficoSelecionado === ''; else exibeGrafico">
+              <div class="po-mt-2 po-offset-xl-4 po-offset-lg-4">
+                <font class="po-font-display">Nenhum Gráfico Selecionado</font>
+              </div>
+            </div>
 
-        <ng-template #exibeGrafico>
-          <po-chart
-            class="po-lg-12 po-mt-2"
-            [p-title]="graficoSelecionado"
-            [p-series]="informacoesGrafico"
-            (p-series-click)="searchMore($event)"
-          >
-          </po-chart>
-        </ng-template>
-      </po-container>
-    </div>
-  </div>
+            <ng-template #exibeGrafico>
+              <po-chart
+                class="po-lg-12 po-mt-2"
+                [p-title]="graficoSelecionado"
+                [p-series]="informacoesGrafico"
+              >
+              </po-chart>
+            </ng-template>
+          </po-container>
+        </div>
+      </div>
+    </po-tab>
+  </po-tabs>
 </po-page-default>
 
 <po-modal>

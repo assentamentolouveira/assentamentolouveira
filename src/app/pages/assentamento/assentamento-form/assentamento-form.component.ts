@@ -333,7 +333,11 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
           finalize(() => this.carregando = true)
         ).subscribe(
           res => {
-            this.poNotificationService.success("Solicitação realizada com sucesso!")
+            this.poAlert.alert({
+              literals: { ok: 'Ok'},
+              title: 'Seu Cadastro na SIMHAB foi concluído com Sucesso',
+              message: "Entre em contato com a FUMHAB e agende uma data para entrega dos documentos comprobatórios <br><br>  <b>Telefone: (19) 3878-1960</b>",
+            });
           },
           error => {
             this.poNotificationService.error("Ocorreu um erro na gravação da solicitação: " + error.message)
@@ -345,7 +349,11 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
           finalize(() => this.carregando = true)
         ).subscribe(
           res => {
-            this.poNotificationService.success("Solicitação realizada com sucesso!")
+            this.poAlert.alert({
+              literals: { ok: 'Ok'},
+              title: 'Seu Cadastro na SIMHAB foi concluído com Sucesso',
+              message: "Entre em contato com a FUMHAB e agende uma data para entrega dos documentos comprobatórios <br><br>  <b>Telefone: (19) 3878-1960</b>",
+            });
           },
           error => {
             this.poNotificationService.error("Ocorreu um erro na gravação da solicitação: " + error.message)

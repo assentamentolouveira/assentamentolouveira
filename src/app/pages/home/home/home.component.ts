@@ -37,7 +37,9 @@ export class HomeComponent implements OnInit {
     { label: 'Tipo de Desastres', value: 17 },
     { label: 'Gasto com Aluguel', value: 18 }
   ];
-  public pageTitle = "Indicadores de Moradia"
+  public pageTitle = "Indicadores de Moradia";
+  public totalDeFamilias = 0;
+  public totalDeContemplados = 0;
 
   informacoesGrafico: Array<PoChartSerie> = [];
 
@@ -45,12 +47,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private poAlert: PoDialogService, private relatoriosService: RelatoriosService) { }
 
-  searchMore(event: any) {
-    window.open(`http://google.com/search?q=coffee+producing+${event.label}`, '_blank');
-  }
-
   ngOnInit(): void {
-
+    this.getTotais();
   }
 
   graficoAlterado(graficoSelecionado: number): void {
@@ -206,8 +204,9 @@ export class HomeComponent implements OnInit {
 
   imprimirRelatorios(): void {
     this.relatoriosService.getExportarTitularExcel().subscribe(res => {
-      this.downloadFile(res) },
-      error => console.log('Error downloading the file.'),)
+      this.downloadFile(res)
+    },
+      error => console.log('Error downloading the file.'))
     // this.poModal.open();
   }
 
@@ -220,6 +219,25 @@ export class HomeComponent implements OnInit {
 
   fecharModal(): void {
     this.poModal.close();
+  }
+
+  getTotais(): void {
+    this.relatoriosService.getTotalizadores().subscribe(res => {
+      this.totalDeFamilias = res.totalDeFamilias;
+    }
+    );
+    this.relatoriosService.getTotalFamiliasContempladas().subscribe(res => {
+      // this.totalDeContemplados = res;
+    }
+    );
+  }
+
+  selecionaAba(evento: any): void {
+    if (evento.label === "Home") {
+      this.getTotais();
+    } else {
+
+    }
   }
 
 }

@@ -147,7 +147,7 @@ export class MoradiaFormComponent extends BaseResourceFormComponent<Moradias> im
       quantidadeBanheiro: [''],
       quantidadeComodo: [''],
       tipoMoradiaOcupada: [''],
-      caracteristicaMoradia: [''],
+      caracteristicaMoradia: ['', Validators.compose([Validators.required])],
       acessoEnergiaEletrica: ['', Validators.compose([Validators.required])],
       acessoAbastecimentoAgua: ['', Validators.compose([Validators.required])],
       acessoSaneamentoSanitario: ['', Validators.compose([Validators.required])],

@@ -89,7 +89,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       estadoCivil: [''],
       escolaridade: ['', Validators.required],
       deficiencia: [''],
-      naoResidente: ['', Validators.required],
+      residente: ['', Validators.required],
     });
 
     this.subscriptionFormularioDependente = this.formularioDependente.valueChanges.subscribe(() => {
@@ -140,7 +140,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
               deficiencia: res.PCD,
               nome: res.Nome,
               cpfCartaoCidadao: res.CPF,
-              naoResidente: false,
+              residente: false,
               grauParentescoTratado: 'Não relacionado ao Titular',
               status: 'naoDependente'
             })
@@ -174,7 +174,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
             deficiencia: cartao.deficiencia,
             nome: cartao.nome,
             cpfCartaoCidadao: cartao.cpfCartaoCidadao,
-            naoResidente: this.converterParaInteiro(cartao.naoResidente),
+            residente: this.converterParaInteiro(cartao.residente),
             grauParentescoTratado: this.converteParentesco(cartao.grauParentesco),
             status: 'dependente'
           })
@@ -201,7 +201,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
               this.dependentesTratados[indice].grauParentesco = cartao.grauParentesco;
               this.dependentesTratados[indice].grauParentescoTratado = cartao.grauParentescoTratado;
               this.dependentesTratados[indice].escolaridade = cartao.escolaridade;
-              this.dependentesTratados[indice].naoResidente = cartao.naoResidente;
+              this.dependentesTratados[indice].residente = cartao.residente;
               this.dependentesTratados[indice].status = cartao.status;
             }
           }
@@ -251,7 +251,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       estadoCivil: dependenteSelecionado.estadoCivil,
       escolaridade: dependenteSelecionado.escolaridade,
       deficiencia: dependenteSelecionado.deficiencia,
-      naoResidente: dependenteSelecionado.naoResidente,
+      residente: dependenteSelecionado.residente,
     })
   }
 

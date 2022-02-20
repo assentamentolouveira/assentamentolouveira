@@ -19,6 +19,14 @@ export class RelatoriosService extends BaseResourceService {
     return this.http.get(this.apiPath + '/AgruparGenero')
   }
 
+  getTotalizadores(): Observable<any> {
+    return this.http.get(this.apiPath + '/Totalizador')
+  }
+
+  getTotalFamiliasContempladas(): Observable<any> {
+    return this.http.get(this.apiPath + '/TotalDeFamiliasContempladas')
+  }
+
   getUsoMoradia(): Observable<any> {
     return this.http.get(this.apiPath + '/AgruparUsoMoradia')
   }

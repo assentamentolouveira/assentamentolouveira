@@ -1,4 +1,9 @@
-<po-modal #modal p-title="Termo de Aceite" [p-primary-action]="confirm"  [p-hide-close]="true">
+<po-modal
+  #modal
+  p-title="Termo de Aceite"
+  [p-primary-action]="confirm"
+  [p-hide-close]="true"
+>
   <div class="po-row">
     <!-- <div class="po-offset-xl-4">
       <img
@@ -10,14 +15,80 @@
   </div>
   <form [formGroup]="FormularioTermosDeAceite">
     <div class="po-row">
-      <po-textarea
+      <!-- <po-textarea
         [p-rows]="20"
         class="po-lg-12"
         [p-readonly]=true
         name="criteriosDeAceite"
         formControlName="criteriosDeAceite"
       >
-      </po-textarea>
+      </po-textarea> -->
+      <po-widget [p-no-shadow]="true">
+        <div class="texto-termo">
+          <div class="po-font-text">
+            <ul>
+              <li>
+                Poderão se cadastrar no SIMHAB pessoas comprovadamente
+                domiciliadas e residentes no município de Louveira, que não
+                sejam proprietárias ou possuidoras de direitos a qualquer título
+                de outro imóvel em todo o território nacional;
+              </li>
+              <br />
+              <li>
+                Ser maior de 18 anos e possuir capacidade plena para a prática
+                de todos os atos da vida civil;
+              </li>
+              <br />
+              <li>
+                As informações prestadas pelo munícipe, sejam através do
+                cadastro online ou cadastro oriundo de visita técnica social,
+                deverão ser VERÍDICAS E COMPROVADAS através de documentação a
+                ser apresentada para a FUMHAB, no momento do cadastro e
+                ratificadas no momento da contemplação da unidade habitacional,
+                por meio de processo de investigação social;
+              </li>
+              <br />
+              <li>
+                INFORMAÇÕES FALSAS ACARRETARÃO A DESCLASSIFICAÇÃO DO INTERESSADO
+                E DE SEU NÚCLEO FAMILIAR;
+              </li>
+              <br />
+              <li>
+                O Sistema ficará aberto permanentemente podendo o interessado
+                atualizar o cadastro a qualquer momento e é de responsabilidade
+                do munícipe manter o cadastro atualizado junto ao SIMHAB;
+              </li>
+              <br />
+              <li>
+                Em caso de mudança de município, fica o interessado responsável
+                por informar à FUMHAB e solicitar a exclusão do cadastro;
+              </li>
+              <br />
+              <li>
+                O cadastro no SIMHAB não garante o direito a uma unidade
+                habitacional;
+              </li>
+              <br />
+              <li>
+                É de inteira responsabilidade do munícipe a veracidade pelas
+                informações prestadas;
+              </li>
+              <br />
+              <li>
+                O munícipe desde já autoriza a utilização pela FUMHAB das
+                informações ora prestadas, com a finalidade exclusiva de
+                planejamento e oferta de programas habitacionais de interesse
+                social;
+              </li>
+              <br />
+              <li>
+                A FUMHAB se responsabiliza pelo sigilo das informações ora
+              </li>
+              prestadas.;
+            </ul>
+          </div>
+        </div>
+      </po-widget>
     </div>
     <div class="po-row">
       <po-checkbox

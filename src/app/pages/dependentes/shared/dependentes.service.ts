@@ -119,7 +119,7 @@ export class DependentesService extends BaseResourceService {
   }
 
   trataDependente(dependente:Dependente): Dependente{
-    dependente.naoResidente = this.converterParaBoleano(dependente.naoResidente)
+    dependente.residente = this.converterParaBoleano(dependente.residente)
     dependente.nascimento = new Date(dependente.dataNascimento);
     dependente.pcd = !!dependente.PCD
     return dependente

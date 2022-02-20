@@ -67,6 +67,6 @@ export class NewUserService extends BaseResourceService {
 
 
   resetarSenha(usuario: TitularBackEnd):Observable<any>{
-    return this.http.put<newUser>(`${this.apiPath}resetarsenha?idUsuario=${usuario.NumeroCpf}`, {}, this.httpOptions);
+    return this.http.put<newUser>(`${this.apiPath}resetarsenha/${usuario.NumeroCpf}`, {}, this.httpOptions);
   }
 }

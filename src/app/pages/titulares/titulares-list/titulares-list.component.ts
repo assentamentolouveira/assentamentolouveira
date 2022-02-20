@@ -10,7 +10,7 @@ import { AfterContentInit, Component, OnInit, OnDestroy, ViewChild } from '@angu
 import { BaseResourceListComponent } from 'src/app/shared/components/base-resource-list/base-resource-list.component';
 import { Titulares } from '../shared/titulares.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { PoModalAction, PoModalComponent, PoTableAction, PoNotificationService, PoDialogService } from '@po-ui/ng-components';
+import { PoModalAction, PoModalComponent, PoTableAction, PoNotificationService, PoDialogService, PoSelectOption } from '@po-ui/ng-components';
 import { TitularBackEnd } from '../shared/titularBackEnd.model';
 import { DocumentPipe } from 'src/app/shared/pipes/document.pipe';
 
@@ -33,20 +33,66 @@ export class TitularesListComponent extends BaseResourceListComponent implements
 
   confirm: PoModalAction = {
     action: () => {
-      this.confirmaCPFInclusao();
+      if (this.incluiTitular) {
+        this.confirmaCPFInclusao();
+      }
+      if (this.contemplaTitular) {
+        this.confimaContempacao();
+      }
     },
     label: 'Confirmar'
   };
 
+  public incluiTitular = false;
+  public contemplaTitular = false;
+  public tituloModal = "";
+
   public formularioInclusaoTitular: FormGroup;
+  public formularioContemplacao: FormGroup;
   public reactiveForm: FormGroup;
   public disativarShowMore = false;
   public carregandoRegistros = false;
+  public moradiasContemplacaoOpcoes: PoSelectOption[] = [
+    {
+      label: 'Loteamento Popular I - Parque Brasil',
+      value: 'Loteamento Popular I - Parque Brasil'
+    },
+    {
+      label: 'Loteamento Popular II - Parque dos Estados',
+      value: 'Loteamento Popular II - Parque dos Estados'
+    },
+    {
+      label: 'Conjunto Habitacional III - Popular III (Vassoural)',
+      value: 'Conjunto Habitacional III - Popular III (Vassoural)'
+    },
+    {
+      label: 'Conjunto Habitacional Popular IV - Popular IV (Mirante do Santo Antônio)',
+      value: 'Conjunto Habitacional Popular IV - Popular IV (Mirante do Santo Antônio)'
+    },
+    {
+      label: 'Conjunto Habitacional Sagrado Coração de Jesus (CDHU) - C.H.S.C. Jesus',
+      value: 'Conjunto Habitacional Sagrado Coração de Jesus (CDHU) - C.H.S.C. Jesus'
+    },
+    {
+      label: 'Conjunto Habitacional Louveira D Brasil (CDHU)',
+      value: 'Conjunto Habitacional Louveira D Brasil (CDHU)'
+    },
+    {
+      label: 'Residencial Parque dos Estados',
+      value: 'Residencial Parque dos Estados'
+    }
+
+  ];
   public acoes: Array<PoTableAction> = [
     {
       icon: 'po-icon-edit',
       label: 'Editar',
       action: this.editarTitular.bind(this)
+    },
+    {
+      icon: 'po-icon-warehouse',
+      label: 'Contemplar',
+      action: this.contemplarTitular.bind(this)
     },
     {
       icon: 'po-icon-close',
@@ -64,7 +110,8 @@ export class TitularesListComponent extends BaseResourceListComponent implements
   public valorPesquisado = ''
 
   private subscription: Subscription;
-  private pagina = 0
+  private pagina = 0;
+  private cpfSelecionado = '';
 
 
   constructor(private titularesService: TitularesService
@@ -78,6 +125,7 @@ export class TitularesListComponent extends BaseResourceListComponent implements
     this.columns = this.titularesService.getColumns();
     this.criaFormularioPesquisar();
     this.criaFormularioInclusao();
+    this.criaFormularioContemplacao();
   }
 
   ngOnInit(): void {
@@ -109,6 +157,8 @@ export class TitularesListComponent extends BaseResourceListComponent implements
   }
 
   informaCPF(): void {
+    this.tituloModal = "Inclusão de Titular";
+    this.incluiTitular = true;
     this.poModal.open()
   }
 
@@ -123,6 +173,13 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       pesquisaCpfInclusao: [''],
     });
   }
+
+  criaFormularioContemplacao(): void {
+    this.formularioContemplacao = this.fb.group({
+      moradiaContemplacao: [''],
+    });
+  }
+
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
@@ -147,7 +204,7 @@ export class TitularesListComponent extends BaseResourceListComponent implements
           this.resources = this.resources.concat(
             res.map((titular: TitularBackEnd) => {
               return {
-                ...titular, cpfFormatado: pipeCPF.transform(titular.NumeroCpf)
+                ...titular, cpfFormatado: pipeCPF.transform(titular.NumeroCpf), contempladoTratado: titular.Contemplado ? '1' : '2', localContempladoTratado: 'Não definido'
               }
             })
           );
@@ -185,6 +242,9 @@ export class TitularesListComponent extends BaseResourceListComponent implements
   fechaModal() {
     this.poModal.close();
     this.formularioInclusaoTitular.reset();
+    this.formularioContemplacao.reset();
+    this.incluiTitular = false;
+    this.contemplaTitular = false;
   }
 
   confirmaCPFInclusao(): void {
@@ -217,6 +277,24 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       res => { this.poNotificationService.success("Senha alterada com sucesso!") },
       error => { this.poNotificationService.error(error.message) }
     )
+  }
 
+  contemplarTitular(titular: TitularBackEnd): void {
+    this.contemplaTitular = true;
+    this.tituloModal = "Contemplação de Titular";
+    this.cpfSelecionado = titular.NumeroCpf;
+    this.poModal.open();
+  }
+
+  confimaContempacao(): void {
+    const bairroContemplacao = this.formularioContemplacao.value.moradiaContemplacao;
+    if (bairroContemplacao == "") {
+      this.poNotificationService.error("Informe um local para a contemplação");
+      return
+    }
+    this.titularesService.contemplaTitular(this.cpfSelecionado, bairroContemplacao).subscribe(
+      res => { this.poNotificationService.success("Usuário Contemplado com Sucesso"); this.poModal.close() },
+      error => { this.poNotificationService.error("Erro ao contemplar Titular") }
+    );
   }
 }

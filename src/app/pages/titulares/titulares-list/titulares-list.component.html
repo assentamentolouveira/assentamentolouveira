@@ -33,22 +33,35 @@
   </ng-template>
 
   <po-modal
-    p-title="Inclusão de Titular"
+    [p-title]="tituloModal"
     [p-hide-close]="true"
     p-click-out="false"
     [p-primary-action]="confirm"
     [p-secondary-action]="close"
   >
-    <form [formGroup]="formularioInclusaoTitular">
-      <po-input
-        formControlName="pesquisaCpfInclusao"
-        p-icon="po-icon-search"
-        p-label="Informe parte do CPF do Titular"
-        p-placeholder="CPF do Titular"
-        p-mask="999.999.999-99"
-        [p-minlength]="13"
-        p-error-pattern="O CPF precisa ter 11 dígitos"
-      ></po-input>
-    </form>
+    <div *ngIf="incluiTitular">
+      <form [formGroup]="formularioInclusaoTitular">
+        <po-input
+          formControlName="pesquisaCpfInclusao"
+          p-icon="po-icon-search"
+          p-label="Informe parte do CPF do Titular"
+          p-placeholder="CPF do Titular"
+          p-mask="999.999.999-99"
+          [p-minlength]="13"
+          p-error-pattern="O CPF precisa ter 11 dígitos"
+        ></po-input>
+      </form>
+    </div>
+    <div *ngIf="contemplaTitular">
+      <form [formGroup]="formularioContemplacao">
+        <po-select
+          formControlName="moradiaContemplacao"
+          p-label="Moradia Contemplada"
+          [p-options]="moradiasContemplacaoOpcoes"
+          p-placeholder="Informe a Moradia"
+        >
+        </po-select>
+      </form>
+    </div>
   </po-modal>
 </po-page-default>

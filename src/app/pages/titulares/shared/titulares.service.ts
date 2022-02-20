@@ -88,6 +88,15 @@ export class TitularesService extends BaseResourceService {
         if (res.Status !== "100") {
           console.log(cpf)
           console.log("Erro:" + res.Status)
+          res = {
+            Status:'100',
+            Nome: "Titular não encontrado",
+            Numero: '',
+            CPF: '',
+            Nascimento: '',
+            Estado_Civil: '',
+            PCD: '',
+          }
 //          throw new Error(this.retornarErroCartaoCidadao(res.Status))//({ error:{message: this.retornarErroCartaoCidadao(res.Status)}, status: res.Status });
         }
         return res
@@ -168,6 +177,24 @@ export class TitularesService extends BaseResourceService {
   getColumns(): PoTableColumn[] {
     return [
       {
+        property: 'contempladoTratado',
+        width: '10%',
+        label: 'Contemplado',
+        type: 'label',
+        visible: true,
+        labels: [
+          { value: '1', color: 'color-11', label: 'Contemplado' },
+          { value: '2', color: 'color-08', label: 'Não Contemplado' }
+        ]
+      },
+      {
+        property: 'localContempladoTratado',
+        width: '10%',
+        label: 'Local',
+        type: 'string',
+        visible: true,
+      },
+      {
         property: 'Id',
         width: '35%',
         label: 'Id',
@@ -242,6 +269,10 @@ export class TitularesService extends BaseResourceService {
         visible: true,
       }
     ];
+  }
+
+  contemplaTitular(cpf: string, barro: string): Observable<any> {
+    return of(true)//this.http.put(`${this.apiPath}/contemplacao/${cpf}`, barro, this.httpOptions);
   }
 
   novoTitular(): Titular {
