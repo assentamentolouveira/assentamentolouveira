@@ -17,9 +17,9 @@
           p-title="Cadastros Completos"
         >
           <div class="po-font-subtitle po-text-center">
-            Cadastro de Contemplados
+            Cadastro Completos
           </div>
-          <div class="po-font-display po-text-center">{{totalDeContemplados}}</div>
+          <div class="po-font-display po-text-center">{{totalDeSolicitacaoMoradia}}</div>
         </po-widget>
         <po-widget
           class="po-lg-4"
@@ -29,16 +29,13 @@
           <div class="po-font-subtitle po-text-center">
             Cadastro Incompletos
           </div>
-          <div class="po-font-display po-text-center">{{totalDeFamilias - totalDeContemplados}}</div>
+          <div class="po-font-display po-text-center">{{totalDeFamilias - totalDeSolicitacaoMoradia}}</div>
         </po-widget>
       </div>
       <div class="po-row">
         <po-chart
           class="po-lg-6"
-          [p-series]="[
-            { label: 'Completo', data: 100 },
-            { label: 'Incompleto', data: 10 }
-          ]"
+          [p-series]="seriesGraficosContemplados"
         >
         </po-chart>
         <po-chart

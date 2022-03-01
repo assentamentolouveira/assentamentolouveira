@@ -189,7 +189,7 @@ export class TitularesService extends BaseResourceService {
       },
       {
         property: 'localContempladoTratado',
-        width: '10%',
+        width: '35%',
         label: 'Local',
         type: 'string',
         visible: true,
@@ -203,28 +203,28 @@ export class TitularesService extends BaseResourceService {
       },
       {
         property: 'Nome',
-        width: '35%',
+        width: '25%',
         label: 'Nome',
         type: 'string',
         visible: true,
       },
       {
         property: 'NumeroCpf',
-        width: '30%',
+        width: '10%',
         label: 'CPF',
         type: 'string',
         visible: false,
       },
       {
         property: 'cpfFormatado',
-        width: '30%',
+        width: '10%',
         label: 'CPF',
         type: 'string',
         visible: true,
       },
       {
         property: 'NumeroCartaoCidadao',
-        width: '30%',
+        width: '10%',
         label: 'Cartão Cidadão',
         type: 'string',
         visible: true,
@@ -271,8 +271,12 @@ export class TitularesService extends BaseResourceService {
     ];
   }
 
-  contemplaTitular(cpf: string, barro: string): Observable<any> {
-    return of(true)//this.http.put(`${this.apiPath}/contemplacao/${cpf}`, barro, this.httpOptions);
+  contemplaTitular(cpf: string, bairro: string): Observable<any> {
+    return this.http.put(`${this.apiPath}/contemplacao/${cpf}`, `"${bairro}"`, this.httpOptions);
+  }
+
+  inativarTitular(cpf: string, motivo: string): Observable<any> {
+    return this.http.put(`${this.apiPath}/inativar/${cpf}`, `"${motivo}"`, this.httpOptions);
   }
 
   novoTitular(): Titular {
