@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { token } from '../shared/token.model';
 import { login } from '../shared/login.model';
 import { finalize } from 'rxjs/operators'
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,10 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService, private poNotificationService: PoNotificationService, private router: Router, private dependentesService: DependentesService) { }
 
   @ViewChild('formularioLogin') formularioLogin: any;
+  public botaoAtivado = false;
+  public botaoCarregando = false;
+  public reactiveForm: FormGroup;
+
 
   ngOnInit() {
   }
@@ -108,6 +113,14 @@ export class LoginComponent implements OnInit {
       }
       , error => { this.poNotificationService.error(`Ocorreu um erro no momento do login: ${error.message}`) }
     );
+  }
+
+  voltar():void{
+
+  }
+
+  gravaUsuario(): void {
+
   }
 
 }

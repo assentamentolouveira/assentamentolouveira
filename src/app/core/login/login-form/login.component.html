@@ -1,4 +1,4 @@
-<po-page-login #formularioLogin
+<!-- <po-page-login #formularioLogin
   [p-literals]="literaisPersonalizadas"
   [p-hide-remember-user]="true"
   p-product-name="Prefeitura Municipal de Louveira"
@@ -8,4 +8,53 @@
   [p-login]="loginFormatado"
   p-login-pattern='(^\d{3}.\d{3}.\d{3}-\d{2}$)|(^\d{11}$)'
   (p-login-change)="informaCaracterLogin($event)"
-></po-page-login>
+></po-page-login> -->
+
+<div class="flex-box container-box">
+  <div class="content-box">
+    <div class="content-box-login"
+    >
+      <p class="po-font-title text-align-center">ACESSO</p>
+      <p class="po-font-subtitle text-align-center">
+        Sistema Municipal de Habitação
+      </p>
+      <form [formGroup]="reactiveForm">
+        <div class="po-row">
+          <po-input
+            class="po-md-12"
+            formControlName="cpf"
+            p-clean
+            p-mask="999.999.999-99"
+            p-icon="po-icon-user"
+            p-label="CPF"
+            p-placeholder="Informe o CPF"
+            p-required="true"
+            p-error-pattern="CPF inválido"
+          >
+          </po-input>
+        </div>
+        <div class="po-row">
+          <po-password
+            class="po-md-12"
+            formControlName="senha"
+            name="senha"
+            p-label="Senha"
+            p-placeholder="Informe uma nova senha"
+            p-error-pattern="A senha deve possuir ao menos 6 dígitos"
+          >
+          </po-password>
+        </div>
+        <div class="po-row">
+          <po-button
+            p-label="Confirmar Novo Cadastro"
+            class="po-sm-12 po-lg-6 po-xl-6 po-mt-2 po-offset-lg-3 po-offset-xl-3"
+            [p-disabled]="!botaoAtivado"
+            [p-loading]="botaoCarregando"
+            (p-click)="gravaUsuario()"
+          >
+          </po-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -39,7 +39,7 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       if (this.contemplaTitular) {
         this.confimaContempacao();
       }
-      if(this.excluiTitular) {
+      if (this.excluiTitular) {
         this.confirmaExclusao();
       }
     },
@@ -218,7 +218,7 @@ export class TitularesListComponent extends BaseResourceListComponent implements
               }
             })
           );
-
+          this.resources.sort((x, y) => x.NumeroCpf - y.NumeroCpf)
         } else {
           this.disativarShowMore = true;
         }
