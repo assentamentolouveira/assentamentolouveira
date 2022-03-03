@@ -21,7 +21,7 @@
     name="Senha"
     p-label="Senha"
     p-placeholder="Informe uma nova senha"
-    p-readonly="true"
+    [p-readonly]="inclusaoUsuario"
     p-error-pattern="A senha deve possuir ao menos 6 dígitos"
   >
   </po-password>

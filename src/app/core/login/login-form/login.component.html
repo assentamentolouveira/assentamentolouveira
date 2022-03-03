@@ -11,50 +11,55 @@
 ></po-page-login> -->
 
 <div class="flex-box container-box">
-  <div class="content-box">
-    <div class="content-box-login"
-    >
-      <p class="po-font-title text-align-center">ACESSO</p>
-      <p class="po-font-subtitle text-align-center">
-        Sistema Municipal de Habitação
-      </p>
-      <form [formGroup]="reactiveForm">
-        <div class="po-row">
-          <po-input
-            class="po-md-12"
-            formControlName="cpf"
-            p-clean
-            p-mask="999.999.999-99"
-            p-icon="po-icon-user"
-            p-label="CPF"
-            p-placeholder="Informe o CPF"
-            p-required="true"
-            p-error-pattern="CPF inválido"
-          >
-          </po-input>
-        </div>
-        <div class="po-row">
-          <po-password
-            class="po-md-12"
-            formControlName="senha"
-            name="senha"
-            p-label="Senha"
-            p-placeholder="Informe uma nova senha"
-            p-error-pattern="A senha deve possuir ao menos 6 dígitos"
-          >
-          </po-password>
-        </div>
-        <div class="po-row">
-          <po-button
-            p-label="Confirmar Novo Cadastro"
-            class="po-sm-12 po-lg-6 po-xl-6 po-mt-2 po-offset-lg-3 po-offset-xl-3"
-            [p-disabled]="!botaoAtivado"
-            [p-loading]="botaoCarregando"
-            (p-click)="gravaUsuario()"
-          >
-          </po-button>
-        </div>
-      </form>
+  <div class="header-box">
+    <div class="header-box-itens">
+      <img src="../../../../assets/img/logo-horizontal.png">
+    </div>
+    <div class="header-box-itens">
+      <h1>Prefeitura Municipal de Louveira</h1>
+    </div>
+    <div class="header-box-itens button-align">
+      <button class="button">Voltar</button>
+      <button class="button">Menu</button>
     </div>
   </div>
+  <div class="division-header">
+    <div
+      class="division-header-itens"
+      style="background-color: rgb(238, 197, 55)"
+    ></div>
+    <div
+      class="division-header-itens"
+      style="background-color: rgb(155, 187, 59)"
+    ></div>
+    <div
+      class="division-header-itens"
+      style="background-color: rgb(53, 151, 83)"
+    ></div>
+    <div
+      class="division-header-itens"
+      style="background-color: rgb(61, 120, 184)"
+    ></div>
+    <div
+      class="division-header-itens"
+      style="background-color: rgb(46, 79, 149)"
+    ></div>
+    <div
+      class="division-header-itens"
+      style="background-color: rgb(153, 63, 135)"
+    ></div>
+    <div
+      class="division-header-itens"
+      style="background-color: rgb(163, 29, 85)"
+    ></div>
+    <div
+      class="division-header-itens"
+      style="background-color: rgb(224, 43, 55)"
+    ></div>
+  </div>
+  <section>
+    <div class="corpo">
+      dfdfdfdf
+    </div>
+  </section>
 </div>
