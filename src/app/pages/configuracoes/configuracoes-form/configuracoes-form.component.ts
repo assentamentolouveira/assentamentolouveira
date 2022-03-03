@@ -21,6 +21,7 @@ export class ConfiguracoesFormComponent implements OnInit {
   public formularioUsuario: FormGroup;
   public perfilDeAcessoOpcoes: PoSelectOption[];
   public boleanoOpcoes: PoSelectOption[];
+  public inclusaoUsuario = false;
 
 
   private subscription: Subscription
@@ -37,8 +38,12 @@ export class ConfiguracoesFormComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("usuário Editado:", this.usuarioEditado)
-    if (this.edicao)
+    if (this.edicao) {
+      this.inclusaoUsuario = false;
       this.montaFormularioEdicao(this.usuarioEditado)
+    } else {
+      this.inclusaoUsuario = true;
+    }
   }
 
   montaFormulario(): void {
@@ -68,6 +73,7 @@ export class ConfiguracoesFormComponent implements OnInit {
       perfilAcesso: usuarioEditado.PerfilAcesso,
       novaSenha: '1'
     })
+
   }
 
 }
