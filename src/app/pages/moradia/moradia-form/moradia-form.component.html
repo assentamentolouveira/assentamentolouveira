@@ -13,7 +13,7 @@
           *ngIf="!isInternet"
           formControlName="assentamento"
           class="po-lg-4"
-          p-label="Assentamento"
+          p-label="Núcleo Urbano Informal"
           [p-options]="assentamentoOpcoes"
           p-placeholder="Assentamento?"
         >
@@ -396,10 +396,9 @@
 
     <po-divider
       p-label="Animais de Estimação"
-      *ngIf="!acessoInternet"
     ></po-divider>
 
-    <div class="po-row" *ngIf="!acessoInternet">
+    <div class="po-row">
       <po-number
         class="po-lg-3"
         p-label="Cachorro"

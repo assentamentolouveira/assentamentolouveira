@@ -39,7 +39,8 @@ export class HomeComponent implements OnInit {
   ];
   public pageTitle = "Indicadores de Moradia";
   public totalDeFamilias = 0;
-  public totalDeContemplados = 0;
+  public totalDeSolicitacaoMoradia = 0;
+  public seriesGraficosContemplados: PoChartSerie[] = [];
 
   informacoesGrafico: Array<PoChartSerie> = [];
 
@@ -52,7 +53,11 @@ export class HomeComponent implements OnInit {
   }
 
   graficoAlterado(graficoSelecionado: number): void {
-    this.graficoSelecionado = String(this.tiposDeGraficos[graficoSelecionado - 1].label);
+    this.tiposDeGraficos.filter(a => {
+      if (a.value === graficoSelecionado) {
+        this.graficoSelecionado = String(a.label)
+      }
+    })
     if (graficoSelecionado === 1) { //Renda
       this.relatoriosService.getRenda().subscribe(res => {
         this.montaGrafico(res);
@@ -224,10 +229,12 @@ export class HomeComponent implements OnInit {
   getTotais(): void {
     this.relatoriosService.getTotalizadores().subscribe(res => {
       this.totalDeFamilias = res.totalDeFamilias;
-    }
-    );
-    this.relatoriosService.getTotalFamiliasContempladas().subscribe(res => {
-      // this.totalDeContemplados = res;
+      this.totalDeSolicitacaoMoradia = res.totalDeSolicitacaoMoradia;
+      this.seriesGraficosContemplados = [
+        { label: 'Completo', data: this.totalDeSolicitacaoMoradia },
+        { label: 'Incompleto', data: this.totalDeFamilias - this.totalDeSolicitacaoMoradia }
+      ]
+
     }
     );
   }

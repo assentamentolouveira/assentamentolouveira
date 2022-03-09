@@ -63,5 +63,14 @@
         </po-select>
       </form>
     </div>
+    <div *ngIf="excluiTitular">
+      <form [formGroup]="formularioExclusaoTitular">
+        <po-input
+          formControlName="motivoExclusao"
+          p-label="Informe o motivo para exclusão do Titular"
+          p-placeholder="Motivo da Exclusão"
+        ></po-input>
+      </form>
+    </div>
   </po-modal>
 </po-page-default>

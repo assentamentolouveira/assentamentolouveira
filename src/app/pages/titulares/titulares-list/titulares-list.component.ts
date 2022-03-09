@@ -39,16 +39,21 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       if (this.contemplaTitular) {
         this.confimaContempacao();
       }
+      if(this.excluiTitular) {
+        this.confirmaExclusao();
+      }
     },
     label: 'Confirmar'
   };
 
   public incluiTitular = false;
+  public excluiTitular = false;
   public contemplaTitular = false;
   public tituloModal = "";
 
   public formularioInclusaoTitular: FormGroup;
   public formularioContemplacao: FormGroup;
+  public formularioExclusaoTitular: FormGroup;
   public reactiveForm: FormGroup;
   public disativarShowMore = false;
   public carregandoRegistros = false;
@@ -126,6 +131,7 @@ export class TitularesListComponent extends BaseResourceListComponent implements
     this.criaFormularioPesquisar();
     this.criaFormularioInclusao();
     this.criaFormularioContemplacao();
+    this.criaFormularioExclusao();
   }
 
   ngOnInit(): void {
@@ -134,11 +140,6 @@ export class TitularesListComponent extends BaseResourceListComponent implements
         label: 'Incluir',
         action: () => this.informaCPF(),
         icon: "po-icon-plus",
-      },
-      {
-        label: 'Contemplar Titular',
-        url: this.routerNew,
-        icon: 'po-icon-home'
       }
     ];
 
@@ -180,6 +181,12 @@ export class TitularesListComponent extends BaseResourceListComponent implements
     });
   }
 
+  criaFormularioExclusao(): void {
+    this.formularioExclusaoTitular = this.fb.group({
+      motivoExclusao: [''],
+    })
+  }
+
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
@@ -204,7 +211,10 @@ export class TitularesListComponent extends BaseResourceListComponent implements
           this.resources = this.resources.concat(
             res.map((titular: TitularBackEnd) => {
               return {
-                ...titular, cpfFormatado: pipeCPF.transform(titular.NumeroCpf), contempladoTratado: titular.Contemplado ? '1' : '2', localContempladoTratado: 'Não definido'
+                ...titular,
+                cpfFormatado: pipeCPF.transform(titular.NumeroCpf),
+                contempladoTratado: titular.Contemplado ? '1' : '2',
+                localContempladoTratado: titular.LocalContemplacao ? titular.LocalContemplacao : 'Não definido'
               }
             })
           );
@@ -235,16 +245,27 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       })
   }
 
-  excluirTitular(): void {
+  excluirTitular(titular: TitularBackEnd): void {
 
+    if (titular.Contemplado) {
+      this.poNotificationService.warning("Titulares Contemplados não podem ser excluídos")
+      return
+    }
+    this.tituloModal = "Excluir Titular";
+    this.cpfSelecionado = titular.NumeroCpf;
+    this.excluiTitular = true;
+    this.poModal.open();
   }
 
   fechaModal() {
     this.poModal.close();
     this.formularioInclusaoTitular.reset();
     this.formularioContemplacao.reset();
+    this.formularioExclusaoTitular.reset();
+    this.cpfSelecionado = '';
     this.incluiTitular = false;
     this.contemplaTitular = false;
+    this.excluiTitular = false;
   }
 
   confirmaCPFInclusao(): void {
@@ -253,6 +274,10 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       , error => {
         this.titularesService.getDadosCartaoCidadao(this.formularioInclusaoTitular.value.pesquisaCpfInclusao).subscribe(
           res => {
+            if (res.CPF === '') {
+              this.poNotificationService.error("CPF Não Encontrado")
+              return
+            }
             this.titularesService.gravaDadosTitularCartaoCidadao(res);
             this.titularesService.setTitularInfo();
             this.router.navigate([`/intranet/titulares/novo`]);
@@ -293,8 +318,34 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       return
     }
     this.titularesService.contemplaTitular(this.cpfSelecionado, bairroContemplacao).subscribe(
-      res => { this.poNotificationService.success("Usuário Contemplado com Sucesso"); this.poModal.close() },
+      res => {
+        this.poNotificationService.success("Usuário Contemplado com Sucesso");
+        this.poModal.close();
+        this.resources = [];
+        this.pagina = 0;
+        this.buscaTitulares(this.pagina, this.valorPesquisado)
+      },
       error => { this.poNotificationService.error("Erro ao contemplar Titular") }
     );
   }
+
+  confirmaExclusao(): void {
+    const motivoExclusao = this.formularioExclusaoTitular.value.motivoExclusao;
+    if (motivoExclusao == "") {
+      this.poNotificationService.error("Informe um motivo para excluir o Titular");
+      return
+    }
+    this.titularesService.inativarTitular(this.cpfSelecionado, motivoExclusao).subscribe(
+      res => {
+        this.poNotificationService.success("Usuário excluído com Sucesso");
+        this.poModal.close();
+        this.resources = [];
+        this.pagina = 0;
+        this.buscaTitulares(this.pagina, this.valorPesquisado)
+      },
+      error => { this.poNotificationService.error("Erro ao excluir Titular") }
+    );
+  }
+
+
 }

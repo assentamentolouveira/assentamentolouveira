@@ -99,4 +99,20 @@ export class RelatoriosService extends BaseResourceService {
   getExportarTitularExcel(): Observable<any> {
     return this.http.get(this.apiPath + '/ExportarListaCadastroExcel', {responseType: 'blob' as 'json'})
   }
+
+  getExportarSMoradiaExcel(): Observable<any> {
+    return this.http.get(this.apiPath + '/ExportarSMoradiaExcel', {responseType: 'blob' as 'json'})
+  }
+
+  getExportarSMoradiaIdosoExcel(): Observable<any> {
+    return this.http.get(this.apiPath + '/ExportarSMoradiaIdosoExcel', {responseType: 'blob' as 'json'})
+  }
+
+  getExportarSMoradiaPcdExcel(): Observable<any> {
+    return this.http.get(this.apiPath + '/ExportarSMoradiaPcdExcel', {responseType: 'blob' as 'json'})
+  }
+
+  //ExportarSMoradiaExcel
+  //ExportarSMoradiaIdosoExcel
+  //ExportarSMoradiaPcdExcel
 }

@@ -1,4 +1,5 @@
 export interface TitularBackEnd {
   NumeroCpf: string,
-  Contemplado?: boolean
+  Contemplado?: boolean,
+  LocalContemplacao?: string
 }
