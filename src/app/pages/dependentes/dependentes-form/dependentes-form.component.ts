@@ -81,7 +81,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
 
   montaFormulario(): void {
     this.formularioDependente = this.fb.group({
-      nomeResponsavel: [''],
+      nome: [''],
       numeroCartaoCidadao: [''],
       numeroCPF: [''],
       dataNascimento: [''],
@@ -108,14 +108,14 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     const dadosTitular: Titular = JSON.parse(this.titularService.getTitularInfo());
     let listaDeDepententes: string[] = dadosTitular.dependentes === null ? [] : String(dadosTitular.dependentes).split(',');
     if (String(sessionStorage.getItem('idTitular'))?.length > 0 && listaDeDepententes.length > 0) {
-      this.retornaDadosdoCartaoCidadao(listaDeDepententes, dadosTitular.nomeResponsavel);
+      this.retornaDadosdoCartaoCidadao(listaDeDepententes, dadosTitular.nome);
       this.retornaDependentesCadastrados(dadosTitular);
     } else {
       this.carregandoTabela = false;
     }
   }
 
-  retornaDadosdoCartaoCidadao(listaDeDepententes: string[], nomeResponsavel: string): void {
+  retornaDadosdoCartaoCidadao(listaDeDepententes: string[], nomeTitular: string): void {
     let count = 0
     listaDeDepententes.forEach(dependente => {
       this.dependentesService.getDependenteCartaoCidadao(dependente).pipe(
@@ -130,7 +130,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
             this.listaDependentesCartaoCidadao.push({
               id: '',
               cpfFormatado: pipeCPF.transform(res.CPF),
-              nomeResponsavel: nomeResponsavel,
+              nomeTitular: nomeTitular,
               numeroCartaoCidadao: res.Numero,
               numeroCpf: res.CPF,
               dataNascimento: new Date(res.Nascimento),
@@ -164,7 +164,6 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
           this.listaDependentesLocal.push({
             id: cartao.id,
             cpfFormatado: cartao.cpfFormatado,
-            nomeResponsavel: cartao.cpfFormatado,
             numeroCartaoCidadao: cartao.numeroCartaoCidadao,
             numeroCpf: cartao.numeroCpf,
             dataNascimento: cartao.dataNascimento,
@@ -243,7 +242,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   editarDependente(dependenteSelecionado: Dependente): void {
     this.dependenteSelecionado = dependenteSelecionado.id === '' ? 'novo' : dependenteSelecionado.id;
     this.formularioDependente.patchValue({
-      nomeResponsavel: dependenteSelecionado.nome,
+      nome: dependenteSelecionado.nome,
       numeroCartaoCidadao: dependenteSelecionado.numeroCartaoCidadao,
       numeroCPF: dependenteSelecionado.cpfCartaoCidadao,
       dataNascimento: dependenteSelecionado.dataNascimento,
@@ -276,7 +275,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
           },
           error => {
             if (error.status === 409) {
-              this.poNotificationService.error(`Não foi possível incluir o dependente pois ${this.formularioDependente.value.nomeResponsavel} possui um cadastro como titular.`)
+              this.poNotificationService.error(`Não foi possível incluir o dependente pois ${this.formularioDependente.value.nome} possui um cadastro como titular.`)
             } else {
               this.poNotificationService.error(error.message)
             }

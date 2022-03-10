@@ -34,6 +34,7 @@ export class NewUserComponent implements OnInit {
       senha: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(50)])],
       dataNascimento: ['', Validators.compose([Validators.required, Validacoes.validaDataMaior18])],
       cartaoCidadao: ['', Validators.required],
+      nome: ['']
     });
   }
 
@@ -46,6 +47,7 @@ export class NewUserComponent implements OnInit {
           } else {
             this.botaoAtivado = false;
             this.botaoCarregando = true;
+            this.reactiveForm.patchValue({nome:res.Nome})
             const teste: newUser = this.reactiveForm.value;
             this.newUserService.criarUsuario(teste).
               pipe(

@@ -71,7 +71,7 @@ export class TitularesService extends BaseResourceService {
   }
 
   gravaDadosTitularCartaoCidadao(dadosCartaoCidade: CartaoCidadao): void {
-    this.dadosTitular.nomeResponsavel = dadosCartaoCidade.Nome;
+    this.dadosTitular.nome = dadosCartaoCidade.Nome;
     this.dadosTitular.numeroCartaoCidadao = dadosCartaoCidade.Numero;
     this.dadosTitular.deficiencia = dadosCartaoCidade.PCD;
     this.dadosTitular.numeroCpf = dadosCartaoCidade.CPF;
@@ -285,7 +285,7 @@ export class TitularesService extends BaseResourceService {
       assentamento: "",
       numeroSelagemAtual: "",
       numeroSelagemAntiga: "",
-      nomeResponsavel: "",
+      nome: "",
       numeroCartaoCidadao: "",
       numeroCpf: "",
       dataNascimento: "",

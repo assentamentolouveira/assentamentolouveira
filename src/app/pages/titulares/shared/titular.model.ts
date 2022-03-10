@@ -3,7 +3,7 @@ export interface Titular {
   assentamento: string,
   numeroSelagemAtual: string,
   numeroSelagemAntiga: string,
-  nomeResponsavel: string,
+  nome: string,
   numeroCartaoCidadao: string | number,
   numeroCpf: string,
   dataNascimento: string,

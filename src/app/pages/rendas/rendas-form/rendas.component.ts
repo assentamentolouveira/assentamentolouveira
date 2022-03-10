@@ -105,7 +105,7 @@ export class RendasComponent implements OnInit, OnDestroy {
     this.rendaOpcoes = this.opcoesComboService.rendaOpcoes;
     this.realizandoAlteracaoAlteracao = true;
     this.listaRendas = [];
-    this.comboRenda = [{ label: dadosTitular.nomeResponsavel, value: dadosTitular.id }]
+    this.comboRenda = [{ label: dadosTitular.nome, value: dadosTitular.id }]
     this.dependentesService.getDepentendesPorTitularComCartaoCidadao(String(sessionStorage.getItem('idTitular'))).pipe(
       finalize(() => this.buscaRendaPorTitular())
     ).subscribe(

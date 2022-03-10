@@ -3,7 +3,7 @@ import { Data } from "@angular/router";
 export interface Dependente {
   id: string,
   cpfFormatado: string,
-  nomeResponsavel: string,
+  nomeResponsavel?: string,
   numeroCartaoCidadao: string | number,
   numeroCpf: string,
   dataNascimento: Date,
@@ -15,6 +15,7 @@ export interface Dependente {
   deficiencia: number | string,
   nome: string,
   Nome?: string,
+  nomeTitular?: string,
   residente: number | boolean,
   cpfCartaoCidadao: string,
   status?: string,
