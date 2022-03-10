@@ -1,3 +1,5 @@
+import { RelatoriosService } from './../../home/shared/relatorios.service';
+import { PoNotificationService } from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
 import { Assentamento } from './../shared/assentamento.model';
 import { AssentamentoService } from './../shared/assentamento.service';
@@ -15,8 +17,8 @@ import { DocumentPipe } from 'src/app/shared/pipes/document.pipe';
   styleUrls: ['./assentamento-list.component.css']
 })
 export class AssentamentoListComponent extends BaseResourceListComponent {
-  constructor(protected assentamentoService: AssentamentoService, private fb: FormBuilder) {
-    super('Cadastro de Núcleo Urbano Informal', 'assentamento/novo', assentamentoService);
+  constructor(protected assentamentoService: AssentamentoService, private fb: FormBuilder, private poNotificationService: PoNotificationService, private relatoriosService: RelatoriosService) {
+    super('Consulta de Cadastrados', 'assentamento/novo', assentamentoService);
     this.columns = this.assentamentoService.getColumns();
     this.criaFormularioPesquisar();
   }
@@ -32,6 +34,13 @@ export class AssentamentoListComponent extends BaseResourceListComponent {
 
 
   ngOnInit() {
+    this.actions = [
+      {
+        label: 'Imprimir Listagem',
+        action: () => this.imprimirListagem(),
+        icon: "po-icon-plus",
+      }
+    ];
     // this.buscaTitulares(this.pagina);
     this.subscription = this.reactiveForm.valueChanges.pipe(
       debounceTime(500)
@@ -59,14 +68,14 @@ export class AssentamentoListComponent extends BaseResourceListComponent {
           const pipeCPF = new DocumentPipe();
           res.map((assentamento: any) => {
             resourceTratado.push({
-                idAssentamento: assentamento.Id,
-                pontuacao: assentamento.Pontuacao,
-                titularID: assentamento.Titular.Id,
-                numeroCartaoCidadao: assentamento.Titular.NumeroCartaoCidadao,
-                numeroCpf: assentamento.Titular.NumeroCpf,
-                nome: assentamento.Nome,
-                cpfFormatado: pipeCPF.transform(assentamento.Titular.NumeroCpf)
-              })
+              idAssentamento: assentamento.Id,
+              pontuacao: assentamento.Pontuacao,
+              titularID: assentamento.Titular.Id,
+              numeroCartaoCidadao: assentamento.Titular.NumeroCartaoCidadao,
+              numeroCpf: assentamento.Titular.NumeroCpf,
+              nome: assentamento.Nome,
+              cpfFormatado: pipeCPF.transform(assentamento.Titular.NumeroCpf)
+            })
           })
           this.resources = this.resources.concat(resourceTratado);
           this.disativarShowMore = false;
@@ -86,5 +95,30 @@ export class AssentamentoListComponent extends BaseResourceListComponent {
     this.reactiveForm = this.fb.group({
       pesquisa: [''],
     });
+  }
+
+  imprimirListagem(): void {
+    this.poNotificationService.success("Gerando Relatórios...")
+    this.relatoriosService.getExportarSMoradiaExcel().subscribe(res => {
+      this.downloadFile(res)
+    },
+      error => console.log('Erro ao gerar o relatório.'))
+
+    this.relatoriosService.getExportarSMoradiaIdosoExcel().subscribe(res => {
+      this.downloadFile(res)
+    },
+      error => console.log('Erro ao gerar o relatório.'))
+
+    this.relatoriosService.getExportarSMoradiaPcdExcel().subscribe(res => {
+      this.downloadFile(res)
+    },
+      error => console.log('Erro ao gerar o relatório.'))
+  }
+
+
+  downloadFile(data: any) {
+    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = window.URL.createObjectURL(blob);
+    window.open(url, "_blank");
   }
 }

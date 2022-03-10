@@ -1,11 +1,21 @@
-<po-page-login #formularioLogin
-  [p-literals]="literaisPersonalizadas"
-  [p-hide-remember-user]="true"
-  p-product-name="Prefeitura Municipal de Louveira"
-  (p-login-submit)="login($event)"
-  [p-loading]="carregando"
-  [p-register-url]="habilitaNovoUsuario"
-  [p-login]="loginFormatado"
-  p-login-pattern='(^\d{3}.\d{3}.\d{3}-\d{2}$)|(^\d{11}$)'
-  (p-login-change)="informaCaracterLogin($event)"
-></po-page-login>
+<div class="flag">
+  <div class="col1 yellow">
+    <div class="profile">
+      <img src="../../../../assets/img/SIMHAB_logo.bmp" />
+    </div>
+  </div>
+  <div class="col2 red">
+    <po-page-login
+      #formularioLogin
+      [p-literals]="literaisPersonalizadas"
+      [p-hide-remember-user]="true"
+      p-product-name="Prefeitura Municipal de Louveira"
+      (p-login-submit)="login($event)"
+      [p-loading]="carregando"
+      [p-register-url]="habilitaNovoUsuario"
+      [p-login]="loginFormatado"
+      p-login-pattern="(^\d{3}.\d{3}.\d{3}-\d{2}$)|(^\d{11}$)"
+      (p-login-change)="informaCaracterLogin($event)"
+    ></po-page-login>
+  </div>
+</div>

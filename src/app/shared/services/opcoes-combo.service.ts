@@ -646,20 +646,8 @@ export class OpcoesComboService {
       label: 'Fepasa (Leitão)'
     },
     {
-      value: 'Damasceno (Fepasa)',
-      label: 'Damasceno (Fepasa)'
-    },
-    {
-      value: 'Rua Armada (Granja)',
-      label: 'Rua Armada (Granja)'
-    },
-    {
-      value: 'Pai-a-Pique 1',
-      label: 'Pai-a-Pique 1'
-    },
-    {
-      value: 'Pai-a-Pique 2',
-      label: 'Pai-a-Pique 2'
+      value: 'Rua Armanda (Granja)',
+      label: 'Rua Armanda (Granja)'
     }
 
   ]

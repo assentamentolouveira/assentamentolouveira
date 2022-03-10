@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
   public totalDeFamilias = 0;
   public totalDeSolicitacaoMoradia = 0;
   public seriesGraficosContemplados: PoChartSerie[] = [];
+  public seriesGraficosBairrosContemplados: PoChartSerie[] = [];
 
   informacoesGrafico: Array<PoChartSerie> = [];
 
@@ -50,6 +51,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTotais();
+    this.getTotalPorBairroContemplado();
   }
 
   graficoAlterado(graficoSelecionado: number): void {
@@ -217,9 +219,9 @@ export class HomeComponent implements OnInit {
 
 
   downloadFile(data: any) {
-    const blob = new Blob([data], { type: 'text/csv' });
+    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const url = window.URL.createObjectURL(blob);
-    window.open(url);
+    window.open(url, "_blank");
   }
 
   fecharModal(): void {
@@ -234,9 +236,20 @@ export class HomeComponent implements OnInit {
         { label: 'Completo', data: this.totalDeSolicitacaoMoradia },
         { label: 'Incompleto', data: this.totalDeFamilias - this.totalDeSolicitacaoMoradia }
       ]
-
+      console.log("this.totalDeSolicitacaoMoradia",this.seriesGraficosContemplados)
     }
     );
+  }
+
+  getTotalPorBairroContemplado(): void {
+    this.relatoriosService.getAgruparLocalContemplacao().subscribe(res => {
+      for (var [key, value] of Object.entries(res)) {
+        console.log("this.seriesGraficosBairrosContemplados",this.seriesGraficosBairrosContemplados)
+        this.seriesGraficosBairrosContemplados.push({ label: key, data: Number(value)})
+      }
+      this.seriesGraficosBairrosContemplados = [];
+      this.seriesGraficosBairrosContemplados.push({ label: 'a', data: 10})
+    })
   }
 
   selecionaAba(evento: any): void {

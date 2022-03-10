@@ -99,7 +99,7 @@ export class TermoAceiteComponent implements OnInit {
 
   validaConfirmacao() {
     if (this.FormularioTermosDeAceite.value.checkCriterioDeAceite) {
-      this.internetService.gravaLogin(this.loginService.getCPFUsuario()).subscribe(() => {
+      this.internetService.gravaAceite(this.loginService.getCPFUsuario()).subscribe(() => {
         this.modal.close();
         this.titularesService.setTitularInfo();
         this.router.navigate([`/internet/${this.loginService.getCPFUsuario()}`]);

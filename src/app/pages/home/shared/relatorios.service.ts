@@ -92,6 +92,11 @@ export class RelatoriosService extends BaseResourceService {
     return this.http.get(this.apiPath + '/AgruparGastoComAluguel')
   }
 
+
+  getAgruparLocalContemplacao(): Observable<any> {
+    return this.http.get(this.apiPath + '/AgruparLocalContemplacao')
+  }
+
   getPessoasComDeficiencia(): Observable<any> {
     return this.http.get(this.apiPath + '/AgruparPessoasComDeficiencia')
   }

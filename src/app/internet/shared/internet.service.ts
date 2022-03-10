@@ -15,4 +15,8 @@ export class InternetService extends BaseResourceService {
   gravaLogin(id:string): Observable<any> {
     return this.http.put(`${this.apiPath}/${id}`, {acessoInicial: false}, this.httpOptions)
   }
+
+  gravaAceite(id:string): Observable<any> {
+    return this.http.put(`${this.apiPath}/aceite/${id}`,{}, this.httpOptions)
+  }
 }

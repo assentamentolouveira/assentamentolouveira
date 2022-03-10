@@ -403,7 +403,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
 
   protected editionPageTitle(): string {
     const dadosTitular = JSON.parse(this.titularService.getTitularInfo());
-    return 'Editando dados de ' + dadosTitular.nomeResponsavel
+    return 'Editando dados de ' + dadosTitular.nome
   }
 
 }
