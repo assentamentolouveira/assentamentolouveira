@@ -219,9 +219,18 @@ export class HomeComponent implements OnInit {
 
 
   downloadFile(data: any) {
+    // const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    // const url = window.URL.createObjectURL(blob);
+    // window.open(url, "_blank");
     const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const url = window.URL.createObjectURL(blob);
-    window.open(url, "_blank");
+
+    let a = document.createElement("a")
+    let blobURL = URL.createObjectURL(blob)
+    a.download = `Lista_Titulares.xlsx`
+    a.href = blobURL
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
   }
 
   fecharModal(): void {
@@ -236,7 +245,7 @@ export class HomeComponent implements OnInit {
         { label: 'Completo', data: this.totalDeSolicitacaoMoradia },
         { label: 'Incompleto', data: this.totalDeFamilias - this.totalDeSolicitacaoMoradia }
       ]
-      console.log("this.totalDeSolicitacaoMoradia",this.seriesGraficosContemplados)
+      // console.log("this.totalDeSolicitacaoMoradia",this.seriesGraficosContemplados)
     }
     );
   }
@@ -244,11 +253,9 @@ export class HomeComponent implements OnInit {
   getTotalPorBairroContemplado(): void {
     this.relatoriosService.getAgruparLocalContemplacao().subscribe(res => {
       for (var [key, value] of Object.entries(res)) {
-        console.log("this.seriesGraficosBairrosContemplados",this.seriesGraficosBairrosContemplados)
         this.seriesGraficosBairrosContemplados.push({ label: key, data: Number(value)})
       }
-      this.seriesGraficosBairrosContemplados = [];
-      this.seriesGraficosBairrosContemplados.push({ label: 'a', data: 10})
+      // console.log("this.seriesGraficosBairrosContemplados",this.seriesGraficosBairrosContemplados)
     })
   }
 

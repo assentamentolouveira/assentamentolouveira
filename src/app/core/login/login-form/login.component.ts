@@ -15,6 +15,7 @@ import { finalize } from 'rxjs/operators'
 export class LoginComponent implements OnInit {
   public loginFormatado = ''
   public habilitaNovoUsuario = this.loginService.isInternet ? '/internet/newuser' : '';
+  public sBrowser:string;
 
   private valorAtual = '';
   private valorAntigo = '';
@@ -29,7 +30,25 @@ export class LoginComponent implements OnInit {
   }
   carregando = false;
 
-  constructor(private loginService: LoginService, private poNotificationService: PoNotificationService, private router: Router, private dependentesService: DependentesService) { }
+  constructor(private loginService: LoginService,
+    private poNotificationService: PoNotificationService,
+    private router: Router,
+    private dependentesService: DependentesService) {
+    let sUsrAg = navigator.userAgent;
+
+    if (sUsrAg.indexOf("Chrome") > -1) {
+      this.sBrowser = "Google Chrome";
+    } else if (sUsrAg.indexOf("Safari") > -1) {
+      this.sBrowser = "Safari";
+    } else if (sUsrAg.indexOf("Opera") > -1) {
+      this.sBrowser = "Opera";
+    } else if (sUsrAg.indexOf("Firefox") > -1) {
+      this.sBrowser = "Mozilla Firefox";
+    } else if (sUsrAg.indexOf("MSIE") > -1) {
+      this.sBrowser = "Microsoft Internet Explorer";
+    }
+    this.sBrowser = "Safaari"
+  }
 
   @ViewChild('formularioLogin') formularioLogin: any;
 
@@ -74,7 +93,7 @@ export class LoginComponent implements OnInit {
     dadosDoLogin.login = dadosDoLogin.login.replace(/\D/g, "");
     this.loginService.realizaLogin({ idUsuario: dadosDoLogin.login, senha: dadosDoLogin.password }).pipe(finalize(() => this.carregando = false)).subscribe(
       (sucesso: token) => {
-        if(sucesso.assentamento && !sucesso.funcionario) {
+        if (sucesso.assentamento && !sucesso.funcionario) {
           this.poNotificationService.error("Usuário sem permissão de edição. Procure o posto de atendimento mais próximo.")
           return
         }

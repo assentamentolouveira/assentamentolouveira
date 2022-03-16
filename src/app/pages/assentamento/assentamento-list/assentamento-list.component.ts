@@ -100,25 +100,36 @@ export class AssentamentoListComponent extends BaseResourceListComponent {
   imprimirListagem(): void {
     this.poNotificationService.success("Gerando Relatórios...")
     this.relatoriosService.getExportarSMoradiaExcel().subscribe(res => {
-      this.downloadFile(res)
+      this.downloadFile(res, "Lista_Geral")
     },
       error => console.log('Erro ao gerar o relatório.'))
 
     this.relatoriosService.getExportarSMoradiaIdosoExcel().subscribe(res => {
-      this.downloadFile(res)
+      this.downloadFile(res, "Lista_Idosos")
     },
       error => console.log('Erro ao gerar o relatório.'))
 
     this.relatoriosService.getExportarSMoradiaPcdExcel().subscribe(res => {
-      this.downloadFile(res)
+      this.downloadFile(res, "Lista_PCD")
     },
       error => console.log('Erro ao gerar o relatório.'))
   }
 
 
-  downloadFile(data: any) {
+  downloadFile(data: any, nomeDoArquivo:string) {
+    // const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    // const url = window.URL.createObjectURL(blob);
+    // const file = new File([blob], "filename")
+    // window.open(url, "_blank");
+
     const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const url = window.URL.createObjectURL(blob);
-    window.open(url, "_blank");
+
+    let a = document.createElement("a")
+    let blobURL = URL.createObjectURL(blob)
+    a.download = `${nomeDoArquivo}.xlsx`
+    a.href = blobURL
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
   }
 }

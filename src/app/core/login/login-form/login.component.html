@@ -1,4 +1,4 @@
-<div class="flag">
+<div class="flag" *ngIf="sBrowser !== 'Safari'; else safari">
   <div class="col1 yellow">
     <div class="profile">
       <img src="../../../../assets/img/SIMHAB_logo.bmp" />
@@ -19,3 +19,19 @@
     ></po-page-login>
   </div>
 </div>
+
+<ng-template #safari>
+  <po-page-login
+    #formularioLogin
+    [p-literals]="literaisPersonalizadas"
+    [p-hide-remember-user]="true"
+    p-product-name="Prefeitura Municipal de Louveira"
+    (p-login-submit)="login($event)"
+    [p-loading]="carregando"
+    p-logo="../../../../assets/img/SIMHAB_logo.bmp"
+    [p-register-url]="habilitaNovoUsuario"
+    [p-login]="loginFormatado"
+    p-login-pattern="(^\d{3}.\d{3}.\d{3}-\d{2}$)|(^\d{11}$)"
+    (p-login-change)="informaCaracterLogin($event)"
+  ></po-page-login>
+</ng-template>
