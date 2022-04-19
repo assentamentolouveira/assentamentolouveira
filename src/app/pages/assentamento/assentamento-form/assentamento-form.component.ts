@@ -352,7 +352,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
             this.poAlert.alert({
               literals: { ok: 'Ok'},
               title: 'Seu Cadastro na SIMHAB foi concluído com Sucesso',
-              message: "Entre em contato com a FUMHAB e agende uma data para entrega dos documentos comprobatórios <br><br>  <b>Telefone: (19) 3878-1960</b>",
+              message: "Os documentos comprobatórios serão fornecidos na época da realização do empreendimento <br><br>  <b>Telefone: (19) 3878-1960</b>",
             });
           },
           error => {

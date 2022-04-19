@@ -133,7 +133,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
               nomeTitular: nomeTitular,
               numeroCartaoCidadao: res.Numero,
               numeroCpf: res.CPF,
-              dataNascimento: new Date(res.Nascimento),
+              dataNascimento: new Date(res.Nascimento   + ' 00:00:00'),
               grauParentesco: 'Não relacionado ao titular',
               estadoCivil: res.Estado_Civil,
               escolaridade: '',
