@@ -1,3 +1,4 @@
+import { RendasService } from './../../rendas/shared/rendas.service';
 import { OpcoesComboService } from './../../../shared/services/opcoes-combo.service';
 import { MoradiaService } from './../../moradia/shared/moradia.service';
 import { DependentesService } from './../../dependentes/shared/dependentes.service';
@@ -93,6 +94,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     private poNotificationService: PoNotificationService,
     private loginService: LoginService,
     private titularService: TitularesService,
+    private rendaService: RendasService,
     private dependentesService: DependentesService,
     private moradiaService: MoradiaService,
     private poAlert: PoDialogService,
@@ -290,8 +292,8 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     this.moradiaService.putMoradia(JSON.parse(JSON.stringify(formularioMoradia)), String(sessionStorage.getItem('moradiaID'))).pipe(
       finalize(() => { this.carregando = true })
     ).subscribe(
-      res => {this.poNotificationService.success("Moradia Editada com Sucesso"), this.stepper.next()},
-      error => {this.poNotificationService.error("Erro ao Editar a Moradia: " + error.message), this.retornarStepper()},
+      res => { this.poNotificationService.success("Moradia Editada com Sucesso"), this.stepper.next() },
+      error => { this.poNotificationService.error("Erro ao Editar a Moradia: " + error.message), this.retornarStepper() },
     )
   }
 
@@ -302,7 +304,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       res => {
         this.poNotificationService.success("Moradia Incluída com Sucesso"), sessionStorage.setItem('moradiaID', res.id), this.stepper.next()
       },
-      error => {this.poNotificationService.error("Erro ao Editar a Moradia: " + error.message), this.retornarStepper()},
+      error => { this.poNotificationService.error("Erro ao Editar a Moradia: " + error.message), this.retornarStepper() },
     )
   }
 
@@ -318,10 +320,24 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         literals: { confirm: 'Salvar', cancel: 'Fechar' },
         title: 'Confirmação de Cadastro',
         message: "Confirma o cadastro da solicitação de moradia?",
-        confirm: () => (this.confirmaSolicitacaoDeMoradia()),
+        //        confirm: () => (this.confirmaSolicitacaoDeMoradia()),
+        confirm: () => (this.validaRenda()),
         cancel: () => ('')
       });
     }
+  }
+
+  validaRenda(): void {
+    this.rendaService.getRendasById(String(sessionStorage.getItem('idTitular'))).subscribe(
+      res => {
+        if (res.length <= 0) {
+          this.poNotificationService.error("Informe pelo menos uma renda para finalizar o cadastro")
+        } else {
+          this.confirmaSolicitacaoDeMoradia()
+        }
+      },
+      error => { this.poNotificationService.error("Informe pelo menos uma renda para finalizar o cadastro") }
+    )
   }
 
   confirmaSolicitacaoDeMoradia(): void {
@@ -334,7 +350,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         ).subscribe(
           res => {
             this.poAlert.alert({
-              literals: { ok: 'Ok'},
+              literals: { ok: 'Ok' },
               title: 'Sucesso',
               message: "Seu Cadastro na SIMHAB foi concluído com Sucesso", //Entre em contato com a FUMHAB e agende uma data para entrega dos documentos comprobatórios <br><br>  <b>Telefone: (19) 3878-1960</b>
             });
@@ -350,7 +366,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
         ).subscribe(
           res => {
             this.poAlert.alert({
-              literals: { ok: 'Ok'},
+              literals: { ok: 'Ok' },
               title: 'Seu Cadastro na SIMHAB foi concluído com Sucesso',
               message: "Os documentos comprobatórios serão fornecidos na época da realização do empreendimento <br><br>  <b>Telefone: (19) 3878-1960</b>",
             });
