@@ -1,3 +1,4 @@
+import { TitularesService } from './../../../pages/titulares/shared/titulares.service';
 import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { PoNotificationService } from '@po-ui/ng-components';
@@ -19,6 +20,7 @@ export class NewUserComponent implements OnInit {
   public botaoCarregando: boolean = false;
   constructor(private fb: FormBuilder
     , private newUserService: NewUserService
+    , private titularesService:TitularesService
     , private poNotificationService: PoNotificationService
     , private router: Router) {
     this.criaFormulario();
@@ -42,7 +44,11 @@ export class NewUserComponent implements OnInit {
     if (this.reactiveForm.valid) {
       this.newUserService.validUsuario(this.reactiveForm.value.cartaoCidadao).subscribe(
         res => {
-          if (this.reactiveForm.value.dataNascimento !== res.Nascimento) {
+          if (res.hasOwnProperty("Status") && res.Status !== '100'){
+            const erroCartaoCidadao = this.titularesService.retornarErroCartaoCidadao(res.Status)
+            this.poNotificationService.error("Ocorreu um erro ao consultar os dados no Cartão Cidadão. Erro: " + res.Status + ": " + erroCartaoCidadao)
+          }
+          else if (this.reactiveForm.value.dataNascimento !== res.Nascimento) {
             this.poNotificationService.error("Os dados informados não conferem com o cadastro do Cartão Cidadão")
           } else {
             this.botaoAtivado = false;
