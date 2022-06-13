@@ -51,7 +51,7 @@ export class NewUserService extends BaseResourceService {
       senha: dadosUsuario.novaSenha? dadosUsuario.cpf : undefined
     }
 
-    return this.http.put<newUser>(`${this.apiPath}/${dadosUsuario.cpf}`, jsonUsuarioAlterado, this.httpOptions);
+    return this.http.put<newUser>(`${this.apiPath}${dadosUsuario.cpf}`, jsonUsuarioAlterado, this.httpOptions);
   }
 
   novaSenha(usuario: loginBackEnd, novaSenha: string): Observable<newUser>{
