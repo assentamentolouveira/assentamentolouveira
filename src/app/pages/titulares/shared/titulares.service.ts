@@ -241,14 +241,14 @@ export class TitularesService extends BaseResourceService {
     const queryParams = `$skip=${pagina}` + filtro
 
     return this.http.get<any>(`${this.httpBusca}titularodata?${queryParams}`)
-      .pipe(
-        switchMap(titulares => titulares.value),
-        mergeMap((titular:any) => {
-          return this.getDadosCartaoCidadao(titular.NumeroCpf).pipe(
-            map(a => Object.assign(titular, a) )
-          );
-        })
-        , toArray())
+      // .pipe(
+       // switchMap(titulares => titulares.value),
+       // mergeMap((titular:any) => {
+      //  return this.getDadosCartaoCidadao(titular.NumeroCpf).pipe(
+       //     map(a => Object.assign(titular, a) )
+       //   );
+      //  })
+        //  toArray())
   }
 
   getRendasColumns(): PoTableColumn[] {

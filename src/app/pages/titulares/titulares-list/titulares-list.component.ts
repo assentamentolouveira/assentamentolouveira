@@ -39,7 +39,7 @@ export class TitularesListComponent extends BaseResourceListComponent implements
       if (this.contemplaTitular) {
         this.confimaContempacao();
       }
-      if(this.excluiTitular) {
+      if (this.excluiTitular) {
         this.confirmaExclusao();
       }
     },
@@ -145,14 +145,14 @@ export class TitularesListComponent extends BaseResourceListComponent implements
 
     // this.buscaTitulares(this.pagina);
     this.subscription = this.reactiveForm.valueChanges.pipe(
-      debounceTime(500)
+      debounceTime(100)
     ).subscribe(
       res => {
         this.resources = [];
         this.pagina = 0;
         this.valorPesquisado = res.pesquisa
         if (this.valorPesquisado.length > 0)
-          this.buscaTitulares(0, this.valorPesquisado.replace(/\D/g, ""))
+          this.buscaTitulares(0, this.valorPesquisado.replace(/\D/g, ""), true)
       }
     )
   }
@@ -197,14 +197,17 @@ export class TitularesListComponent extends BaseResourceListComponent implements
     this.buscaTitulares(this.pagina, this.valorPesquisado)
   }
 
-  buscaTitulares(page: number, filtro: string = ''): void {
+  buscaTitulares(page: number, filtro: string = '', zeraBusca: boolean = false): void {
     this.carregandoRegistros = true;
     this.columns = this.titularesService.getColumns();
     this.titularesService.getAll(page, filtro).pipe(
       finalize(() => this.carregandoRegistros = false)
     ).subscribe(
       res => {
-        console.log(res)
+        res = res.value;
+        if (zeraBusca) {
+          this.resources = []
+        }
         if (res.length > 0) {
           const pipeCPF = new DocumentPipe();
           this.disativarShowMore = false;
