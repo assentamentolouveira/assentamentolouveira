@@ -31,9 +31,16 @@
 <div *ngIf="listaDependentes.length > 0">
   <div *ngIf="dependenteSelecionado === ''; else exibeDependente">
     <po-divider p-label="Dependentes"></po-divider>
-    <p class="po-font-title" style="text-align: center; padding: 10px">
-      Nenhum Dependente Selecionado.
-    </p>
+      <div *ngIf="listaDependentesLocal.length === 0; else exibeNenhumDependenteSelecionado">
+        <po-checkbox name="checkbox" p-label="Não possuo Dependente." (p-change)="marcaCheck($event)"> </po-checkbox>
+      </div>
+
+      <ng-template #exibeNenhumDependenteSelecionado>
+        <p class="po-font-title" style="text-align: center; padding: 10px">
+          Nenhum dependente selecionado para edição, inclusão ou exclusão.
+        </p>
+      </ng-template>
+
   </div>
 
   <ng-template #exibeDependente>

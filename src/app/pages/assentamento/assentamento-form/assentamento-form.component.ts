@@ -55,6 +55,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   private titular: Titular;
   private dependentes: Dependente[];
   private subscribeStepper: Subscription;
+  private isDependenteValido: boolean = false;
 
   public comboRenda: PoComboOption[] = [];
 
@@ -154,7 +155,7 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
     });
   }
 
-  dependenteValido(): boolean {
+  titularInfomadoValido(): boolean {
     // if (this.subscribeStepper === undefined) {
     //   this.subscribeStepper = this.stepper.onChangeStep.subscribe(a => console.log('teste', a))
     // }
@@ -164,6 +165,13 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
       this.salvarEdicaoTitular()
     }
     return this.formularioTitularValido
+  }
+
+  dependenteValido(): boolean {
+    if (!this.isDependenteValido) {
+      this.poNotificationService.error("Informe um dependente ou defina que não possui dependentes.")
+    }
+    return this.isDependenteValido
   }
 
   moradiaValido(): boolean {
@@ -245,8 +253,14 @@ export class AssentamentoFormComponent extends BaseResourceFormComponent<Assenta
   }
 
   recebeDependentes(dependentes: any): void {
-    this.dependentes = dependentes;
-    this.montaComboRenda();
+    const isDependenteValido = dependentes.isDependenteValido;
+    this.dependentes = dependentes.dependentes;
+    if (this.dependentes.length > 0 || isDependenteValido) {
+      this.isDependenteValido = true;
+    } else {
+      this.isDependenteValido = false;
+    }
+    // this.montaComboRenda();
   }
 
   converteParentesco(dependente: Dependente): string {

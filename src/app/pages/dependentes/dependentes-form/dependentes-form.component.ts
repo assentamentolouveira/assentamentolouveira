@@ -42,12 +42,12 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   public deficienciaOpcoes: Array<PoSelectOption>;
   public boleanoOpcoes: Array<PoSelectOption>;
   public isDesktop = false;
+  public listaDependentesLocal: Dependente[] = [];
 
   private subscriptionFormularioDependente: Subscription;
   private buscaCartaoCidadaoFinalizada = false;
   private buscaLocalFinalizada = false;
   private listaDependentesCartaoCidadao: Dependente[] = [];
-  private listaDependentesLocal: Dependente[] = [];
   private dependentesTratados: Dependente[] = [];
 
   @Input() isDependente: boolean = false;
@@ -133,7 +133,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
               nomeTitular: nomeTitular,
               numeroCartaoCidadao: res.Numero,
               numeroCpf: res.CPF,
-              dataNascimento: new Date(res.Nascimento   + ' 00:00:00'),
+              dataNascimento: new Date(res.Nascimento + ' 00:00:00'),
               grauParentesco: 'Não relacionado ao titular',
               estadoCivil: res.Estado_Civil,
               escolaridade: '',
@@ -210,10 +210,14 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       this.listaDependentes = this.dependentesTratados.sort((a, b) => {
         return a.nome < b.nome ? -1 : a.nome > b.nome ? 1 : 0;
       });
-      this.enviaDependentes.emit(this.dependentesTratados)
+      this.enviaDependentes.emit({dependentes: this.listaDependentesLocal, isDependenteValido: false})
       this.carregandoTabela = false;
       this.realizandoAlteracao = false
     }
+  }
+
+  marcaCheck(evento:boolean) {
+    this.enviaDependentes.emit({dependentes: this.listaDependentesLocal, isDependenteValido: evento})
   }
 
   excluiDependente(): void {

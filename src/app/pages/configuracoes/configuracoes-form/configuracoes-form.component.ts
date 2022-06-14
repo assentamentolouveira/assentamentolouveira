@@ -37,7 +37,6 @@ export class ConfiguracoesFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("usuário Editado:", this.usuarioEditado)
     if (this.edicao) {
       this.inclusaoUsuario = false;
       this.montaFormularioEdicao(this.usuarioEditado)

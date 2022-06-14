@@ -59,7 +59,7 @@
   <po-stepper #stepper (p-change-step)="mudaStap($event)">
     <po-step
       p-label="Titular"
-      [p-can-active-next-step]="dependenteValido.bind(this)"
+      [p-can-active-next-step]="titularInfomadoValido.bind(this)"
     >
       <app-titulares-form
         [edicao]="edicao"
@@ -78,7 +78,7 @@
         </po-button> -->
       </div>
     </po-step>
-    <po-step p-label="Dependentes">
+    <po-step p-label="Dependentes" [p-can-active-next-step]="dependenteValido.bind(this)">
       <div *ngIf="titularValido && stepperSelecionado === 'Dependentes'">
         <app-dependentes-form
           (enviaDependentes)="recebeDependentes($event)"

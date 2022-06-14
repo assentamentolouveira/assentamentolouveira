@@ -90,7 +90,7 @@ export class ConfiguracoesListComponent extends BaseResourceListComponent implem
       res => {
         this.resources = [];
         this.pagina = 0;
-        this.buscaUsuarios(0, res.pesquisa.replace(/\D/g, ""))
+        this.buscaUsuarios(0, res.pesquisa.replaceAll('.','').replaceAll('-',''))
       }
     )
 
@@ -109,12 +109,14 @@ export class ConfiguracoesListComponent extends BaseResourceListComponent implem
   buscaUsuarios(page: number, filtro: string = ''): void {
     this.carregandoRegistros = true;
     if(page === 0)
-      this.resources = [];
     this.columns = this.configuracoesService.getColumns();
     this.configuracoesService.getAll(page, filtro).pipe(
       finalize(() => this.carregandoRegistros = false)
     ).subscribe(
       res => {
+        if (filtro.length > 0 ){
+          this.resources = [];
+        }
         if (res.value.length > 0) {
           const pipeCPF = new DocumentPipe();
 

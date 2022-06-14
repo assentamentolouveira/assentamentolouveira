@@ -14,10 +14,10 @@ export class ConfiguracoesService extends BaseResourceService {
 
   getAll(pagina: number = 0, filtroRecebido?: string): Observable<any> {
     let filtro: string = '';
-    const usuarioIntranet =  "&$filter=Funcionario eq true"
+    const usuarioIntranet =  ''//"&$filter=Funcionario eq true"
     pagina = pagina * 10;
     if (filtroRecebido)
-      filtro = ` and contains(IdUsuario,'${filtroRecebido}')`
+      filtro = `&$filter=contains(IdUsuario,'${filtroRecebido}')`
 
     const queryParams = `$skip=${pagina}` + usuarioIntranet + filtro
 
