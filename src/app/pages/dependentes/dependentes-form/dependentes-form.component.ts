@@ -137,7 +137,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
               grauParentesco: 'Não relacionado ao titular',
               estadoCivil: res.Estado_Civil,
               escolaridade: '',
-              deficiencia: res.PCD,
+              deficiencia: this.convertePCD(res.PCD),
               nome: res.Nome,
               cpfCartaoCidadao: res.CPF,
               residente: false,
@@ -210,14 +210,14 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       this.listaDependentes = this.dependentesTratados.sort((a, b) => {
         return a.nome < b.nome ? -1 : a.nome > b.nome ? 1 : 0;
       });
-      this.enviaDependentes.emit({dependentes: this.listaDependentesLocal, isDependenteValido: false})
+      this.enviaDependentes.emit({ dependentes: this.listaDependentesLocal, isDependenteValido: false })
       this.carregandoTabela = false;
       this.realizandoAlteracao = false
     }
   }
 
-  marcaCheck(evento:boolean) {
-    this.enviaDependentes.emit({dependentes: this.listaDependentesLocal, isDependenteValido: evento})
+  marcaCheck(evento: boolean) {
+    this.enviaDependentes.emit({ dependentes: this.listaDependentesLocal, isDependenteValido: evento })
   }
 
   excluiDependente(): void {
@@ -241,6 +241,16 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
 
   carregarMais(): void {
     this.carregaDados();
+  }
+
+  convertePCD(pcd: string): string {
+    let pcdTratado = pcd ? pcd : '';
+
+    pcdTratado = pcdTratado.replace('1', 'Física');
+    pcdTratado = pcdTratado.replace('2', 'Mental');
+    pcdTratado = pcdTratado.replace('3', 'Auditiva');
+    pcdTratado = pcdTratado.replace('4', 'Visual');
+    return pcdTratado
   }
 
   editarDependente(dependenteSelecionado: Dependente): void {

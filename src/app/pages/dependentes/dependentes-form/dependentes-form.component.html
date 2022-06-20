@@ -17,7 +17,7 @@
   >
   </po-button>
 </ng-template> -->
-<div >
+<div>
   <po-loading-overlay [hidden]="!carregandoTabela"></po-loading-overlay>
 </div>
 
@@ -31,16 +31,25 @@
 <div *ngIf="listaDependentes.length > 0">
   <div *ngIf="dependenteSelecionado === ''; else exibeDependente">
     <po-divider p-label="Dependentes"></po-divider>
-      <div *ngIf="listaDependentesLocal.length === 0; else exibeNenhumDependenteSelecionado">
-        <po-checkbox name="checkbox" p-label="Não possuo Dependente." (p-change)="marcaCheck($event)"> </po-checkbox>
-      </div>
+    <div
+      *ngIf="
+        listaDependentesLocal.length === 0;
+        else exibeNenhumDependenteSelecionado
+      "
+    >
+      <po-checkbox
+        name="checkbox"
+        p-label="Não possuo Dependente."
+        (p-change)="marcaCheck($event)"
+      >
+      </po-checkbox>
+    </div>
 
-      <ng-template #exibeNenhumDependenteSelecionado>
-        <p class="po-font-title" style="text-align: center; padding: 10px">
-          Nenhum dependente selecionado para edição, inclusão ou exclusão.
-        </p>
-      </ng-template>
-
+    <ng-template #exibeNenhumDependenteSelecionado>
+      <p class="po-font-title" style="text-align: center; padding: 10px">
+        Nenhum dependente selecionado para edição, inclusão ou exclusão.
+      </p>
+    </ng-template>
   </div>
 
   <ng-template #exibeDependente>
@@ -93,7 +102,7 @@
       </div>
 
       <div class="po-row">
-        <po-select
+        <!-- <po-select
           formControlName="deficiencia"
           class="po-lg-2"
           p-label="Possui Deficiência?"
@@ -101,9 +110,20 @@
           p-placeholder="Não Possui"
           [p-readonly]="true"
           p-tooltip="Dados obtidos através do Cartão Cidadão"
-          [p-disabled]=true
+          [p-disabled]="true"
         >
-        </po-select>
+        </po-select> -->
+
+        <po-input
+          formControlName="deficiencia"
+          class="po-lg-2"
+          p-label="Possui Deficiencia?"
+          p-placeholder="Não Possui"
+          p-disabled="true"
+          p-tooltip="Dados obtidos através do Cartão Cidadão"
+        >
+        </po-input>
+
         <po-select
           formControlName="estadoCivil"
           class="po-lg-2"
@@ -112,7 +132,7 @@
           p-placeholder="Selecione o estado civil"
           [p-readonly]="true"
           p-tooltip="Dados obtidos através do Cartão Cidadão"
-          [p-disabled]=true
+          [p-disabled]="true"
         >
         </po-select>
         <po-select
@@ -137,7 +157,7 @@
           formControlName="residente"
           [p-options]="boleanoOpcoes"
           p-placeholder="Selecione uma opção"
-          [p-required]=true
+          [p-required]="true"
         >
         </po-select>
       </div>
@@ -205,10 +225,18 @@
           {{ listaDependente.cpfFormatado }}
         </div>
         <div class="po-font-subtitle po-text-center">
-
-          <po-tag *ngIf="listaDependente.status==='dependente'" p-value="Dependente" p-color="color-11"> </po-tag>
-          <po-tag *ngIf="listaDependente.status==='naoDependente'" p-value="Não Dependente" p-color="color-7"> </po-tag>
-
+          <po-tag
+            *ngIf="listaDependente.status === 'dependente'"
+            p-value="Dependente"
+            p-color="color-11"
+          >
+          </po-tag>
+          <po-tag
+            *ngIf="listaDependente.status === 'naoDependente'"
+            p-value="Não Dependente"
+            p-color="color-7"
+          >
+          </po-tag>
         </div>
         <div class="po-text-center">{{ listaDependente.parentesco }}</div>
       </po-widget>

@@ -225,7 +225,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
     pcdTratado = pcdTratado.replace('1', 'Física');
     pcdTratado = pcdTratado.replace('2', 'Mental');
     pcdTratado = pcdTratado.replace('3', 'Auditiva');
-    pcdTratado = pcdTratado.replace('$', 'Visual');
+    pcdTratado = pcdTratado.replace('4', 'Visual');
     return pcdTratado
   }
 
