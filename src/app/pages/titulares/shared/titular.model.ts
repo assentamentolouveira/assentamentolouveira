@@ -20,4 +20,8 @@ export interface Titular {
   email?: string;
   pcd?: boolean;
   PCD?: string;
+  bairro?: string;
+  logradouro?: string;
+  numeroLogradouro?: string;
+  complemento?: string;
 }

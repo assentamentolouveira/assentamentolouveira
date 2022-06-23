@@ -115,7 +115,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       nome: [this.dadosTitular.nome],
       numeroCartaoCidadao: [this.dadosTitular.numeroCartaoCidadao],
       numeroCpf: [this.dadosTitular.numeroCpf],
-      dataNascimento: [new Date(this.dadosTitular.dataNascimento  + ' 00:00:00')],
+      dataNascimento: [new Date(this.dadosTitular.dataNascimento + ' 00:00:00')],
       genero: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       etnia: ['', Validators.compose([Validators.required])],
       escolaridade: ['', Validators.compose([Validators.required])],
@@ -125,6 +125,10 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       telefoneTitular: [''],
       telefoneContato: [''],
       email: [''],
+      bairro: [this.dadosTitular.bairro],
+      logradouro: [this.dadosTitular.logradouro],
+      numeroLogradouro: [this.dadosTitular.numeroLogradouro],
+      complemento: [this.dadosTitular.complemento],
     });
 
     if (this.edicao) {
@@ -157,7 +161,7 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       nome: this.dadosTitular.nome,
       numeroCartaoCidadao: this.dadosTitular.numeroCartaoCidadao,
       numeroCpf: this.route.snapshot.paramMap.get('id'),
-      dataNascimento: new Date(this.dadosTitular.dataNascimento  + ' 00:00:00'),
+      dataNascimento: new Date(this.dadosTitular.dataNascimento + ' 00:00:00'),
       genero: this.dadosTitular.genero,
       etnia: this.dadosTitular.etnia,
       escolaridade: this.dadosTitular.escolaridade,
@@ -167,6 +171,10 @@ export class TitularesFormComponent extends BaseResourceFormComponent<Titulares>
       telefoneTitular: this.dadosTitular.telefoneTitular,
       telefoneContato: this.dadosTitular.telefoneContato,
       email: this.dadosTitular.email,
+      bairro: this.dadosTitular.bairro,
+      logradouro: this.dadosTitular.logradouro,
+      numeroLogradouro: this.dadosTitular.numeroLogradouro,
+      complemento: this.dadosTitular.complemento
     });
 
     // this.dadosTitular.qualLocalDoImovel.length > 0 ? this.localDoImovelAtivo = true : this.localDoImovelAtivo = false;

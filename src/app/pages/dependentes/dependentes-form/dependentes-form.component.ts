@@ -111,6 +111,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       this.retornaDadosdoCartaoCidadao(listaDeDepententes, dadosTitular.nome);
       this.retornaDependentesCadastrados(dadosTitular);
     } else {
+      this.marcaCheck(true);
       this.carregandoTabela = false;
     }
   }

@@ -78,6 +78,10 @@ export class TitularesService extends BaseResourceService {
     this.dadosTitular.estadoCivil = dadosCartaoCidade.Estado_Civil;
     this.dadosTitular.dependentes = dadosCartaoCidade.CCMesmoEndereco;
     this.dadosTitular.dataNascimento = dadosCartaoCidade.Nascimento;
+    this.dadosTitular.bairro = dadosCartaoCidade.Bairro;
+    this.dadosTitular.logradouro = dadosCartaoCidade.Logradouro;
+    this.dadosTitular.numeroLogradouro = dadosCartaoCidade.NumeroLogradouro;
+    this.dadosTitular.complemento = dadosCartaoCidade.Complemento;
   }
 
   getDadosCartaoCidadao(cpf: string): Observable<CartaoCidadao> {
