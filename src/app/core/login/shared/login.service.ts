@@ -72,6 +72,7 @@ export class LoginService extends BaseResourceService {
     sessionStorage.removeItem('titular');
     sessionStorage.removeItem('idTitular');
     sessionStorage.removeItem('usuario');
+    this.informacoesDoLogin = { idUsuario: '', token: '', funcionario: false, perfilAcesso: '' };
     this.isInternet ? this.router.navigate(['internet/login']) : this.router.navigate(['intranet/login'])
   }
 

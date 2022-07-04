@@ -54,8 +54,20 @@ export class MenuComponent implements OnInit {
           this.router.navigate(['/intranet/assentamentos']);
         },
         icon: 'po-icon-warehouse',
-      }
+      },
+
     ];
+
+    if (this.dadosUsuario.perfilAcesso !== 'Administrador') {
+      menu.push({
+        label: 'Usuários',
+        shortLabel: 'Usuários',
+        action: () => {
+          this.router.navigate(['/intranet/configuracoes']);
+        },
+        icon: 'po-icon po-icon-settings',
+      })
+    }
 
     if (this.dadosUsuario.perfilAcesso === 'Administrador') {
       menu.push({

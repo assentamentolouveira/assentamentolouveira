@@ -32,7 +32,8 @@ export class DependentesService extends BaseResourceService {
         width: '10%',
         labels: [
           { value: 'dependente', color: 'color-11', label: 'Dependente' },
-          { value: 'naoDependente', color: 'color-07', label: 'Não Dependente' }
+          { value: 'naoDependente', color: 'color-07', label: 'Não Dependente' },
+          { value: 'naoLocalizado', color: 'color-05', label: 'Não Localizado CC' }
         ]
       },
       {

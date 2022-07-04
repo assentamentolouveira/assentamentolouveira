@@ -1,6 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
 import { PoTableColumn } from '@po-ui/ng-components';
 import { Observable } from 'rxjs';
+import { login } from 'src/app/core/login/shared/login.model';
+import { LoginService } from 'src/app/core/login/shared/login.service';
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 import { environment } from 'src/environments/environment';
 
@@ -8,13 +10,18 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ConfiguracoesService extends BaseResourceService {
-  constructor(protected injector: Injector) {
+  private dadosUsuario: login;
+
+  constructor(protected injector: Injector, private loginService: LoginService) {
     super(environment.URL + '/dependente', injector);
   }
 
   getAll(pagina: number = 0, filtroRecebido?: string): Observable<any> {
     let filtro: string = '';
-    const usuarioIntranet =  ''//"&$filter=Funcionario eq true"
+
+    this.dadosUsuario = this.loginService.getTipoFuncionario();
+    const usuarioIntranet =  this.dadosUsuario.perfilAcesso === 'Administrador' ?  "" : "&$filter=Funcionario eq false"
+
     pagina = pagina * 10;
     if (filtroRecebido)
       filtro = `&$filter=contains(IdUsuario,'${filtroRecebido}')`

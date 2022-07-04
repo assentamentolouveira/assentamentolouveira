@@ -33,7 +33,7 @@ export class Validacoes {
     let valido = true;
 
     const dataMinima = new Date().getFullYear()-18;
-    valido = new Date(dataSelecionada) > new Date(`01/01/${dataMinima}`)
+    valido = new Date(dataSelecionada  + ' 00:00:00') > new Date(`01/01/${dataMinima}`  + ' 00:00:00')
 
     if (valido) {
       return { mult: true, message: "Quando selecionado a " };

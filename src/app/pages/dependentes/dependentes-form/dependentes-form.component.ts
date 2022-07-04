@@ -121,8 +121,11 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
     listaDeDepententes.forEach(dependente => {
       this.dependentesService.getDependenteCartaoCidadao(dependente).pipe(
         finalize(() => {
-          this.buscaCartaoCidadaoFinalizada = true;
-          this.unificaDependentes()
+          count++
+          if (count === listaDeDepententes.length){
+            this.buscaCartaoCidadaoFinalizada = true;
+            this.unificaDependentes()
+          }
         })
       ).subscribe(
         res => {
@@ -211,6 +214,29 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
       this.listaDependentes = this.dependentesTratados.sort((a, b) => {
         return a.nome < b.nome ? -1 : a.nome > b.nome ? 1 : 0;
       });
+
+      this.listaDependentesLocal.forEach((dependenteLocal) => {
+        const achouDependente = this.listaDependentes.filter(dependenteCartao => dependenteCartao.numeroCartaoCidadao == dependenteLocal.numeroCartaoCidadao).length > 0;
+        if (!achouDependente) {
+          this.listaDependentes.push({
+            id: dependenteLocal.id,
+            cpfFormatado: dependenteLocal.cpfFormatado,
+            nomeTitular: dependenteLocal.nomeTitular,
+            numeroCartaoCidadao: dependenteLocal.numeroCartaoCidadao,
+            numeroCpf: dependenteLocal.cpfCartaoCidadao,
+            dataNascimento: dependenteLocal.dataNascimento,
+            grauParentesco: dependenteLocal.grauParentesco,
+            estadoCivil: dependenteLocal.estadoCivil,
+            escolaridade: dependenteLocal.escolaridade,
+            deficiencia: '',
+            nome: dependenteLocal.nome,
+            cpfCartaoCidadao: dependenteLocal.numeroCpf,
+            residente: false,
+            grauParentescoTratado: dependenteLocal.grauParentescoTratado,
+            status: 'naoLocalizado'
+          })
+        }
+      })
       this.enviaDependentes.emit({ dependentes: this.listaDependentesLocal, isDependenteValido: false })
       this.carregandoTabela = false;
       this.realizandoAlteracao = false
@@ -277,6 +303,7 @@ export class DependentesFormComponent extends BaseResourceFormComponent<Dependen
   salvarEdicao(): void {
     if (this.formularioDependente.valid) {
       this.realizandoAlteracao = true;
+      this.buscaCartaoCidadaoFinalizada = false;
       if (this.dependenteSelecionado === 'novo') {
         const dependente = { ...this.formularioDependente.value, titularId: sessionStorage.getItem('idTitular') }
         this.dependentesService.incluiDependente(dependente).pipe(
